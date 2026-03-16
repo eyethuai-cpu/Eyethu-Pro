@@ -104,11 +104,7 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
 .vu-seg.peak-y{background:#ffe040;box-shadow:0 0 8px #ffe040;outline:1px solid rgba(255,255,255,.5);outline-offset:-1px;}
 .vu-seg.peak-r{background:#ff2244;box-shadow:0 0 8px #ff2244;outline:1px solid rgba(255,255,255,.5);outline-offset:-1px;}
 
-/* CROSSFADER */
-.xfader-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:10px;margin-bottom:8px;}
-.xfader-labels{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10px;color:var(--text2);margin-bottom:4px;}
-.xfader-labels span.act{color:var(--accent);}
-#xfader{width:100%;height:6px;accent-color:var(--accent);}
+
 
 /* QUEUE */
 .queue-list{min-height:40px;overflow-y:visible;}
@@ -383,19 +379,6 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
             <span id="deckB-vol-val">100%</span>
           </div>
           <div class="vu-meter" id="deckB-meter"></div>
-        </div>
-      </div>
-
-      <!-- CROSSFADER — full width -->
-      <div class="xfader-wrap span-full">
-        <div class="xfader-labels">
-          <span id="xf-a-label">◀ DECK A</span>
-          <span style="color:var(--text2)">CROSSFADER</span>
-          <span id="xf-b-label">DECK B ▶</span>
-        </div>
-        <input type="range" id="xfader" min="0" max="100" value="50" oninput="setXfade(this.value)"/>
-        <div style="display:flex;gap:6px;margin-top:6px;justify-content:center;">
-          <button class="btn sm" onclick="autoXfade()">⟺ AUTO XFADE (3s)</button>
         </div>
       </div>
 
@@ -908,89 +891,6 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
             <span id="stream-mode-label">Detecting environment…</span>
           </div>
           <script>
-
-// ╔═══════════════════════════════════════════════════════════════════╗
-// ║  TOP-LEVEL CONSTANTS — must be defined before any function uses  ║
-// ╚═══════════════════════════════════════════════════════════════════╝
-
-// Ducking
-const DUCK_LEVEL   = 0.25;   // -12 dB
-const DUCK_ATTACK  = 0.050;  // 50 ms
-const DUCK_RELEASE = 0.800;  // 800 ms
-
-// Storage
-const STORAGE_KEY  = 'eyethu_pro_state_v1';
-const IDB_NAME     = 'EyethuRadioFiles';
-const IDB_STORE    = 'audioFiles';
-const IDB_VERSION  = 1;
-let   _idb         = null;
-
-// IndexedDB helpers
-function openIDB() {
-  return new Promise((resolve, reject) => {
-    if (_idb) { resolve(_idb); return; }
-    const req = indexedDB.open(IDB_NAME, IDB_VERSION);
-    req.onupgradeneeded = e => {
-      e.target.result.createObjectStore(IDB_STORE, { keyPath: 'key' });
-    };
-    req.onsuccess = e => { _idb = e.target.result; resolve(_idb); };
-    req.onerror   = e => { console.warn('IDB open failed', e); reject(e); };
-  });
-}
-
-async function idbSaveFile(key, arrayBuffer, name, type) {
-  try {
-    const db = await openIDB();
-    return new Promise((resolve, reject) => {
-      const tx = db.transaction(IDB_STORE, 'readwrite');
-      tx.objectStore(IDB_STORE).put({ key, buffer: arrayBuffer, name, type });
-      tx.oncomplete = () => resolve();
-      tx.onerror    = () => reject(tx.error);
-    });
-  } catch(e) { console.warn('idbSaveFile failed', e); }
-}
-
-async function idbGetFile(key) {
-  try {
-    const db = await openIDB();
-    return new Promise((resolve, reject) => {
-      const tx  = db.transaction(IDB_STORE, 'readonly');
-      const req = tx.objectStore(IDB_STORE).get(key);
-      req.onsuccess = () => resolve(req.result || null);
-      req.onerror   = () => reject(req.error);
-    });
-  } catch(e) { return null; }
-}
-
-async function idbDeleteFile(key) {
-  try {
-    const db = await openIDB();
-    return new Promise((resolve) => {
-      const tx = db.transaction(IDB_STORE, 'readwrite');
-      tx.objectStore(IDB_STORE).delete(key);
-      tx.oncomplete = () => resolve();
-    });
-  } catch(e) {}
-}
-
-async function idbClearAll() {
-  try {
-    const db = await openIDB();
-    return new Promise((resolve) => {
-      const tx = db.transaction(IDB_STORE, 'readwrite');
-      tx.objectStore(IDB_STORE).clear();
-      tx.oncomplete = () => resolve();
-    });
-  } catch(e) {}
-}
-
-async function idbRestoreTrackURL(track) {
-  const rec = await idbGetFile(track.key);
-  if (!rec) return null;
-  const blob = new Blob([rec.buffer], { type: rec.type || 'audio/mpeg' });
-  return URL.createObjectURL(blob);
-}
-
             document.getElementById('stream-mode-label').innerHTML =
               (window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform())
               ? '📱 <strong style="color:var(--green);">Native mode</strong> — streams directly to Icecast/Shoutcast. No relay needed.'
@@ -1409,6 +1309,76 @@ async function idbRestoreTrackURL(track) {
 <input type="file" id="show-file-input" accept="audio/*" multiple style="display:none"/>
 
 <script>
+// ╔═══════════════════════════════════════════════════════════╗
+// ║  CONSTANTS & IDB — defined first, used everywhere below  ║
+// ╚═══════════════════════════════════════════════════════════╝
+const DUCK_LEVEL   = 0.25;    // -12 dB music reduction when mic/cart live
+const DUCK_ATTACK  = 0.050;   // 50ms
+const DUCK_RELEASE = 0.800;   // 800ms
+const STORAGE_KEY  = 'eyethu_pro_state_v1';
+
+const IDB_NAME    = 'EyethuRadioFiles';
+const IDB_STORE   = 'audioFiles';
+const IDB_VERSION = 1;
+let   _idb        = null;
+
+function openIDB() {
+  return new Promise((resolve, reject) => {
+    if (_idb) { resolve(_idb); return; }
+    const req = indexedDB.open(IDB_NAME, IDB_VERSION);
+    req.onupgradeneeded = e => { e.target.result.createObjectStore(IDB_STORE, { keyPath: 'key' }); };
+    req.onsuccess = e => { _idb = e.target.result; resolve(_idb); };
+    req.onerror   = e => { console.warn('IDB open failed', e); reject(e); };
+  });
+}
+async function idbSaveFile(key, buf, name, type) {
+  try {
+    const db = await openIDB();
+    await new Promise((res, rej) => {
+      const tx = db.transaction(IDB_STORE, 'readwrite');
+      tx.objectStore(IDB_STORE).put({ key, buffer: buf, name, type: type || 'audio/mpeg' });
+      tx.oncomplete = () => res();
+      tx.onerror = () => rej(tx.error);
+    });
+  } catch(e) { console.warn('idbSaveFile failed', e); }
+}
+async function idbGetFile(key) {
+  try {
+    const db = await openIDB();
+    return new Promise((res, rej) => {
+      const tx = db.transaction(IDB_STORE, 'readonly');
+      const r  = tx.objectStore(IDB_STORE).get(key);
+      r.onsuccess = () => res(r.result || null);
+      r.onerror   = () => rej(r.error);
+    });
+  } catch(e) { return null; }
+}
+async function idbDeleteFile(key) {
+  try {
+    const db = await openIDB();
+    await new Promise(res => {
+      const tx = db.transaction(IDB_STORE, 'readwrite');
+      tx.objectStore(IDB_STORE).delete(key);
+      tx.oncomplete = () => res();
+    });
+  } catch(e) {}
+}
+async function idbClearAll() {
+  try {
+    const db = await openIDB();
+    await new Promise(res => {
+      const tx = db.transaction(IDB_STORE, 'readwrite');
+      tx.objectStore(IDB_STORE).clear();
+      tx.oncomplete = () => res();
+    });
+  } catch(e) {}
+}
+async function idbRestoreTrackURL(track) {
+  const rec = await idbGetFile(track.key);
+  if (!rec) return null;
+  return URL.createObjectURL(new Blob([rec.buffer], { type: rec.type || 'audio/mpeg' }));
+}
+
 // ============================================================
 // STATE
 // ============================================================
@@ -1427,7 +1397,6 @@ const state = {
   cartAudio: Array(8).fill(null),
   deckA: { audio: null, file: null, cueTime: 0, playing: false, sourceNode: null },
   deckB: { audio: null, file: null, cueTime: 0, playing: false, sourceNode: null },
-  xfade: 50,
   master: 0.95,
   defaultFaders: { A:100, B:100, M:100, C:100, X:100 },
   cueDeviceId: null,
@@ -1436,7 +1405,6 @@ const state = {
 
 // AudioContext + DSP
 let actx = null, masterGain, xfGain, jingleDuckGain, finalTrim, monitorGain, cueGain;
-let xfadeGainA = null, xfadeGainB = null;
 let micSource = null, micGainNode = null, micCompressor = null;
 let deckAGain = null, deckBGain = null;
 let cueAudioEl = null;
@@ -1476,19 +1444,39 @@ updateClock();
 // ============================================================
 document.querySelectorAll('.tab').forEach(tab => {
   tab.addEventListener('click', () => {
+    // UI ONLY — audio engine is completely untouched by tab switching
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('act'));
     document.querySelectorAll('.panel').forEach(p => p.classList.remove('act'));
     tab.classList.add('act');
     document.getElementById('panel-' + tab.dataset.tab).classList.add('act');
+    // UI only — no audio changes
   });
 });
 
 // ============================================================
 // AUDIO CONTEXT INIT
 // ============================================================
+// ═══════════════════════════════════════════════════════════════════
+// AUDIO ENGINE — singleton, runs once, completely isolated from UI
+// Must NEVER be called in response to tab switches, orientation
+// changes, resize events or any UI interaction except audio controls.
+// ═══════════════════════════════════════════════════════════════════
+let _audioEngineStarted = false;  // extra guard — belt and braces
+
 function initAudio() {
-  if (actx) return;
-  actx = new (window.AudioContext || window.webkitAudioContext)();
+  if (actx) return;                 // already running — do nothing
+  if (_audioEngineStarted) return;  // guard against race condition
+  _audioEngineStarted = true;
+
+  // Fixed 48 kHz — professional broadcast standard
+  // Browser may ignore sampleRate hint and use its own; we request it
+  // but the DSP chain adapts to whatever the context reports.
+  const ctxOpts = {};
+  try { ctxOpts.sampleRate = 48000; } catch(e) {}
+  actx = new (window.AudioContext || window.webkitAudioContext)(ctxOpts);
+
+  // Log actual sample rate (informational only)
+  console.info('[EyethuAudio] AudioContext started at', actx.sampleRate, 'Hz');
   masterGain    = actx.createGain(); masterGain.gain.value    = 1.0; // 0 dB
   xfGain        = actx.createGain(); xfGain.gain.value        = 1.0;
   jingleDuckGain= actx.createGain(); jingleDuckGain.gain.value= 1.0;
@@ -1496,18 +1484,13 @@ function initAudio() {
   deckAGain     = actx.createGain(); deckAGain.gain.value     = 1.0; // 0 dB per spec
   deckBGain     = actx.createGain(); deckBGain.gain.value     = 1.0; // 0 dB per spec
 
-  // Crossfade gain nodes — separate from deck vol
-  xfadeGainA = actx.createGain(); xfadeGainA.gain.value = 1;
-  xfadeGainB = actx.createGain(); xfadeGainB.gain.value = 1;
-
   monitorGain = actx.createGain(); monitorGain.gain.value = 1;
   cueGain     = actx.createGain(); cueGain.gain.value = 0.9;
 
-  // Deck → xfadeGain → xfGain → jingleDuckGain → masterGain → finalTrim → output
-  deckAGain.connect(xfadeGainA);
-  deckBGain.connect(xfadeGainB);
-  xfadeGainA.connect(xfGain);
-  xfadeGainB.connect(xfGain);
+  // Deck → xfGain → jingleDuckGain → masterGain → finalTrim → output
+  // (crossfader removed — decks connect directly to mix bus)
+  deckAGain.connect(xfGain);
+  deckBGain.connect(xfGain);
   xfGain.connect(jingleDuckGain);
   // jingleDuckGain → Master DSP Chain → masterGain  (wired in buildMasterDSP)
 
@@ -1519,11 +1502,6 @@ function initAudio() {
 
   startMeters();
   buildMasterDSP();
-  // Apply current xfader position (default 50 = equal blend)
-  setTimeout(() => {
-    const xv = document.getElementById('xfader');
-    if (xv) setXfade(xv.value);
-  }, 0);
 }
 
 
@@ -1533,6 +1511,11 @@ function initAudio() {
 // ╚════════════════════════════════════════════════════════════════════════╝
 function buildMicPre(source) {
   if (!actx || !source) return source;
+  // Tear down old mic pre nodes so they don't accumulate on reconnect
+  try { if (micPreLimiter) micPreLimiter.disconnect(); } catch(e) {}
+  try { if (micPreGate)    micPreGate.disconnect();    } catch(e) {}
+  try { if (micPreHPF)     micPreHPF.disconnect();     } catch(e) {}
+  micPreHPF = micPreGate = micPreLimiter = null;
 
   // 1. Highpass 80 Hz — removes handling noise and breath rumble
   micPreHPF = actx.createBiquadFilter();
@@ -1571,6 +1554,8 @@ function buildMicPre(source) {
 // ╚════════════════════════════════════════════════════════════════════════╝
 function buildMasterDSP() {
   if (!actx) return;
+  // NEVER rebuild if chain already wired — audio must be bit-stable
+  if (dspHPF) { console.info('[EyethuAudio] DSP chain already built — skipping rebuild'); return; }
 
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   // ROOT CAUSE OF DISTORTION (fixed):
@@ -1819,46 +1804,37 @@ function addAudioFiles(files) {
   const AUDIO = /^audio\//i;
   const audioFiles = files.filter(f => AUDIO.test(f.type) || /\.(mp3|flac|wav|ogg|aac|m4a|opus|weba|wma|aiff?)$/i.test(f.name));
   let added = 0, skipped = 0;
-
   audioFiles.forEach(file => {
     const key = trackKey(file);
     const existing = state.tracks.findIndex(t => t.key === key);
-
     if (existing >= 0 && state.tracks[existing]._needsReimport) {
-      // Restore existing track
       state.tracks[existing].url  = URL.createObjectURL(file);
       state.tracks[existing].file = file;
       state.tracks[existing].size = file.size;
       state.tracks[existing]._needsReimport = false;
       const tmp = new Audio(); tmp.src = state.tracks[existing].url;
-      tmp.onloadedmetadata = () => { state.tracks[existing].duration = tmp.duration; renderLibrary(); saveAppState(); };
-      // Save to IDB so it never needs reimport again
-      file.arrayBuffer().then(buf => idbSaveFile(key, buf, file.name, file.type));
+      tmp.onloadedmetadata = () => { state.tracks[existing].duration = tmp.duration; renderLibrary(); };
       added++; return;
     }
-
     if (isDupInLibrary(file)) { skipped++; return; }
-
-    const url = URL.createObjectURL(file);
     const track = {
-      key, name: file.name.replace(/\.[^.]+$/, ''),
-      file, size: file.size, duration: 0, url,
+      key: trackKey(file),
+      name: file.name.replace(/\.[^.]+$/, ''),
+      file, size: file.size, duration: 0,
+      url: URL.createObjectURL(file),
       _needsReimport: false,
     };
-    const tmp = new Audio(); tmp.src = url;
+    const tmp = new Audio(); tmp.src = track.url;
     tmp.onloadedmetadata = () => { track.duration = tmp.duration; renderLibrary(); saveAppState(); };
-
-    // ── Save audio data to IndexedDB for persistence across sessions ──
+    // Persist audio to IndexedDB so it survives app restarts
     file.arrayBuffer().then(buf => idbSaveFile(key, buf, file.name, file.type || 'audio/mpeg'));
-
     state.tracks.push(track); added++;
   });
-
   renderLibrary();
   if (skipped > 0 && added > 0) showToast(`✅ ${added} added · ⚠️ ${skipped} skipped`);
   else if (skipped > 0) showToast(`⚠️ ${skipped} already in library`);
-  else if (added > 0) showToast(`✅ ${added} track(s) saved permanently`);
-  else showToast('No new audio files found');
+  else if (added > 0) showToast(`✅ ${added} track(s) loaded from folder`);
+  else showToast('No new audio files found in folder');
 }
 
 // ── Read all audio files recursively from a FileSystemDirectoryHandle ──
@@ -1879,7 +1855,7 @@ function clearLibrary() {
   if (!state.tracks.length) return;
   state.tracks = [];
   state.queue = [];
-  idbClearAll(); // wipe all stored audio from IndexedDB
+  idbClearAll();
   renderLibrary();
   renderQueue();
   saveAppState();
@@ -1927,13 +1903,12 @@ function loadDeckDirect(deck, i) {
 
 function removeFromLibrary(i) {
   const track = state.tracks[i];
+  // Also remove from queue if present
   state.queue = state.queue.filter(q => q.key !== track.key);
   if (state.queueIndex >= state.queue.length) state.queueIndex = Math.max(0, state.queue.length - 1);
   state.tracks.splice(i, 1);
-  idbDeleteFile(track.key); // remove from persistent storage too
   renderLibrary();
   renderQueue();
-  saveAppState();
   showToast(`✕ Removed: ${track.name}`);
 }
 
@@ -2069,7 +2044,10 @@ function toggleCartCollapse()  { toggleCollapseSection('cart'); }
 function toggleMicCollapse()   { toggleCollapseSection('mic'); }
 
 // Run on load and on resize
-window.addEventListener('resize', applyResponsiveCollapse);
+window.addEventListener('resize', () => {
+  // UI layout only — no audio changes
+  applyResponsiveCollapse();
+});
 
 // ============================================================
 // IN-APP DOCUMENTATION
@@ -2618,28 +2596,7 @@ function setDeckVol(deck, val) {
 // ============================================================
 // CROSSFADER
 // ============================================================
-function setXfade(val) {
-  state.xfade = val;
-  const pct = val / 100;
-  // Constant power crossfade on SEPARATE nodes — deck vol unaffected
-  if (xfadeGainA) xfadeGainA.gain.value = Math.cos(pct * Math.PI / 2);
-  if (xfadeGainB) xfadeGainB.gain.value = Math.sin(pct * Math.PI / 2);
-  document.getElementById('xf-a-label').style.opacity = 1 - pct * 0.7;
-  document.getElementById('xf-b-label').style.opacity = 0.3 + pct * 0.7;
-}
-
-function autoXfade() {
-  let val = parseInt(document.getElementById('xfader').value);
-  const target = val < 50 ? 100 : 0;
-  const step = target > val ? 1 : -1;
-  const iv = setInterval(() => {
-    val += step;
-    document.getElementById('xfader').value = val;
-    setXfade(val);
-    if (val === target) clearInterval(iv);
-  }, 30);
-}
-
+// CROSSFADER
 // ============================================================
 // AUTO-DJ
 // ============================================================
@@ -2836,12 +2793,8 @@ function loadCart(e, i) {
   inp.onchange = ev => {
     const file = ev.target.files[0];
     if (!file) return;
-    const url = URL.createObjectURL(file);
-    state.carts[i] = { name: file.name.replace(/\.[^.]+$/,''), url, key: 'cart_' + i };
-    // Persist cart audio to IndexedDB
-    file.arrayBuffer().then(buf => idbSaveFile('cart_' + i, buf, file.name, file.type || 'audio/mpeg'));
+    state.carts[i] = { name: file.name.replace(/\.[^.]+$/,''), url: URL.createObjectURL(file) };
     buildCartwall();
-    saveAppState();
     showToast(`Cart ${i+1} loaded: ${state.carts[i].name}`);
   };
   inp.click();
@@ -3711,14 +3664,6 @@ function triggerAdBreak(show) {
     }
     // Play N carts in sequence, chained via onended
     let played = 0;
-    function playNextCart() {
-      if (played >= count) { resumeAfterAds(); return; }
-      played++;
-      const a = new Audio(cart.url);
-      a.volume = cartGain;
-      a.onended = playNextCart;
-      a.play().catch(() => { resumeAfterAds(); });
-    }
     showToast(`📢 Ad break — ${count} cart(s) · music paused`);
     playNextCart();
     return;
@@ -3732,14 +3677,6 @@ function triggerAdBreak(show) {
 
   // Chain files sequentially via onended
   let adIdx = 0;
-  function playNextAd() {
-    if (adIdx >= adList.length) { resumeAfterAds(); return; }
-    const ad = adList[adIdx++];
-    const a = new Audio(ad.url);
-    a.volume = cartGain;
-    a.onended = playNextAd;
-    a.play().catch(() => playNextAd());
-  }
   showToast(`📢 Ad break — ${adList.length} file(s) · music paused`);
   playNextAd();
 }
@@ -3752,12 +3689,6 @@ function triggerOverlay(show) {
   const count = show.ovInRow || 1;
 
   // ── Duck music ────────────────────────────────────────────────────────────
-  function duckDown() {
-    if (!jingleDuckGain || !actx) return;
-    jingleDuckGain.gain.cancelScheduledValues(actx.currentTime);
-    jingleDuckGain.gain.setValueAtTime(jingleDuckGain.gain.value, actx.currentTime);
-    jingleDuckGain.gain.linearRampToValueAtTime(DUCK_LEVEL, actx.currentTime + DUCK_ATTACK);
-  }
   function duckUp() {
     if (!jingleDuckGain || !actx) return;
     const releaseTime = (duckReleaseFrames / 60);
@@ -3847,6 +3778,7 @@ async function setOutputDevice(audioEl, deviceId) {
 
 document.querySelectorAll('.tab').forEach(tab => {
   tab.addEventListener('click', () => {
+    // Opening settings: only refresh device list (UI-only, no audio node changes)
     if (tab.dataset.tab === 'settings') refreshDevices();
   });
 });
@@ -3867,7 +3799,7 @@ let micPreHPF = null, micPreGate = null, micPreLimiter = null;
 // Master DSP Chain
 let dspHPF = null, dspAGC = null;
 let dspSoftClipper = null, dspLookaheadLim = null, dspBrickwall = null;
-// Ducking constants defined at top of script
+// Ducking constants — moved to top of script
 
 function applyFaderValue(ch, val) {
   val = parseInt(val);
@@ -3891,7 +3823,9 @@ function applyFaderValue(ch, val) {
     updateDefaultFaderSlider('M', val);
   } else if (ch === 'C') {
     cartGain = val / 100;
-    syncCartConsole(val);
+    updateConsoleFromDeck('C', val);
+    updateDefaultFaderSlider('C', val);
+    state.cartAudio.forEach(a => { if (a && !a.paused) a.volume = cartGain; });
   } else if (ch === 'X') {
     document.getElementById('master-fader').value = val;
     document.getElementById('master-val').textContent = val + '%';
@@ -4016,11 +3950,11 @@ function resetAll() {
   state.tracks = []; state.queue = []; state.queueIndex = 0;
   state.shows = []; state.editingShowIndex = -1; state.selectedShowIndex = -1;
   state.carts = Array(8).fill(null); state.cartAudio = Array(8).fill(null);
-  idbClearAll(); // wipe all persistent audio from IndexedDB
   renderLibrary(); renderQueue(); renderShowList(); buildCartwall();
   document.getElementById('show-form').style.display = 'none';
   document.getElementById('playlist-card').style.display = 'none';
   resetFaders(); goOffAir();
+  idbClearAll();
   localStorage.removeItem(STORAGE_KEY);
   showToast('⚠ Full reset complete');
 }
@@ -4053,7 +3987,6 @@ function buildConsole() {
 function syncConsole(ch, val) {
   val = parseInt(val);
   document.getElementById('con-ch-'+ch+'-val').textContent = val+'%';
-
   if (ch === 'A') {
     document.getElementById('deckA-vol').value = val;
     document.getElementById('deckA-vol-val').textContent = val+'%';
@@ -4072,7 +4005,6 @@ function syncConsole(ch, val) {
     if (finalTrim) finalTrim.gain.value = val / 100;
     state.master = val / 100;
   }
-  // Always sync default fader slider so all three stay in lockstep
   updateDefaultFaderSlider(ch, val);
   scheduleSave();
 }
@@ -4080,13 +4012,13 @@ function syncConsole(ch, val) {
 // Keep console in sync when deck/mic/master sliders are moved directly
 function updateConsoleFromDeck(deck, val) {
   val = parseInt(val);
-  const el    = document.getElementById('con-ch-'+deck);
+  const el = document.getElementById('con-ch-'+deck);
   const elVal = document.getElementById('con-ch-'+deck+'-val');
-  if (el)    el.value = val;
+  if (el) el.value = val;
   if (elVal) elVal.textContent = val+'%';
 }
 
-// Keeps the default fader slider in Settings in sync with live faders
+// Keep the default fader slider in Settings in sync with live faders
 function updateDefaultFaderSlider(ch, val) {
   val = parseInt(val);
   state.defaultFaders[ch] = val;
@@ -4101,7 +4033,8 @@ let cartGain = 1.0;
 function syncCartConsole(val) {
   val = parseInt(val);
   cartGain = val / 100;
-  document.getElementById('con-ch-C-val').textContent = val+'%';
+  const cVal = document.getElementById('con-ch-C-val');
+  if (cVal) cVal.textContent = val+'%';
   state.cartAudio.forEach(a => { if (a && !a.paused) a.volume = cartGain; });
   updateDefaultFaderSlider('C', val);
   scheduleSave();
@@ -4204,19 +4137,13 @@ requestWakeLock();
 // SCREEN ROTATION — preserve audio, prevent interruption
 // ============================================================
 screen.orientation && screen.orientation.addEventListener('change', () => {
-  // Resume audio context immediately after rotation
+  // AUDIO ENGINE ISOLATION: rotation must NEVER rebuild DSP, reconnect nodes,
+  // or change any gain values. Resume only if browser suspended the context.
   if (actx && actx.state === 'suspended') {
-    actx.resume().then(() => {
-      // Re-apply on-air state after rotation
-      if (state.onAir) {
-        if (monitorGain) monitorGain.gain.setValueAtTime(0, actx.currentTime);
-        if (cueGain) cueGain.gain.setValueAtTime(0.9, actx.currentTime);
-      } else {
-        if (monitorGain) monitorGain.gain.setValueAtTime(1, actx.currentTime);
-        if (cueGain) cueGain.gain.setValueAtTime(0.9, actx.currentTime);
-      }
-    });
+    actx.resume().then(() => console.info('[EyethuAudio] Resumed after rotation'));
   }
+  // UI-only: reflow responsive layout
+  applyResponsiveCollapse();
 });
 
 // Fallback for devices without screen.orientation API
@@ -4238,6 +4165,239 @@ window.addEventListener('focus', () => {
 // ============================================================
 // PERSISTENCE — save & restore everything via localStorage
 // ============================================================
-const STORAGE_KEY = 'eyethu_pro_state_v1';
+function saveAppState() {
+  try {
+    const data = {
+      // DSP params
+      dsp: {
+        hpf:  document.querySelector('#panel-settings .dsp-param input[oninput*="hpf"]')?.value,
+        agc:  document.querySelector('#panel-settings .dsp-param input[oninput*="agc"]')?.value,
+        comp: document.querySelector('#panel-settings .dsp-param input[oninput*="comp"]')?.value,
+        bass: document.querySelector('#panel-settings .dsp-param input[oninput*="bass"]')?.value,
+        air:  document.querySelector('#panel-settings .dsp-param input[oninput*="air"]')?.value,
+        pres: document.querySelector('#panel-settings .dsp-param input[oninput*="pres"]')?.value,
+        lim:  document.querySelector('#panel-settings .dsp-param input[oninput*="lim"]')?.value,
+      },
+      // Duck settings
+      duck: {
+        level: document.querySelector('input[oninput*="level"]')?.value,
+        gate:  document.querySelector('input[oninput*="gate"]')?.value,
+        rel:   document.querySelector('input[oninput*="rel"]')?.value,
+      },
+      // Faders
+      faders: {
+        deckA:  document.getElementById('deckA-vol')?.value,
+        deckB:  document.getElementById('deckB-vol')?.value,
+        mic:    document.getElementById('mic-vol')?.value,
+        master: document.getElementById('master-fader')?.value,
+      },
+      // Default faders
+      defaultFaders: state.defaultFaders,
+      // Auto DJ
+      autoDJ: state.autoDJ,
+      // Shows (save metadata but not file blobs)
+      shows: state.shows.map(s => ({
+        name: s.name, start: s.start, end: s.end, deck: s.deck,
+        intro: s.intro, outro: s.outro,
+        adSource: s.adSource, adCart: s.adCart, adOrder: s.adOrder,
+        adInRow: s.adInRow, adTrigger: s.adTrigger, adSongs: s.adSongs,
+        adMinutes: s.adMinutes, adTime: s.adTime,
+        songsInRow: s.songsInRow, weight: s.weight, playlistOrder: s.playlistOrder,
+        // Save track names only (files can't be serialized)
+        playlist: (s.playlist||[]).map(t => ({ name: t.name, key: t.key, duration: t.duration })),
+        adFiles: (s.adFiles||[]).map(t => ({ name: t.name, key: t.key })),
+      })),
+      // Library track names (files can't be persisted, just names for display)
+      libraryMeta: state.tracks.map(t => ({ name: t.name, key: t.key, duration: t.duration, size: t.size || 0 })),
+      // Cart names
+      cartNames: state.carts.map(c => c ? { name: c.name } : null),
+      master: state.master,
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch(e) { console.warn('Save failed:', e); }
+}
 
+function loadAppState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
 
+    // Restore DSP sliders
+    if (data.dsp) {
+      const map = {hpf:'hpf', agc:'agc', comp:'comp', bass:'bass', air:'air', pres:'pres', lim:'lim'};
+      Object.entries(data.dsp).forEach(([k,v]) => {
+        if (v == null) return;
+        const el = document.querySelector(`#panel-settings .dsp-param input[oninput*="${k}"]`);
+      });
+    }
+
+    // Restore duck settings
+    if (data.duck) {
+      const dl = document.querySelector('input[oninput*="level"]');
+      const dg = document.querySelector('input[oninput*="gate"]');
+      const dr = document.querySelector('input[oninput*="rel"]');
+      if (dl && data.duck.level) { dl.value = data.duck.level; setDuck('level', data.duck.level); }
+      if (dg && data.duck.gate)  { dg.value = data.duck.gate;  setDuck('gate',  data.duck.gate); }
+      if (dr && data.duck.rel)   { dr.value = data.duck.rel;   setDuck('rel',   data.duck.rel); }
+    }
+
+    // Restore faders
+    if (data.faders) {
+      if (data.faders.deckA)  { document.getElementById('deckA-vol').value  = data.faders.deckA;  document.getElementById('deckA-vol-val').textContent  = data.faders.deckA+'%';  updateConsoleFromDeck('A', data.faders.deckA); }
+      if (data.faders.deckB)  { document.getElementById('deckB-vol').value  = data.faders.deckB;  document.getElementById('deckB-vol-val').textContent  = data.faders.deckB+'%';  updateConsoleFromDeck('B', data.faders.deckB); }
+      if (data.faders.mic)    { document.getElementById('mic-vol').value     = data.faders.mic;    document.getElementById('mic-vol-val').textContent     = data.faders.mic+'%';    updateConsoleFromDeck('M', data.faders.mic); }
+      if (data.faders.master) { document.getElementById('master-fader').value = data.faders.master; document.getElementById('master-val').textContent  = data.faders.master+'%';  updateConsoleFromDeck('X', data.faders.master); }
+    }
+
+    // Restore default faders
+    if (data.defaultFaders) {
+      state.defaultFaders = data.defaultFaders;
+      Object.entries(data.defaultFaders).forEach(([ch, val]) => {
+        const defSlider = document.querySelector(`input[oninput="setDefaultFader('${ch}',this.value)"]`);
+        if (defSlider) defSlider.value = val;
+        const defSpan = document.getElementById('def-' + ch);
+        if (defSpan) defSpan.textContent = val + '%';
+      });
+    }
+
+    // Restore auto DJ
+    if (data.autoDJ !== undefined) {
+      state.autoDJ = data.autoDJ;
+      document.getElementById('autodj-btn').textContent = 'AUTO-DJ: ' + (state.autoDJ ? 'ON' : 'OFF');
+      document.getElementById('autodj-status').textContent = 'AUTO-DJ: ' + (state.autoDJ ? 'ON — STANDBY' : 'OFF');
+    }
+
+    // Restore shows
+    if (data.shows && data.shows.length) {
+      state.shows = data.shows.map(s => ({
+        ...s,
+        playlist: (s.playlist||[]).map(t => ({ ...t, url: null, file: null })),
+        adFiles:  (s.adFiles||[]).map(t => ({ ...t, url: null, file: null })),
+        _triggered: false, _songCount: 0,
+      }));
+      renderShowList();
+    }
+
+    // Restore library — try IndexedDB first (persistent audio)
+    if (data.libraryMeta && data.libraryMeta.length) {
+      state.tracks = data.libraryMeta.map(t => ({
+        ...t, url: null, file: null, size: t.size || 0, _needsReimport: true,
+      }));
+      renderLibrary();
+      let restored = 0;
+      Promise.all(state.tracks.map(async (track, i) => {
+        const url = await idbRestoreTrackURL(track);
+        if (url) { state.tracks[i].url = url; state.tracks[i]._needsReimport = false; restored++; }
+      })).then(() => {
+        renderLibrary();
+        if (restored === state.tracks.length) showToast(`🎵 ${restored} tracks restored — ready to play`);
+        else if (restored > 0) showToast(`🎵 ${restored}/${state.tracks.length} restored — re-import missing`);
+        else showToast(`📂 ${state.tracks.length} tracks — tap IMPORT FILES to reload`);
+      });
+    }
+
+    // Restore cart names
+    if (data.cartNames) {
+      data.cartNames.forEach((c, i) => {
+        if (c) state.carts[i] = { name: c.name, url: null };
+      });
+      buildCartwall();
+    }
+} catch(e) { console.warn('Load failed:', e); }
+}
+
+// Auto-save whenever something changes — debounced
+let saveTimer = null;
+function scheduleSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveAppState, 1000);
+}
+
+// Patch renderLibrary, renderShowList, renderQueue to auto-save
+const _origRenderLibrary  = renderLibrary;
+const _origRenderShowList = renderShowList;
+const _origRenderQueue    = renderQueue;
+renderLibrary  = function() { _origRenderLibrary();  scheduleSave(); };
+renderShowList = function() { _origRenderShowList(); scheduleSave(); };
+renderQueue    = function() { _origRenderQueue();    scheduleSave(); };
+
+// Also save on fader/DSP changes
+document.querySelectorAll('#panel-settings input[type=range], #deckA-vol, #deckB-vol, #mic-vol, #master-fader').forEach(el => {
+  el.addEventListener('input', scheduleSave);
+});
+
+// Load on startup
+loadAppState();
+renderPresets();
+// Apply default fader levels on startup
+Object.entries(state.defaultFaders).forEach(([ch, val]) => applyFaderValue(ch, val));
+// Apply responsive collapse for Queue, Cartwall, Mic
+applyResponsiveCollapse();
+
+// ============================================================
+// KEYBOARD SHORTCUTS
+// F1–F8 → Cart 1–8   |   Space / P → Play/Pause active deck
+// ============================================================
+(function initKeyboard() {
+  // Show F-key hints on cart buttons only on non-touch devices
+  function showFKeyHints() {
+    const isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+    if (isTouch) return;
+    for (let i = 0; i < 8; i++) {
+      const btn = document.getElementById('cart-' + i);
+      if (!btn) continue;
+      // Only add once
+      if (btn.querySelector('.cart-fkey')) continue;
+      const badge = document.createElement('div');
+      badge.className = 'cart-fkey';
+      badge.textContent = 'F' + (i + 1);
+      btn.appendChild(badge);
+    }
+  }
+
+  document.addEventListener('keydown', e => {
+    // Ignore if typing in an input / textarea / select
+    const tag = document.activeElement ? document.activeElement.tagName : '';
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+
+    // F1–F8 → Carts 0–7
+    if (e.key >= 'F1' && e.key <= 'F8') {
+      e.preventDefault();
+      const idx = parseInt(e.key.slice(1)) - 1; // F1→0, F8→7
+      playCart(idx);
+      return;
+    }
+
+    // Space or P → toggle play/pause on the active deck
+    if (e.key === ' ' || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      // Play whichever deck is loaded; prefer playing deck first
+      if (state.deckA.playing) {
+        playDeck('A');
+      } else if (state.deckB.playing) {
+        playDeck('B');
+      } else if (state.deckA.audio) {
+        playDeck('A');
+      } else if (state.deckB.audio) {
+        playDeck('B');
+      }
+    }
+  });
+
+  // Show hints after cartwall renders (slight delay)
+  setTimeout(showFKeyHints, 800);
+  // Re-check after buildCartwall is called
+  const _origBuildCartwall = window.buildCartwall;
+  if (typeof buildCartwall === 'function') {
+    const origBC = buildCartwall;
+    window.buildCartwall = function() {
+      origBC.apply(this, arguments);
+      setTimeout(showFKeyHints, 100);
+    };
+  }
+})();
+
+</script>
+</body>
+</html>
