@@ -122,14 +122,16 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
 .queue-del:hover{opacity:1;}
 
 /* CARTWALL */
-.cart-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
-.cart-btn{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg3);border:1px solid var(--border);border-radius:4px;cursor:pointer;padding:4px;text-align:center;transition:all .15s;position:relative;overflow:hidden;}
-.cart-btn:hover{border-color:var(--accent2);}
+.cart-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.cart-btn{min-height:72px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg3);border:1px solid var(--border);border-radius:6px;cursor:pointer;padding:6px 4px;text-align:center;transition:all .15s;position:relative;overflow:hidden;}
+.cart-btn:hover{border-color:var(--accent2);background:var(--bg4);}
 .cart-btn.loaded{border-color:var(--border2);}
 .cart-btn.playing{border-color:var(--accent);background:rgba(240,192,64,.1);box-shadow:0 0 8px rgba(240,192,64,.3);}
-.cart-btn .cart-icon{font-size:18px;margin-bottom:2px;}
-.cart-btn .cart-name{font-size:9px;color:var(--text2);line-height:1.2;word-break:break-word;}
-.cart-btn .cart-prog{position:absolute;bottom:0;left:0;height:2px;background:var(--accent);transition:width .1s;}
+.cart-btn .cart-icon{font-size:22px;margin-bottom:3px;}
+.cart-btn .cart-name{font-size:10px;color:var(--text2);line-height:1.3;word-break:break-word;max-width:100%;padding:0 2px;}
+.cart-btn .cart-load-btn{position:absolute;top:3px;right:3px;opacity:0.5;font-size:10px;padding:1px 3px;}
+.cart-btn .cart-prog{position:absolute;bottom:0;left:0;height:3px;background:var(--accent);transition:width .1s;}
+.cart-btn .cart-fkey{position:absolute;top:3px;left:4px;font-family:var(--font-mono);font-size:9px;color:var(--accent);opacity:0.7;pointer-events:none;letter-spacing:0;}
 .cart-load-btn{position:absolute;top:2px;right:2px;font-size:9px;background:var(--bg4);border:none;color:var(--text2);padding:1px 3px;border-radius:2px;cursor:pointer;}
 
 /* MIC */
@@ -175,6 +177,9 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
 /* SETTINGS */
 .settings-section{margin-bottom:16px;}
 .settings-title{font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid var(--border);}
+.settings-title.collapsible{cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none;}
+.settings-title.collapsible:hover{color:var(--accent2);}
+.settings-title .s-arr{font-size:12px;transition:transform .2s;}
 .dsp-chain{display:flex;flex-direction:column;gap:4px;}
 .dsp-node{display:flex;align-items:center;gap:8px;padding:6px 8px;background:var(--bg3);border:1px solid var(--border);border-radius:3px;}
 .dsp-dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;}
@@ -218,9 +223,11 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
 
 /* CHANNEL CONSOLE */
-.console-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;}
-.ch-strip{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;}
-.ch-name{font-family:var(--font-mono);font-size:9px;color:var(--text2);letter-spacing:1px;}
+.console-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
+.ch-strip{display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 4px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;min-width:0;}
+.ch-name{font-family:var(--font-mono);font-size:9px;color:var(--text2);letter-spacing:1px;text-align:center;}
+.ch-val{font-family:var(--font-mono);font-size:10px;color:var(--accent);text-align:center;}
+.ch-fader{height:80px;cursor:pointer;writing-mode:vertical-lr;direction:rtl;}
 /* CONSOLE CHANNEL VERTICAL VU METER */
 .decks-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .decks-row .deck{margin-bottom:0;}
@@ -271,7 +278,11 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
   .vu-meter{height:18px;}
   .vu-seg{height:12px;}
   .ch-meter{width:18px;height:90px;}
-  .ch-fader{height:100px;}
+  .ch-fader{height:110px;}
+  .ch-strip{padding:12px 6px;gap:6px;}
+  .cart-btn{min-height:90px;}
+  .cart-btn .cart-icon{font-size:26px;}
+  .cart-btn .cart-name{font-size:11px;}
   .panel-cols{grid-template-columns:1fr 1fr;gap:14px;}
 }
 
@@ -281,9 +292,14 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
 }
 
 /* RESPONSIVE — SMALL PHONE */
-@media(max-width:400px){
-  .cart-grid{grid-template-columns:repeat(3,1fr);}
-  .console-grid{grid-template-columns:repeat(3,1fr);}
+@media(max-width:400px){\
+  .cart-grid{grid-template-columns:repeat(4,1fr);gap:5px;}
+  .cart-btn{min-height:60px;}
+  .cart-btn .cart-icon{font-size:18px;}
+  .cart-btn .cart-name{font-size:9px;}
+  .console-grid{gap:4px;}
+  .ch-strip{padding:6px 2px;}
+  .ch-fader{height:64px;}
   .fader-defaults{grid-template-columns:1fr;}
   .decks-row{grid-template-columns:1fr;}
 }
@@ -383,8 +399,8 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
         </div>
       </div>
 
-      <!-- QUEUE -->
-      <div class="card">
+      <!-- QUEUE — full width -->
+      <div class="card span-full">
         <div class="card-head" onclick="toggleQueueCollapse()" style="cursor:pointer;">
           <span class="card-title">▸ QUEUE</span>
           <div style="display:flex;gap:4px;align-items:center;">
@@ -400,8 +416,8 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
         </div>
       </div>
 
-      <!-- CARTWALL -->
-      <div class="card">
+      <!-- CARTWALL — full width -->
+      <div class="card span-full">
         <div class="card-head" onclick="toggleCartCollapse()" style="cursor:pointer;">
           <span class="card-title">▸ CARTWALL</span>
           <button class="btn xs" id="cart-collapse-btn" style="min-width:22px;font-size:12px;padding:2px 5px;" title="Collapse/Expand">▾</button>
@@ -411,34 +427,34 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
         </div>
       </div>
 
-      <!-- MIC -->
-      <div class="card">
+      <!-- MIC + ON AIR — full width, ON AIR inside -->
+      <div class="card span-full">
         <div class="card-head" onclick="toggleMicCollapse()" style="cursor:pointer;">
           <span class="card-title">🎤 MICROPHONE</span>
           <button class="btn xs" id="mic-collapse-btn" style="min-width:22px;font-size:12px;padding:2px 5px;" title="Collapse/Expand">▾</button>
         </div>
         <div id="mic-body" class="card-body">
-          <div class="mic-wrap">
-            <div class="mic-status" id="mic-status">MIC: Click MIC ON to enable</div>
-            <div class="deck-fader">
-              <label>VOL</label>
-              <input type="range" min="0" max="100" value="100" id="mic-vol" oninput="setMicVol(this.value)"/>
-              <span id="mic-vol-val">100%</span>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start;">
+            <div style="flex:1;min-width:200px;">
+              <div class="mic-status" id="mic-status">MIC: Click MIC ON to enable</div>
+              <div class="deck-fader" style="margin-top:6px;">
+                <label>VOL</label>
+                <input type="range" min="0" max="100" value="100" id="mic-vol" oninput="setMicVol(this.value)"/>
+                <span id="mic-vol-val">100%</span>
+              </div>
+              <div class="vu-meter" id="mic-meter"></div>
+              <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;">
+                <button class="btn" id="mic-btn" onclick="toggleMic()">🎤 MIC ON</button>
+                <button class="btn sm" onclick="reconnectMic()">🔄 RECONNECT</button>
+              </div>
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--text2);margin-top:4px;" id="autoduck-status">AUTO-DUCK: STANDBY</div>
             </div>
-            <div class="vu-meter" id="mic-meter"></div>
-            <div style="display:flex;gap:6px;margin-top:4px;">
-              <button class="btn" id="mic-btn" onclick="toggleMic()">🎤 MIC ON</button>
-              <button class="btn sm" onclick="reconnectMic()">🔄 RECONNECT</button>
+            <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;min-width:130px;">
+              <button class="btn primary" style="padding:14px 8px;font-size:13px;font-weight:700;letter-spacing:1px;" onclick="goOnAir()">🔴 ON AIR</button>
+              <button class="btn danger" style="padding:14px 8px;font-size:13px;font-weight:700;letter-spacing:1px;" onclick="goOffAir()">⚪ OFF AIR</button>
             </div>
-            <div style="font-family:var(--font-mono);font-size:10px;color:var(--text2);" id="autoduck-status">AUTO-DUCK: STANDBY</div>
           </div>
         </div>
-      </div>
-
-      <!-- ON AIR — full width -->
-      <div class="span-full" style="display:flex;gap:8px;margin-bottom:8px;">
-        <button class="btn primary" style="flex:1;padding:12px;" onclick="goOnAir()">🔴 ON AIR</button>
-        <button class="btn danger" style="flex:1;padding:12px;" onclick="goOffAir()">⚪ OFF AIR</button>
       </div>
 
       <!-- CHANNEL CONSOLE — full width -->
@@ -468,7 +484,6 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
         <div class="card-body">
           <div class="lib-controls">
             <button class="btn primary" onclick="importFiles()">📂 IMPORT FILES</button>
-            <button class="btn" onclick="importFolder()" style="border-color:var(--cyan);color:var(--cyan);">📁 OPEN FOLDER</button>
             <button class="btn danger" onclick="clearLibrary()">✕ CLEAR</button>
           </div>
           <div style="font-family:var(--font-mono);font-size:10px;color:var(--text2);margin-bottom:6px;">
@@ -483,6 +498,8 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
 
     <!-- SCHEDULER PANEL -->
     <div class="panel" id="panel-scheduler">
+      <!-- SCHEDULE STATUS BAR -->
+      <div id="sched-status-bar" style="display:none;font-family:var(--font-mono);font-size:11px;padding:8px 12px;background:rgba(240,192,64,.08);border:1px solid var(--accent);border-radius:5px;margin-bottom:8px;color:var(--accent);line-height:1.6;"></div>
       <div class="card" style="width:100%;">
         <div class="card-head">
           <span class="card-title">📅 SHOW SCHEDULER</span>
@@ -577,8 +594,72 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
           </select>
         </div>
 
-        <!-- Ad Break -->
-        <div style="font-family:var(--font-mono);font-size:10px;color:var(--text2);margin:10px 0 4px;letter-spacing:1px;">▸ AD BREAK <span style="color:var(--text2);font-size:9px;">(plays between songs — never cuts)</span></div>
+        <!-- ── OVERLAY / SWEEPER ────────────────────────────── -->
+        <div style="font-family:var(--font-mono);font-size:10px;color:var(--cyan);margin:12px 0 4px;letter-spacing:1px;border-bottom:1px solid var(--border);padding-bottom:3px;">🔉 OVERLAY / SWEEPER <span style="color:var(--text2);font-size:9px;">— ducks music, plays over it</span></div>
+        <div class="form-row">
+          <label>SOURCE</label>
+          <select id="sf-ov-source" onchange="toggleOverlaySource()">
+            <option value="cart">🎛 Cart slot</option>
+            <option value="files">📁 Files from device</option>
+          </select>
+        </div>
+        <div id="sf-ov-cart-row" class="form-row">
+          <label>CART</label>
+          <select id="sf-ov-cart">
+            <option value="">— none —</option>
+            <option value="1">Cart 1</option>
+            <option value="2">Cart 2</option>
+            <option value="3">Cart 3</option>
+            <option value="4">Cart 4</option>
+            <option value="5">Cart 5</option>
+            <option value="6">Cart 6</option>
+            <option value="7">Cart 7</option>
+            <option value="8">Cart 8</option>
+          </select>
+        </div>
+        <div id="sf-ov-files-row" style="display:none;margin-bottom:8px;">
+          <button class="btn sm" onclick="loadOverlayFiles()">📂 LOAD SWEEPER FILES</button>
+          <span id="sf-ov-files-count" style="font-family:var(--font-mono);font-size:10px;color:var(--text2);margin-left:8px;">0 files loaded</span>
+        </div>
+        <div class="form-row">
+          <label>ORDER</label>
+          <select id="sf-ov-order">
+            <option value="random">🔀 Random</option>
+            <option value="sequence">▶ In sequence</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>IN A ROW</label>
+          <input type="number" id="sf-ov-inrow" min="1" max="10" value="1" style="width:60px;flex:none;"/>
+          <span style="font-family:var(--font-mono);font-size:10px;color:var(--text2);">sweepers per trigger</span>
+        </div>
+        <div class="form-row">
+          <label>TRIGGER</label>
+          <select id="sf-ov-trigger" onchange="toggleOverlayTrigger()">
+            <option value="">— disabled —</option>
+            <option value="songs">After N songs</option>
+            <option value="minutes">After X minutes</option>
+            <option value="time">At HH:MM</option>
+          </select>
+        </div>
+        <div id="sf-ov-trigger-songs" style="display:none;" class="form-row">
+          <label>SONGS</label>
+          <input type="number" id="sf-ov-songs" min="1" max="100" value="2" style="width:60px;flex:none;"/>
+          <span style="font-family:var(--font-mono);font-size:10px;color:var(--text2);">songs between sweepers</span>
+        </div>
+        <div id="sf-ov-trigger-minutes" style="display:none;" class="form-row">
+          <label>MINUTES</label>
+          <input type="number" id="sf-ov-minutes" min="1" max="180" value="10" style="width:60px;flex:none;"/>
+          <span style="font-family:var(--font-mono);font-size:10px;color:var(--text2);">minutes between sweepers</span>
+        </div>
+        <div id="sf-ov-trigger-time" style="display:none;" class="form-row">
+          <label>TIME</label>
+          <input type="time" id="sf-ov-time" oninput="checkAdTimeConflict()"/>
+          <span id="sf-ov-time-conflict" style="font-family:var(--font-mono);font-size:10px;color:var(--red);display:none;">⛔ Slot taken by Ad Break</span>
+        </div>
+
+        <!-- ── PAUSE AD BREAK ─────────────────────────────────── -->
+        <div style="font-family:var(--font-mono);font-size:10px;color:var(--accent);margin:14px 0 4px;letter-spacing:1px;border-bottom:1px solid var(--border);padding-bottom:3px;">⏸ PAUSE AD BREAK <span style="color:var(--text2);font-size:9px;">— pauses music · plays ad · resumes</span></div>
         <div class="form-row">
           <label>SOURCE</label>
           <select id="sf-ad-source" onchange="toggleAdSource()">
@@ -590,10 +671,14 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
           <label>CART</label>
           <select id="sf-ad-cart">
             <option value="">— none —</option>
-            <option value="1">🌅 Cart 1</option>
-            <option value="2">📰 Cart 2</option>
-            <option value="3">🌆 Cart 3</option>
-            <option value="4">📡 Cart 4</option>
+            <option value="1">Cart 1</option>
+            <option value="2">Cart 2</option>
+            <option value="3">Cart 3</option>
+            <option value="4">Cart 4</option>
+            <option value="5">Cart 5</option>
+            <option value="6">Cart 6</option>
+            <option value="7">Cart 7</option>
+            <option value="8">Cart 8</option>
           </select>
         </div>
         <div id="sf-ad-files-row" style="display:none;margin-bottom:8px;">
@@ -610,14 +695,11 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
         <div class="form-row">
           <label>IN A ROW</label>
           <input type="number" id="sf-ad-inrow" min="1" max="20" value="1" style="width:60px;flex:none;"/>
-          <span style="font-family:var(--font-mono);font-size:10px;color:var(--text2);">files per break</span>
+          <span style="font-family:var(--font-mono);font-size:10px;color:var(--text2);">ads per break</span>
         </div>
-
-        <!-- Ad Trigger -->
-        <div style="font-family:var(--font-mono);font-size:10px;color:var(--text2);margin:10px 0 4px;letter-spacing:1px;">▸ AD TRIGGER</div>
         <div class="form-row">
           <label>TRIGGER</label>
-          <select id="sf-ad-trigger" onchange="toggleAdTrigger()">
+          <select id="sf-ad-trigger" onchange="toggleAdTrigger();checkAdTimeConflict()">
             <option value="">— disabled —</option>
             <option value="songs">After N songs</option>
             <option value="minutes">After X minutes</option>
@@ -636,7 +718,8 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
         </div>
         <div id="sf-trigger-time" style="display:none;" class="form-row">
           <label>TIME</label>
-          <input type="time" id="sf-ad-time"/>
+          <input type="time" id="sf-ad-time" oninput="checkAdTimeConflict()"/>
+          <span id="sf-ad-time-conflict" style="font-family:var(--font-mono);font-size:10px;color:var(--red);display:none;">⛔ Slot taken by Overlay</span>
         </div>
 
         <!-- Playlist Playback Settings -->
@@ -686,126 +769,98 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
     <!-- SETTINGS PANEL -->
     <div class="panel" id="panel-settings">
 
-      <!-- Reset button — always full width -->
-      <div style="display:flex;justify-content:flex-end;margin-bottom:8px;">
-        <button class="btn danger" onclick="resetSettings()" style="padding:8px 16px;">↺ RESET SETTINGS TO DEFAULTS</button>
-      </div>
-
       <div class="panel-cols">
 
       <!-- LEFT COLUMN -->
       <div>
 
-      <!-- MASTER DSP CHAIN -->
+      <!-- MIC PRE-PROCESSING -->
       <div class="settings-section">
-        <div class="settings-title">🎚 MASTER DSP CHAIN — MIX BUS</div>
-        <div class="dsp-chain">
-          <div class="dsp-node"><div class="dsp-dot"></div><div class="dsp-name">HIGHPASS</div><div class="dsp-desc">35 Hz — removes sub rumble</div></div>
-          <div class="dsp-node"><div class="dsp-dot"></div><div class="dsp-name">AGC LEVELER</div><div class="dsp-desc">Auto gain control — consistent loudness</div></div>
-          <div class="dsp-node"><div class="dsp-dot"></div><div class="dsp-name">DENSITY COMP</div><div class="dsp-desc">3.5:1 — tightens dynamics</div></div>
-          <div class="dsp-node"><div class="dsp-dot"></div><div class="dsp-name">3-BAND MULTI</div><div class="dsp-desc">Low / Mid / High independent compression</div></div>
-          <div class="dsp-node"><div class="dsp-dot"></div><div class="dsp-name">BASS EQ</div><div class="dsp-desc">90 Hz lowshelf — warmth & weight</div></div>
-          <div class="dsp-node"><div class="dsp-dot"></div><div class="dsp-name">PRESENCE EQ</div><div class="dsp-desc">3 kHz peaking — clarity & cut-through</div></div>
-          <div class="dsp-node"><div class="dsp-dot"></div><div class="dsp-name">AIR EQ</div><div class="dsp-desc">9 kHz highshelf — brightness & air</div></div>
-          <div class="dsp-node"><div class="dsp-dot"></div><div class="dsp-name">STEREO WIDTH</div><div class="dsp-desc">×1.05 — subtle width enhancement</div></div>
-          <div class="dsp-node"><div class="dsp-dot"></div><div class="dsp-name">SOFT CLIPPER</div><div class="dsp-desc">0.7 threshold — harmonic saturation</div></div>
-          <div class="dsp-node"><div class="dsp-dot"></div><div class="dsp-name">PSYCHO LOUD</div><div class="dsp-desc">+5% perceptual loudness boost</div></div>
-          <div class="dsp-node"><div class="dsp-dot"></div><div class="dsp-name">LOOK-AHEAD LIM</div><div class="dsp-desc">5ms look-ahead — transparent limiting</div></div>
-          <div class="dsp-node"><div class="dsp-dot" style="background:var(--red)"></div><div class="dsp-name">BRICKWALL LIM</div><div class="dsp-desc">−0.3 dBFS — absolute ceiling</div></div>
+        <div class="settings-title collapsible" onclick="toggleSettings('s-mic-pre')">
+          <span>🎤 MIC PRE-PROCESSING CHAIN</span><span class="s-arr" id="s-mic-pre-arr">▸</span>
+        </div>
+        <div id="s-mic-pre" style="display:none;">
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--text2);margin-bottom:8px;">Applied to microphone before it enters the mix bus. Keeps mic clean without touching music.</div>
+          <div class="dsp-node"><div class="dsp-dot"></div><div class="dsp-name">HIGHPASS 80 Hz</div><div class="dsp-desc">Removes handling noise, breath and rumble below 80 Hz</div></div>
+          <div class="dsp-node"><div class="dsp-dot"></div><div class="dsp-name">NOISE GATE −45 dB</div><div class="dsp-desc">Silences mic between speech, 20:1 ratio, 1ms/80ms</div></div>
+          <div class="dsp-node"><div class="dsp-dot" style="background:var(--accent);"></div><div class="dsp-name">SAFETY LIMITER −6 dB</div><div class="dsp-desc">Hard ceiling prevents mic from overloading the mix bus</div></div>
+          <div class="dsp-node" style="margin-top:4px;background:rgba(32,208,208,.06);border-color:var(--cyan);"><div class="dsp-dot" style="background:var(--cyan);"></div><div class="dsp-name">→ MIX BUS</div><div class="dsp-desc">Mic enters the mix bus and passes through Master DSP chain</div></div>
         </div>
       </div>
 
-      <!-- MASTER DSP PARAMS -->
+      <!-- MASTER DSP CHAIN -->
       <div class="settings-section">
-        <div class="settings-title">🎛 MASTER DSP PARAMETERS</div>
-        <div class="dsp-param"><label>HPF FREQ</label><input type="range" min="20" max="120" value="35" id="dsp-hpf-input" oninput="updateDSP('hpf',this.value)"/><span id="dsp-hpf">35 Hz</span></div>
-        <div class="dsp-param"><label>AGC THRESH</label><input type="range" min="-60" max="-6" value="-24" id="dsp-agc-input" oninput="updateDSP('agc',this.value)"/><span id="dsp-agc">−24 dB</span></div>
-        <div class="dsp-param"><label>DENSITY COMP</label><input type="range" min="1" max="8" value="3.5" step="0.5" id="dsp-comp-input" oninput="updateDSP('comp',this.value)"/><span id="dsp-comp">3.5:1</span></div>
-        <div class="dsp-param"><label>BASS GAIN</label><input type="range" min="-6" max="12" value="3" id="dsp-bass-input" oninput="updateDSP('bass',this.value)"/><span id="dsp-bass">+3 dB</span></div>
-        <div class="dsp-param"><label>PRESENCE</label><input type="range" min="-6" max="12" value="3" id="dsp-pres-input" oninput="updateDSP('pres',this.value)"/><span id="dsp-pres">+3 dB</span></div>
-        <div class="dsp-param"><label>AIR GAIN</label><input type="range" min="-6" max="12" value="2" id="dsp-air-input" oninput="updateDSP('air',this.value)"/><span id="dsp-air">+2 dB</span></div>
-        <div class="dsp-param"><label>STEREO WIDTH</label><input type="range" min="0.5" max="2.0" value="1.05" step="0.05" id="dsp-width-input" oninput="updateDSP('width',this.value)"/><span id="dsp-width">×1.05</span></div>
-        <div class="dsp-param"><label>SOFT CLIP</label><input type="range" min="0.5" max="1.0" value="0.7" step="0.01" id="dsp-clip-input" oninput="updateDSP('clip',this.value)"/><span id="dsp-clip">0.70</span></div>
-        <div class="dsp-param"><label>PSYCHO LOUD</label><input type="range" min="0" max="20" value="5" id="dsp-psycho-input" oninput="updateDSP('psycho',this.value)"/><span id="dsp-psycho">+5%</span></div>
-        <div class="dsp-param"><label>LOOK-AHEAD</label><input type="range" min="1" max="20" value="5" id="dsp-lookahead-input" oninput="updateDSP('lookahead',this.value)"/><span id="dsp-lookahead">5 ms</span></div>
-        <div class="dsp-param"><label>BRICKWALL LIM</label><input type="range" min="-3" max="0" value="-0.3" step="0.1" id="dsp-lim-input" oninput="updateDSP('lim',this.value)"/><span id="dsp-lim">−0.3 dBFS</span></div>
+        <div class="settings-title collapsible" onclick="toggleSettings('s-master-chain')">
+          <span>🎛 MASTER DSP CHAIN</span><span class="s-arr" id="s-master-chain-arr">▸</span>
+        </div>
+        <div id="s-master-chain" style="display:none;">
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--text2);margin-bottom:8px;">Applied to the full mix bus. Multiband removed — it caused +17 dB of uncontrollable automatic makeup gain in Web Audio, which was the root cause of distortion.</div>
+          <div class="dsp-node"><div class="dsp-dot"></div><div class="dsp-name">PRE-TRIM (×0.40)</div><div class="dsp-desc">Brings mix bus from −1.8 dBFS down to −8 dBFS before processing — prevents overload</div></div>
+          <div class="dsp-node"><div class="dsp-dot"></div><div class="dsp-name">HIGHPASS 35 Hz</div><div class="dsp-desc">Removes sub-bass rumble from the full mix</div></div>
+          <div class="dsp-node"><div class="dsp-dot"></div><div class="dsp-name">PROGRAM LEVELER (AGC)</div><div class="dsp-desc">Threshold −18 dB · Ratio 1.2:1 · Attack 500ms · Release 4s · Only +1.8 dB auto-makeup</div></div>
+          <div class="dsp-node"><div class="dsp-dot"></div><div class="dsp-name">POST-AGC TRIM (×0.82)</div><div class="dsp-desc">Cancels AGC's +1.8 dB makeup gain — keeps level flat</div></div>
+          <div class="dsp-node"><div class="dsp-dot" style="background:var(--accent);"></div><div class="dsp-name">SOFT CLIPPER — drive 0.20</div><div class="dsp-desc">Gentle algebraic saturation — rounds peaks before limiting, no audible distortion at this drive</div></div>
+          <div class="dsp-node"><div class="dsp-dot" style="background:var(--accent);"></div><div class="dsp-name">LOOKAHEAD LIMITER −1 dB</div><div class="dsp-desc">5ms lookahead · transparent peak control · +0.57 dB auto-makeup (negligible)</div></div>
+          <div class="dsp-node"><div class="dsp-dot" style="background:var(--red);"></div><div class="dsp-name">BRICKWALL LIMITER −0.5 dB</div><div class="dsp-desc">Absolute safety ceiling — zero clipping ever</div></div>
+          <div class="dsp-node" style="margin-top:4px;background:rgba(32,208,208,.06);border-color:var(--cyan);"><div class="dsp-dot" style="background:var(--cyan);"></div><div class="dsp-name">→ MASTER OUTPUT</div><div class="dsp-desc">To soundcard / VB Cable / Stream</div></div>
+        </div>
       </div>
 
       <!-- ON AIR LOGIC -->
       <div class="settings-section">
-        <div class="settings-title">🔴 ON AIR / OFF AIR LOGIC</div>
-        <div style="overflow-x:auto;">
-          <table style="width:100%;border-collapse:collapse;font-family:var(--font-mono);font-size:10px;">
-            <thead>
-              <tr style="background:var(--bg3);">
-                <th style="padding:6px 8px;border:1px solid var(--border);color:var(--accent);text-align:left;">STATE</th>
-                <th style="padding:6px 8px;border:1px solid var(--border);color:var(--accent);text-align:left;">SPEAKERS/MONITORS</th>
-                <th style="padding:6px 8px;border:1px solid var(--border);color:var(--accent);text-align:left;">HEADPHONES</th>
-                <th style="padding:6px 8px;border:1px solid var(--border);color:var(--accent);text-align:left;">MIC</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td style="padding:6px 8px;border:1px solid var(--border);color:var(--red);font-weight:700;">🔴 ON AIR</td>
-                <td style="padding:6px 8px;border:1px solid var(--border);color:var(--red);">CUT (feedback prevention)</td>
-                <td style="padding:6px 8px;border:1px solid var(--border);color:var(--green);">ACTIVE (always on)</td>
-                <td style="padding:6px 8px;border:1px solid var(--border);color:var(--green);">LIVE — passes full DSP chain</td>
-              </tr>
-              <tr style="background:var(--bg3);">
-                <td style="padding:6px 8px;border:1px solid var(--border);color:var(--text2);">⚪ OFF AIR</td>
-                <td style="padding:6px 8px;border:1px solid var(--border);color:var(--green);">NORMAL playback</td>
-                <td style="padding:6px 8px;border:1px solid var(--border);color:var(--green);">ACTIVE (always on)</td>
-                <td style="padding:6px 8px;border:1px solid var(--border);color:var(--text2);">STANDBY — gated, not sent</td>
-              </tr>
-            </tbody>
+        <div class="settings-title collapsible" onclick="toggleSettings('s-onair-logic')">
+          <span>🔴 ON AIR / OFF AIR LOGIC</span><span class="s-arr" id="s-onair-logic-arr">▸</span>
+        </div>
+        <div id="s-onair-logic" style="display:none;">
+          <table style="width:100%;font-family:var(--font-mono);font-size:10px;border-collapse:collapse;">
+            <tr style="background:var(--bg4);">
+              <th style="padding:6px 8px;border:1px solid var(--border);text-align:left;">Action</th>
+              <th style="padding:6px 8px;border:1px solid var(--border);color:var(--red);">🔴 ON AIR</th>
+              <th style="padding:6px 8px;border:1px solid var(--border);color:var(--text2);">⚪ OFF AIR</th>
+            </tr>
+            <tr>
+              <td style="padding:6px 8px;border:1px solid var(--border);">Studio Monitors</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);color:var(--red);">MUTED</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);color:var(--green);">ACTIVE</td>
+            </tr>
+            <tr style="background:var(--bg3);">
+              <td style="padding:6px 8px;border:1px solid var(--border);">Headphones</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);color:var(--green);">ACTIVE</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);color:var(--green);">ACTIVE</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 8px;border:1px solid var(--border);">Microphone</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);color:var(--green);">LIVE</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);color:var(--text2);">STANDBY</td>
+            </tr>
+            <tr style="background:var(--bg3);">
+              <td style="padding:6px 8px;border:1px solid var(--border);">Mic Ducking</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);color:var(--green);">ACTIVE −12 dB</td>
+              <td style="padding:6px 8px;border:1px solid var(--border);color:var(--text2);">INACTIVE</td>
+            </tr>
           </table>
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--text2);margin-top:8px;">
+            Mic Ducking: −12 dB reduction · 50ms attack · 800ms release
+          </div>
         </div>
       </div>
 
+      <!-- DEFAULT FADERS — start of RIGHT COLUMN -->
       </div><!-- /left col -->
-
-      <!-- RIGHT COLUMN -->
       <div>
-
-      <!-- MIC DSP CHAIN -->
-      <div class="settings-section">
-        <div class="settings-title">🎤 MIC INPUT CHAIN</div>
-        <div class="dsp-chain">
-          <div class="dsp-node"><div class="dsp-dot"></div><div class="dsp-name">HIGHPASS</div><div class="dsp-desc">80 Hz — removes handling noise & rumble</div></div>
-          <div class="dsp-node"><div class="dsp-dot"></div><div class="dsp-name">NOISE GATE</div><div class="dsp-desc">−45 dB threshold — silences background noise</div></div>
-          <div class="dsp-node"><div class="dsp-dot"></div><div class="dsp-name">DE-ESSER</div><div class="dsp-desc">6 kHz — controls harsh sibilance</div></div>
-          <div class="dsp-node"><div class="dsp-dot"></div><div class="dsp-name">COMPRESSOR</div><div class="dsp-desc">3:1 — controls mic dynamics</div></div>
-          <div class="dsp-node"><div class="dsp-dot"></div><div class="dsp-name">WARMTH EQ</div><div class="dsp-desc">120 Hz lowshelf +2 dB — body & warmth</div></div>
-          <div class="dsp-node"><div class="dsp-dot"></div><div class="dsp-name">PRESENCE EQ</div><div class="dsp-desc">3 kHz peaking +2 dB — voice clarity</div></div>
-          <div class="dsp-node"><div class="dsp-dot" style="background:var(--red)"></div><div class="dsp-name">MIC LIMITER</div><div class="dsp-desc">−4 dB — prevents clipping</div></div>
-          <div class="dsp-node"><div class="dsp-dot" style="background:var(--cyan)"></div><div class="dsp-name">MIC DUCKING</div><div class="dsp-desc">Controls Mix Bus volume when mic is live</div></div>
-          <div class="dsp-node"><div class="dsp-dot" style="background:var(--accent)"></div><div class="dsp-name">→ MIX BUS</div><div class="dsp-desc">Sends to Mix Bus — ON AIR only</div></div>
-        </div>
-      </div>
-
-      <!-- MIC DSP PARAMS -->
-      <div class="settings-section">
-        <div class="settings-title">🎤 MIC DSP PARAMETERS</div>
-        <div class="dsp-param"><label>MIC HPF</label><input type="range" min="40" max="200" value="80" id="dsp-michpf-input" oninput="updateDSP('michpf',this.value)"/><span id="dsp-michpf">80 Hz</span></div>
-        <div class="dsp-param"><label>NOISE GATE</label><input type="range" min="-80" max="-20" value="-45" id="dsp-gate-input" oninput="updateDSP('gate',this.value)"/><span id="dsp-gate">−45 dB</span></div>
-        <div class="dsp-param"><label>DE-ESSER</label><input type="range" min="4000" max="10000" value="6000" step="500" id="dsp-esser-input" oninput="updateDSP('esser',this.value)"/><span id="dsp-esser">6.0 kHz</span></div>
-        <div class="dsp-param"><label>MIC COMP</label><input type="range" min="1" max="8" value="3" step="0.5" id="dsp-miccomp-input" oninput="updateDSP('miccomp',this.value)"/><span id="dsp-miccomp">3:1</span></div>
-        <div class="dsp-param"><label>WARMTH EQ</label><input type="range" min="-6" max="8" value="2" id="dsp-warm-input" oninput="updateDSP('warm',this.value)"/><span id="dsp-warm">+2 dB</span></div>
-        <div class="dsp-param"><label>MIC PRESENCE</label><input type="range" min="-6" max="8" value="2" id="dsp-micpres-input" oninput="updateDSP('micpres',this.value)"/><span id="dsp-micpres">+2 dB</span></div>
-        <div class="dsp-param"><label>MIC LIMITER</label><input type="range" min="-12" max="0" value="-4" id="dsp-miclim-input" oninput="updateDSP('miclim',this.value)"/><span id="dsp-miclim">−4 dB</span></div>
-        <div class="dsp-param"><label>DUCK LEVEL</label><input type="range" min="0" max="100" value="20" oninput="setDuck('level',this.value)"/><span id="duck-level">20%</span></div>
-        <div class="dsp-param"><label>DUCK RELEASE</label><input type="range" min="10" max="200" value="55" oninput="setDuck('rel',this.value)"/><span id="duck-rel">55 fr</span></div>
-      </div>
 
       <!-- DEFAULT FADERS -->
       <div class="settings-section">
-        <div class="settings-title">Default Fader Levels</div>
+        <div class="settings-title collapsible" onclick="toggleSettings('s-faders')">
+          <span>🎚 DEFAULT FADER LEVELS</span><span class="s-arr" id="s-faders-arr">▸</span>
+        </div>
+        <div id="s-faders" style="display:none;">
         <div style="font-family:var(--font-mono);font-size:9px;color:var(--text2);margin-bottom:6px;">Adjust defaults → they apply to all faders live. Save as a named preset to recall later.</div>
         <div class="fader-defaults">
-          <div class="fader-default"><label>DECK A</label><input type="range" min="0" max="100" value="80"  oninput="setDefaultFader('A',this.value)"/><span id="def-A">80%</span></div>
-          <div class="fader-default"><label>DECK B</label><input type="range" min="0" max="100" value="80"  oninput="setDefaultFader('B',this.value)"/><span id="def-B">80%</span></div>
-          <div class="fader-default"><label>MIC</label>   <input type="range" min="0" max="100" value="90"  oninput="setDefaultFader('M',this.value)"/><span id="def-M">90%</span></div>
-          <div class="fader-default"><label>CART</label>  <input type="range" min="0" max="100" value="80"  oninput="setDefaultFader('C',this.value)"/><span id="def-C">80%</span></div>
+          <div class="fader-default"><label>DECK A</label><input type="range" min="0" max="100" value="100" oninput="setDefaultFader('A',this.value)"/><span id="def-A">100%</span></div>
+          <div class="fader-default"><label>DECK B</label><input type="range" min="0" max="100" value="100" oninput="setDefaultFader('B',this.value)"/><span id="def-B">100%</span></div>
+          <div class="fader-default"><label>MIC</label>   <input type="range" min="0" max="100" value="100" oninput="setDefaultFader('M',this.value)"/><span id="def-M">100%</span></div>
+          <div class="fader-default"><label>CART</label>  <input type="range" min="0" max="100" value="100" oninput="setDefaultFader('C',this.value)"/><span id="def-C">100%</span></div>
           <div class="fader-default"><label>MASTER</label><input type="range" min="0" max="100" value="100" oninput="setDefaultFader('X',this.value)"/><span id="def-X">100%</span></div>
         </div>
 
@@ -818,11 +873,15 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
           </div>
           <div id="preset-list" style="display:flex;flex-direction:column;gap:4px;"></div>
         </div>
+        </div>
       </div>
 
       <!-- AUDIO DEVICE ROUTING -->
       <div class="settings-section">
-        <div class="settings-title">🔊 Audio Device Routing</div>
+        <div class="settings-title collapsible" onclick="toggleSettings('s-routing')">
+          <span>🔊 Audio Device Routing</span><span class="s-arr" id="s-routing-arr">▸</span>
+        </div>
+        <div id="s-routing" style="display:none;">
         <div style="font-family:var(--font-mono);font-size:10px;color:var(--text2);margin-bottom:8px;">SELECT INPUT / OUTPUT PER CHANNEL</div>
         <div style="display:flex;flex-direction:column;gap:6px;">
           <div class="dsp-param"><label>🎙 MIC INPUT</label><select id="dev-mic-in" style="flex:1;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:4px 6px;border-radius:3px;font-family:var(--font-mono);font-size:11px;"><option>— select device —</option></select></div>
@@ -836,17 +895,185 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
           <button class="btn sm" onclick="refreshDevices()">↺ REFRESH DEVICES</button>
           <span id="dev-status" style="font-family:var(--font-mono);font-size:10px;color:var(--text2);">No device switched yet</span>
         </div>
+        </div>
+      </div>
+
+      <!-- SHOUTCAST / ICECAST LIVE STREAMING -->
+      <div class="settings-section">
+        <div class="settings-title collapsible" onclick="toggleSettings('s-stream')">
+          <span>📡 LIVE STREAMING — SHOUTCAST / ICECAST</span><span class="s-arr" id="s-stream-arr">▸</span>
+        </div>
+        <div id="s-stream" style="display:none;">
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--text2);margin-bottom:8px;">
+            <span id="stream-mode-label">Detecting environment…</span>
+          </div>
+          <script>
+
+// ╔═══════════════════════════════════════════════════════════════════╗
+// ║  TOP-LEVEL CONSTANTS — must be defined before any function uses  ║
+// ╚═══════════════════════════════════════════════════════════════════╝
+
+// Ducking
+const DUCK_LEVEL   = 0.25;   // -12 dB
+const DUCK_ATTACK  = 0.050;  // 50 ms
+const DUCK_RELEASE = 0.800;  // 800 ms
+
+// Storage
+const STORAGE_KEY  = 'eyethu_pro_state_v1';
+const IDB_NAME     = 'EyethuRadioFiles';
+const IDB_STORE    = 'audioFiles';
+const IDB_VERSION  = 1;
+let   _idb         = null;
+
+// IndexedDB helpers
+function openIDB() {
+  return new Promise((resolve, reject) => {
+    if (_idb) { resolve(_idb); return; }
+    const req = indexedDB.open(IDB_NAME, IDB_VERSION);
+    req.onupgradeneeded = e => {
+      e.target.result.createObjectStore(IDB_STORE, { keyPath: 'key' });
+    };
+    req.onsuccess = e => { _idb = e.target.result; resolve(_idb); };
+    req.onerror   = e => { console.warn('IDB open failed', e); reject(e); };
+  });
+}
+
+async function idbSaveFile(key, arrayBuffer, name, type) {
+  try {
+    const db = await openIDB();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(IDB_STORE, 'readwrite');
+      tx.objectStore(IDB_STORE).put({ key, buffer: arrayBuffer, name, type });
+      tx.oncomplete = () => resolve();
+      tx.onerror    = () => reject(tx.error);
+    });
+  } catch(e) { console.warn('idbSaveFile failed', e); }
+}
+
+async function idbGetFile(key) {
+  try {
+    const db = await openIDB();
+    return new Promise((resolve, reject) => {
+      const tx  = db.transaction(IDB_STORE, 'readonly');
+      const req = tx.objectStore(IDB_STORE).get(key);
+      req.onsuccess = () => resolve(req.result || null);
+      req.onerror   = () => reject(req.error);
+    });
+  } catch(e) { return null; }
+}
+
+async function idbDeleteFile(key) {
+  try {
+    const db = await openIDB();
+    return new Promise((resolve) => {
+      const tx = db.transaction(IDB_STORE, 'readwrite');
+      tx.objectStore(IDB_STORE).delete(key);
+      tx.oncomplete = () => resolve();
+    });
+  } catch(e) {}
+}
+
+async function idbClearAll() {
+  try {
+    const db = await openIDB();
+    return new Promise((resolve) => {
+      const tx = db.transaction(IDB_STORE, 'readwrite');
+      tx.objectStore(IDB_STORE).clear();
+      tx.oncomplete = () => resolve();
+    });
+  } catch(e) {}
+}
+
+async function idbRestoreTrackURL(track) {
+  const rec = await idbGetFile(track.key);
+  if (!rec) return null;
+  const blob = new Blob([rec.buffer], { type: rec.type || 'audio/mpeg' });
+  return URL.createObjectURL(blob);
+}
+
+            document.getElementById('stream-mode-label').innerHTML =
+              (window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform())
+              ? '📱 <strong style="color:var(--green);">Native mode</strong> — streams directly to Icecast/Shoutcast. No relay needed.'
+              : '🌐 <strong style="color:var(--cyan);">Browser mode</strong> — requires <strong>node server.js</strong> relay running locally.';
+          </script>
+
+          <div class="form-row">
+            <label style="min-width:90px;">TYPE</label>
+            <select id="stream-type" style="flex:1;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">
+              <option value="shoutcast">Shoutcast v2</option>
+              <option value="icecast">Icecast 2</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label style="min-width:90px;">SERVER</label>
+            <input type="text" id="stream-host" placeholder="e.g. stream.example.com" style="flex:1;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;"/>
+          </div>
+          <div class="form-row">
+            <label style="min-width:90px;">PORT</label>
+            <input type="number" id="stream-port" value="8000" min="1" max="65535" style="width:80px;flex:none;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;"/>
+            <label style="min-width:60px;margin-left:8px;">MOUNT</label>
+            <input type="text" id="stream-mount" placeholder="/stream" style="flex:1;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;"/>
+          </div>
+          <div class="form-row">
+            <label style="min-width:90px;">PASSWORD</label>
+            <input type="password" id="stream-password" placeholder="Source password" style="flex:1;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;"/>
+          </div>
+          <div class="form-row">
+            <label style="min-width:90px;">STATION</label>
+            <input type="text" id="stream-name" placeholder="My Radio Station" style="flex:1;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;"/>
+          </div>
+          <div class="form-row">
+            <label style="min-width:90px;">GENRE</label>
+            <input type="text" id="stream-genre" placeholder="Music" style="flex:1;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;"/>
+          </div>
+          <div class="form-row">
+            <label style="min-width:90px;">BITRATE</label>
+            <select id="stream-bitrate" style="flex:1;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">
+              <option value="64">64 kbps</option>
+              <option value="128" selected>128 kbps</option>
+              <option value="192">192 kbps</option>
+              <option value="320">320 kbps</option>
+            </select>
+            <label style="min-width:60px;margin-left:8px;">FORMAT</label>
+            <select id="stream-format" style="flex:1;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">
+              <option value="mp3">MP3</option>
+              <option value="ogg">OGG Vorbis</option>
+              <option value="aac">AAC</option>
+            </select>
+          </div>
+
+          <!-- Status + Connect button -->
+          <div style="display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap;">
+            <button class="btn primary" id="stream-connect-btn" onclick="streamConnect()" style="padding:8px 16px;">📡 CONNECT</button>
+            <button class="btn danger" id="stream-disconnect-btn" onclick="streamDisconnect()" style="padding:8px 16px;display:none;">⏹ DISCONNECT</button>
+            <button class="btn sm" onclick="saveStreamSettings()" style="border-color:var(--cyan);color:var(--cyan);">💾 SAVE</button>
+            <div id="stream-status" style="font-family:var(--font-mono);font-size:10px;color:var(--text2);flex:1;min-width:120px;">⚪ Not connected</div>
+          </div>
+
+          <!-- Stream info box -->
+          <div id="stream-info" style="display:none;margin-top:10px;padding:8px 10px;background:rgba(32,208,208,.06);border:1px solid var(--cyan);border-radius:4px;font-family:var(--font-mono);font-size:10px;color:var(--text2);line-height:1.8;">
+            <div>🟢 <span id="stream-live-label">LIVE</span> · <span id="stream-listeners">0</span> listener(s)</div>
+            <div>▸ Listen URL: <span id="stream-url-display" style="color:var(--accent);"></span></div>
+            <div style="font-size:9px;color:var(--text2);margin-top:4px;">ℹ server.js relay must be running locally: <span style="color:var(--cyan);">node server.js</span></div>
+          </div>
+
+          <!-- Copy-to-clipboard for external tools -->
+          <div style="margin-top:10px;">
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--text2);margin-bottom:5px;letter-spacing:1px;">▸ COPY CONFIG FOR EXTERNAL BROADCAST TOOL</div>
+            <div id="stream-copybox" style="background:var(--bg4);border:1px solid var(--border);border-radius:3px;padding:8px 10px;font-family:var(--font-mono);font-size:10px;color:var(--accent);line-height:1.9;white-space:pre;overflow-x:auto;"></div>
+            <button class="btn sm" onclick="copyStreamConfig()" style="margin-top:6px;">📋 COPY CONFIG</button>
+          </div>
+        </div>
       </div>
 
       <!-- RESET -->
       <div class="settings-section">
         <div class="settings-title">🔄 Reset</div>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <button class="btn danger" style="width:100%;padding:10px;" onclick="resetDSP()">↺ RESET DSP TO DEFAULTS</button>
-          <button class="btn danger" style="width:100%;padding:10px;" onclick="resetFaders()">↺ RESET ALL FADERS TO DEFAULTS</button>
-          <button class="btn danger" style="width:100%;padding:10px;" onclick="resetLibrary()">✕ CLEAR LIBRARY &amp; QUEUE</button>
-          <button class="btn danger" style="width:100%;padding:10px;" onclick="resetShows()">✕ CLEAR ALL SHOWS</button>
-          <button class="btn danger" style="width:100%;padding:10px;border-color:#ff2040;color:#ff2040;" onclick="resetAll()">⚠ FULL RESET — CLEAR EVERYTHING</button>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <button class="btn danger" style="padding:10px;" onclick="resetFaders()">↺ RESET FADERS</button>
+          <button class="btn danger" style="padding:10px;" onclick="resetLibrary()">✕ CLEAR LIBRARY</button>
+          <button class="btn danger" style="padding:10px;" onclick="resetShows()">✕ CLEAR SHOWS</button>
+          <button class="btn danger" style="padding:10px;grid-column:1/-1;border-color:#ff2040;color:#ff2040;" onclick="resetAll()">⚠ FULL RESET — CLEAR EVERYTHING</button>
         </div>
       </div>
 
@@ -859,11 +1086,16 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
       <!-- ═══════════════════════════════════════ -->
       <div id="app-docs" style="margin-top:20px;">
 
-        <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--accent);padding-bottom:8px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--accent);padding-bottom:8px;margin-bottom:14px;cursor:pointer;" onclick="toggleSettings('s-manual')">
           <div>
             <div style="font-family:var(--font-display);font-size:14px;font-weight:700;color:var(--accent);letter-spacing:2px;">📖 USER MANUAL</div>
             <div style="font-family:var(--font-mono);font-size:9px;color:var(--text2);margin-top:2px;">Eyethu Pro Radio Studio · v3.0 · Powered by Eyethu AI (Pty) Ltd</div>
           </div>
+          <span class="s-arr" id="s-manual-arr" style="font-size:14px;color:var(--accent);">▸</span>
+        </div>
+
+        <div id="s-manual" style="display:none;">
+        <div style="display:flex;justify-content:flex-end;margin-bottom:10px;">
           <button class="btn xs" onclick="expandAllDocs()" style="font-size:10px;">⊞ EXPAND ALL</button>
         </div>
 
@@ -873,15 +1105,15 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
             <span>🏠 &nbsp;1. OVERVIEW &amp; GETTING STARTED</span><span id="doc1-arr">▸</span>
           </div>
           <div id="doc1" class="doc-card-body" style="display:none">
-            <p>Eyethu Pro Radio Studio is a fully self-contained, single-file Progressive Web App (PWA) designed for professional and semi-professional radio automation. It runs entirely inside your web browser — no server, no installation, no internet connection required after the first load.</p>
-            <p>It works on <strong>Android phones, tablets, desktop and laptop computers</strong>. On Android Chrome and desktop browsers it can be installed to your home screen or desktop like a native app using the install banner that appears at the bottom of the screen.</p>
+            <p>Eyethu Pro Radio Studio is a fully self-contained, single-file Progressive Web App (PWA) and native Android APK designed for professional radio automation. It runs entirely in your browser with no server, no installation and no internet required — or as a native app via the included APK.</p>
+            <p>Works on <strong>Android phones, tablets, desktop and laptop computers</strong>. The native Android APK streams directly to Icecast/Shoutcast with no relay server required.</p>
             <div class="doc-table">
-              <div class="doc-row"><span class="doc-key">STUDIO</span><span class="doc-val">Dual-deck playback, crossfader, queue, cartwall, mic, console mixer</span></div>
-              <div class="doc-row"><span class="doc-key">LIBRARY</span><span class="doc-val">Import individual files or an entire music folder</span></div>
+              <div class="doc-row"><span class="doc-key">STUDIO</span><span class="doc-val">Dual-deck playback, crossfader, queue, cartwall, mic, channel console</span></div>
+              <div class="doc-row"><span class="doc-key">LIBRARY</span><span class="doc-val">Import individual files or load an entire music folder</span></div>
               <div class="doc-row"><span class="doc-key">SCHEDULE</span><span class="doc-val">Automated show scheduling with intro/outro carts and ad breaks</span></div>
-              <div class="doc-row"><span class="doc-key">SETTINGS</span><span class="doc-val">DSP chain, fader defaults, presets, device routing, this manual</span></div>
+              <div class="doc-row"><span class="doc-key">SETTINGS</span><span class="doc-val">DSP chain display, fader defaults, presets, device routing, live streaming</span></div>
             </div>
-            <div class="doc-tip">💡 <strong>First time?</strong> Go to the <strong>Library</strong> tab → tap <strong>📁 OPEN FOLDER</strong> to load your music, then head to <strong>Studio</strong> and tap <strong>AUTO-DJ: ON</strong>. Press ▶ on Deck A to start broadcasting.</div>
+            <div class="doc-tip">💡 <strong>First time?</strong> Go to <strong>Library</strong> → tap <strong>📂 IMPORT FILES</strong> to pick songs or <strong>📁 LOAD FOLDER</strong> to load a music folder. Then go to <strong>Studio</strong>, enable <strong>AUTO-DJ: ON</strong> and press ▶ on Deck A to start broadcasting.</div>
           </div>
         </div>
 
@@ -891,66 +1123,58 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
             <span>🎛 &nbsp;2. STUDIO TAB</span><span id="doc2-arr">▸</span>
           </div>
           <div id="doc2" class="doc-card-body" style="display:none">
-            <p>The Studio tab is your main broadcast control surface. It contains the dual decks, crossfader, queue, cartwall, microphone, ON AIR switch and channel console.</p>
+            <p>The Studio tab is your main broadcast surface. It contains the dual decks, crossfader, queue, cartwall, microphone panel with ON AIR buttons, and the channel console.</p>
 
             <div class="doc-sub">▸ DECK A &amp; DECK B</div>
             <div class="doc-table">
-              <div class="doc-row"><span class="doc-key">📂</span><span class="doc-val">Load a single audio file from your device directly onto this deck</span></div>
+              <div class="doc-row"><span class="doc-key">📂</span><span class="doc-val">Load a single audio file directly onto this deck</span></div>
               <div class="doc-row"><span class="doc-key">▶ / ⏸</span><span class="doc-val">Play or pause the loaded track</span></div>
-              <div class="doc-row"><span class="doc-key">■</span><span class="doc-val">Stop and return to the beginning</span></div>
+              <div class="doc-row"><span class="doc-key">■</span><span class="doc-val">Stop and return to beginning</span></div>
               <div class="doc-row"><span class="doc-key">CUE</span><span class="doc-val">Set a cue point at the current playback position</span></div>
               <div class="doc-row"><span class="doc-key">↩</span><span class="doc-val">Jump back to the saved cue point</span></div>
               <div class="doc-row"><span class="doc-key">⏏</span><span class="doc-val">Eject — unloads the track and frees memory</span></div>
-              <div class="doc-row"><span class="doc-key">VOL</span><span class="doc-val">Deck volume fader — also reflected in the console strip</span></div>
-              <div class="doc-row"><span class="doc-key">Progress bar</span><span class="doc-val">Tap anywhere on the bar to seek to that position</span></div>
-              <div class="doc-row"><span class="doc-key">VU Meter</span><span class="doc-val">20-segment LED meter with peak hold — green/yellow/red zones</span></div>
+              <div class="doc-row"><span class="doc-key">VOL</span><span class="doc-val">Deck volume fader — default 81%</span></div>
+              <div class="doc-row"><span class="doc-key">Progress bar</span><span class="doc-val">Tap anywhere to seek to that position</span></div>
             </div>
 
             <div class="doc-sub">▸ CROSSFADER</div>
-            <p>The crossfader blends between Deck A (left) and Deck B (right) using constant-power curves so the mix stays at full volume throughout. Deck volume faders are independent of the crossfader — you can use both together.</p>
-            <div class="doc-table">
-              <div class="doc-row"><span class="doc-key">⟺ AUTO XFADE</span><span class="doc-val">Smoothly slides the crossfader to the opposite side over 3 seconds</span></div>
-            </div>
+            <p>Blends between Deck A (left) and Deck B (right) using constant-power curves. The <strong>⟺ AUTO XFADE</strong> button smoothly slides the crossfader to the opposite side over 3 seconds.</p>
 
             <div class="doc-sub">▸ QUEUE &amp; AUTO-DJ</div>
-            <p>The queue holds tracks in the order they'll be played. Tap any track in the Library to add it. Auto-DJ watches for a track to finish and automatically loads the next queue item onto the opposite deck, then plays it — creating a seamless alternating A/B playback loop.</p>
+            <p>The queue holds tracks in playback order. Tap any Library track to add it. Auto-DJ automatically loads the next queued track onto the opposite deck when a song ends, creating a seamless A/B loop.</p>
             <div class="doc-table">
               <div class="doc-row"><span class="doc-key">AUTO-DJ: ON/OFF</span><span class="doc-val">Toggle automatic next-track loading and playback</span></div>
               <div class="doc-row"><span class="doc-key">🔀</span><span class="doc-val">Shuffle the queue into a random order</span></div>
               <div class="doc-row"><span class="doc-key">✕ CLEAR</span><span class="doc-val">Remove all tracks from the queue</span></div>
-              <div class="doc-row"><span class="doc-key">▾ / ▸</span><span class="doc-val">Collapse or expand the queue to save screen space</span></div>
             </div>
 
             <div class="doc-sub">▸ CARTWALL</div>
-            <p>8 instant-play cart buttons for jingles, stingers, station IDs, sound effects and ad spots. Each cart auto-ducks the music when it plays and restores the level when it finishes.</p>
+            <p>8 instant-play cart buttons for jingles, station IDs, ads and sound effects. Each cart ducks the music by −12 dB when playing and restores it smoothly when done.</p>
             <div class="doc-table">
-              <div class="doc-row"><span class="doc-key">Tap</span><span class="doc-val">Play the cart (restarts if already playing)</span></div>
-              <div class="doc-row"><span class="doc-key">📂 icon</span><span class="doc-val">Load an audio file onto that cart slot</span></div>
-              <div class="doc-row"><span class="doc-key">Long-press</span><span class="doc-val">Also opens the load dialog on mobile</span></div>
-              <div class="doc-row"><span class="doc-key">▾ / ▸</span><span class="doc-val">Collapse or expand the cartwall</span></div>
+              <div class="doc-row"><span class="doc-key">Tap once</span><span class="doc-val">Play the cart — music ducks −12 dB</span></div>
+              <div class="doc-row"><span class="doc-key">Tap again</span><span class="doc-val">Stop the cart immediately — music restores</span></div>
+              <div class="doc-row"><span class="doc-key">Long-press</span><span class="doc-val">Load an audio file onto that cart slot</span></div>
+              <div class="doc-row"><span class="doc-key">F1–F8 keys</span><span class="doc-val">Desktop: trigger carts 1–8 from keyboard (play/stop toggle)</span></div>
             </div>
 
-            <div class="doc-sub">▸ MICROPHONE</div>
+            <div class="doc-sub">▸ MICROPHONE &amp; ON AIR</div>
             <div class="doc-table">
-              <div class="doc-row"><span class="doc-key">🎤 MIC ON</span><span class="doc-val">Request mic access and activate the mic chain</span></div>
+              <div class="doc-row"><span class="doc-key">🎤 MIC ON</span><span class="doc-val">Request mic access and activate mic pre-processing chain</span></div>
               <div class="doc-row"><span class="doc-key">🔄 RECONNECT</span><span class="doc-val">Reconnect mic if the browser disconnected it</span></div>
-              <div class="doc-row"><span class="doc-key">VOL</span><span class="doc-val">Mic pre-gain — also reflected in the M channel on the console</span></div>
-              <div class="doc-row"><span class="doc-key">AUTO-DUCK</span><span class="doc-val">Music automatically ducks when the mic is live (ON AIR mode only)</span></div>
-              <div class="doc-row"><span class="doc-key">▾ / ▸</span><span class="doc-val">Collapse or expand the mic section</span></div>
-            </div>
-
-            <div class="doc-sub">▸ ON AIR / OFF AIR</div>
-            <div class="doc-table">
-              <div class="doc-row"><span class="doc-key">🔴 ON AIR</span><span class="doc-val">Activates broadcast mode — monitors cut, mic goes live to mix bus, auto-duck enabled</span></div>
-              <div class="doc-row"><span class="doc-key">⚪ OFF AIR</span><span class="doc-val">Returns to monitor mode — mic muted, speakers restored</span></div>
+              <div class="doc-row"><span class="doc-key">VOL</span><span class="doc-val">Mic pre-gain — default 90%</span></div>
+              <div class="doc-row"><span class="doc-key">🔴 ON AIR</span><span class="doc-val">Mutes studio monitors, opens mic live, activates −12 dB auto-ducking</span></div>
+              <div class="doc-row"><span class="doc-key">⚪ OFF AIR</span><span class="doc-val">Restores studio monitors, gates mic, releases ducking over 800ms</span></div>
             </div>
 
             <div class="doc-sub">▸ CHANNEL CONSOLE</div>
-            <p>A 5-channel mixer with vertical faders and live VU meters for Deck A, Deck B, Mic, Cart and Master. All faders are bi-directionally linked — moving a fader on the console also moves the corresponding deck/mic slider and updates the actual audio gain in real time.</p>
+            <p>5-channel mixer (Deck A, Deck B, Mic, Cart, Master) with vertical faders and live VU meters. All faders are bi-directionally linked — moving a console fader moves the corresponding deck/mic slider in real time.</p>
+
+            <div class="doc-sub">▸ KEYBOARD SHORTCUTS (Desktop)</div>
             <div class="doc-table">
-              <div class="doc-row"><span class="doc-key">MASTER</span><span class="doc-val">Overall output trim — sits after the DSP chain</span></div>
+              <div class="doc-row"><span class="doc-key">F1 – F8</span><span class="doc-val">Cart 1–8 play/stop toggle</span></div>
+              <div class="doc-row"><span class="doc-key">Space / P</span><span class="doc-val">Play / pause the active deck</span></div>
             </div>
-            <div class="doc-tip">💡 The console channel meters are also segmented LED strips — green = safe, yellow = approaching hot, red = clipping risk. A white-outline peak dot holds briefly after peaks.</div>
+            <div class="doc-tip">💡 F-key badges (F1–F8) appear on cart buttons on desktop so you always know which key to press. They are hidden on touch devices.</div>
           </div>
         </div>
 
@@ -960,24 +1184,22 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
             <span>📂 &nbsp;3. MUSIC LIBRARY</span><span id="doc3-arr">▸</span>
           </div>
           <div id="doc3" class="doc-card-body" style="display:none">
-            <p>The Library is your track database. Tracks added here persist in the browser's local storage between sessions (metadata only — files must be re-imported after a browser restart or device reboot).</p>
+            <p>The Library is your track database. Metadata persists in localStorage between sessions — files must be re-imported after a browser restart (the file handle is not stored for privacy reasons).</p>
             <div class="doc-table">
-              <div class="doc-row"><span class="doc-key">📂 IMPORT FILES</span><span class="doc-val">Pick individual audio files from your device</span></div>
-              <div class="doc-row"><span class="doc-key">📁 OPEN FOLDER</span><span class="doc-val">Select an entire folder — all audio files are loaded recursively (subfolders included). Uses the modern File System Access API on desktop; falls back to webkitdirectory on Android Chrome</span></div>
+              <div class="doc-row"><span class="doc-key">📂 IMPORT FILES</span><span class="doc-val">Opens the native file picker — select one or more individual audio files</span></div>
+              <div class="doc-row"><span class="doc-key">📁 LOAD FOLDER</span><span class="doc-val">Opens a folder picker — loads all audio files inside the selected folder at once</span></div>
               <div class="doc-row"><span class="doc-key">✕ CLEAR</span><span class="doc-val">Remove all tracks from the library and queue</span></div>
             </div>
-
             <div class="doc-sub">▸ Track Actions</div>
             <div class="doc-table">
               <div class="doc-row"><span class="doc-key">Tap track</span><span class="doc-val">Add to queue</span></div>
               <div class="doc-row"><span class="doc-key">A button</span><span class="doc-val">Load directly onto Deck A</span></div>
               <div class="doc-row"><span class="doc-key">B button</span><span class="doc-val">Load directly onto Deck B</span></div>
-              <div class="doc-row"><span class="doc-key">✕ button</span><span class="doc-val">Remove track from library (also removes from queue)</span></div>
+              <div class="doc-row"><span class="doc-key">✕ button</span><span class="doc-val">Remove from library</span></div>
               <div class="doc-row"><span class="doc-key">Gold border</span><span class="doc-val">Track is currently in the queue</span></div>
-              <div class="doc-row"><span class="doc-key">⚠️ icon</span><span class="doc-val">File needs to be re-imported — tap IMPORT FILES and select the same file</span></div>
+              <div class="doc-row"><span class="doc-key">⚠️ icon</span><span class="doc-val">File needs re-importing — tap IMPORT FILES and select the same file again</span></div>
             </div>
-
-            <div class="doc-tip">💡 On Android: tap <strong>📁 OPEN FOLDER</strong>, navigate to your music folder and confirm. The app reads every audio file inside automatically — no need to select files one by one.</div>
+            <div class="doc-tip">💡 On Android APK: tap <strong>📁 LOAD FOLDER</strong> and select your music folder. The native file picker loads all audio files inside at once — no need to select them one by one.</div>
           </div>
         </div>
 
@@ -987,31 +1209,27 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
             <span>📅 &nbsp;4. SHOW SCHEDULER</span><span id="doc4-arr">▸</span>
           </div>
           <div id="doc4" class="doc-card-body" style="display:none">
-            <p>The Scheduler lets you pre-program shows that start and stop automatically at set times. Each show has its own playlist, ad break settings and intro/outro carts.</p>
-
+            <p>The Scheduler pre-programs shows that start and stop automatically at set times. Each show has its own playlist, ad break settings and intro/outro carts.</p>
             <div class="doc-sub">▸ Creating a Show</div>
             <div class="doc-table">
               <div class="doc-row"><span class="doc-key">+ NEW SHOW</span><span class="doc-val">Opens the show form</span></div>
-              <div class="doc-row"><span class="doc-key">NAME</span><span class="doc-val">Show name displayed in the schedule list</span></div>
-              <div class="doc-row"><span class="doc-key">START / END</span><span class="doc-val">Time the show begins and ends (24-hour clock)</span></div>
-              <div class="doc-row"><span class="doc-key">DECK</span><span class="doc-val">Which deck the show plays on (A or B)</span></div>
-              <div class="doc-row"><span class="doc-key">INTRO / OUTRO</span><span class="doc-val">Optional cart to play at the start and end of the show</span></div>
-              <div class="doc-row"><span class="doc-key">💾 SAVE SHOW</span><span class="doc-val">Saves the show and adds it to the schedule</span></div>
+              <div class="doc-row"><span class="doc-key">START / END</span><span class="doc-val">24-hour clock times for show start and end</span></div>
+              <div class="doc-row"><span class="doc-key">RECURRENCE</span><span class="doc-val">Daily, weekly (day chips), specific date, monthly or once</span></div>
+              <div class="doc-row"><span class="doc-key">INTRO / OUTRO</span><span class="doc-val">Optional cart to play at show start and end</span></div>
+              <div class="doc-row"><span class="doc-key">💾 SAVE SHOW</span><span class="doc-val">Saves and adds to schedule — duplicate time slots are blocked</span></div>
             </div>
-
-            <div class="doc-sub">▸ Ad Break Settings</div>
+            <div class="doc-sub">▸ Two Overlay Modes</div>
             <div class="doc-table">
-              <div class="doc-row"><span class="doc-key">SOURCE</span><span class="doc-val">Play ad from a Cart slot or from files loaded from device</span></div>
-              <div class="doc-row"><span class="doc-key">ORDER</span><span class="doc-val">Play ads in sequence or random order</span></div>
-              <div class="doc-row"><span class="doc-key">IN A ROW</span><span class="doc-val">How many ad files play per break</span></div>
-              <div class="doc-row"><span class="doc-key">TRIGGER: After N songs</span><span class="doc-val">Fires an ad break after every N tracks</span></div>
-              <div class="doc-row"><span class="doc-key">TRIGGER: After X minutes</span><span class="doc-val">Fires an ad break at regular minute intervals</span></div>
-              <div class="doc-row"><span class="doc-key">TRIGGER: At HH:MM</span><span class="doc-val">Fires one ad break at an exact clock time</span></div>
+              <div class="doc-row"><span class="doc-key">🔉 OVERLAY/SWEEPER</span><span class="doc-val">Plays the ad/sweeper over the music (ducks it) without stopping playback</span></div>
+              <div class="doc-row"><span class="doc-key">⏸ PAUSE AD BREAK</span><span class="doc-val">Pauses the current song, plays the ad, then resumes from where it left off</span></div>
             </div>
-
-            <div class="doc-sub">▸ Show Playlist</div>
-            <p>Each show has its own independent playlist separate from the main queue. Add tracks from the Library or directly from device files. The playback order can be sequential, random or weighted-random.</p>
-            <div class="doc-tip">💡 Shows trigger automatically based on the device clock — keep the app open and the screen active (or install it as a PWA) to ensure scheduled shows start on time.</div>
+            <div class="doc-sub">▸ Ad Break Triggers</div>
+            <div class="doc-table">
+              <div class="doc-row"><span class="doc-key">After N songs</span><span class="doc-val">Fires a break after every N tracks</span></div>
+              <div class="doc-row"><span class="doc-key">After X minutes</span><span class="doc-val">Fires at regular minute intervals</span></div>
+              <div class="doc-row"><span class="doc-key">At HH:MM</span><span class="doc-val">Fires once at an exact clock time</span></div>
+            </div>
+            <div class="doc-tip">💡 Shows trigger from the device clock — keep the app open and screen active (or install as PWA/APK) to ensure on-time starts.</div>
           </div>
         </div>
 
@@ -1022,93 +1240,59 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
           </div>
           <div id="doc5" class="doc-card-body" style="display:none">
 
-            <div class="doc-sub">▸ Master DSP Chain</div>
-            <p>The master DSP chain is a 12-stage professional audio processing pipeline applied to all audio before it reaches the output. The chain is always active and processes in this order:</p>
+            <div class="doc-sub">▸ Mic Pre-Processing Chain</div>
+            <p>Applied to the microphone only, before it enters the mix bus. Does not affect music.</p>
             <div class="doc-table">
-              <div class="doc-row"><span class="doc-key">HIGHPASS</span><span class="doc-val">Removes sub-bass rumble below 35 Hz (adjustable 20–120 Hz)</span></div>
-              <div class="doc-row"><span class="doc-key">AGC LEVELER</span><span class="doc-val">Auto Gain Control — keeps loud and quiet tracks at consistent loudness</span></div>
-              <div class="doc-row"><span class="doc-key">DENSITY COMP</span><span class="doc-val">3.5:1 compressor — tightens dynamics for a punchy broadcast sound</span></div>
-              <div class="doc-row"><span class="doc-key">3-BAND MULTI</span><span class="doc-val">Independent low/mid/high band compression for tonal balance</span></div>
-              <div class="doc-row"><span class="doc-key">BASS EQ</span><span class="doc-val">90 Hz low-shelf — adds warmth and weight</span></div>
-              <div class="doc-row"><span class="doc-key">PRESENCE EQ</span><span class="doc-val">3 kHz peaking — adds clarity and cut-through</span></div>
-              <div class="doc-row"><span class="doc-key">AIR EQ</span><span class="doc-val">9 kHz high-shelf — adds brightness and air</span></div>
-              <div class="doc-row"><span class="doc-key">STEREO WIDTH</span><span class="doc-val">×1.05 mid-side width enhancement</span></div>
-              <div class="doc-row"><span class="doc-key">SOFT CLIPPER</span><span class="doc-val">0.7 threshold — gentle harmonic saturation before limiting</span></div>
-              <div class="doc-row"><span class="doc-key">PSYCHO LOUD</span><span class="doc-val">+5% perceptual loudness boost</span></div>
-              <div class="doc-row"><span class="doc-key">LOOK-AHEAD LIM</span><span class="doc-val">5ms look-ahead transparent limiter</span></div>
-              <div class="doc-row"><span class="doc-key">BRICKWALL LIM</span><span class="doc-val">Hard ceiling at −0.3 dBFS — prevents digital clipping absolutely</span></div>
+              <div class="doc-row"><span class="doc-key">HIGHPASS 80 Hz</span><span class="doc-val">Removes handling noise, breath and rumble</span></div>
+              <div class="doc-row"><span class="doc-key">NOISE GATE −45 dB</span><span class="doc-val">Silences mic between speech — 20:1 ratio</span></div>
+              <div class="doc-row"><span class="doc-key">SAFETY LIMITER −6 dB</span><span class="doc-val">Hard ceiling — prevents mic from overloading the mix bus</span></div>
             </div>
 
-            <div class="doc-sub">▸ Mic DSP Chain</div>
-            <p>The mic chain is a 9-stage processing pipeline applied only to the microphone input, active only when ON AIR.</p>
+            <div class="doc-sub">▸ Master DSP Chain</div>
+            <p>Applied to the full mix bus — all sources (Decks, Cart, Mic) pass through this single chain. The multiband compressor was removed because Web Audio's automatic makeup gain (+17 dB) was the root cause of distortion.</p>
             <div class="doc-table">
-              <div class="doc-row"><span class="doc-key">HIGHPASS</span><span class="doc-val">80 Hz filter — removes handling noise, breath and rumble</span></div>
-              <div class="doc-row"><span class="doc-key">NOISE GATE</span><span class="doc-val">−45 dB threshold — silences background noise between speech</span></div>
-              <div class="doc-row"><span class="doc-key">DE-ESSER</span><span class="doc-val">6 kHz dynamic notch — tames harsh sibilance (S and T sounds)</span></div>
-              <div class="doc-row"><span class="doc-key">COMPRESSOR</span><span class="doc-val">3:1 ratio — controls mic dynamics for a consistent voice level</span></div>
-              <div class="doc-row"><span class="doc-key">WARMTH EQ</span><span class="doc-val">120 Hz low-shelf +2 dB — adds body and warmth to the voice</span></div>
-              <div class="doc-row"><span class="doc-key">PRESENCE EQ</span><span class="doc-val">3 kHz peaking +2 dB — adds clarity and intelligibility</span></div>
-              <div class="doc-row"><span class="doc-key">MIC LIMITER</span><span class="doc-val">−4 dB threshold — prevents mic peaks from clipping</span></div>
-              <div class="doc-row"><span class="doc-key">MIC DUCKING</span><span class="doc-val">Lowers music level while mic is live — depth and release adjustable</span></div>
-              <div class="doc-row"><span class="doc-key">→ MIX BUS</span><span class="doc-val">Sends processed mic signal to the master mix — ON AIR only</span></div>
+              <div class="doc-row"><span class="doc-key">PRE-TRIM ×0.40</span><span class="doc-val">Brings mix bus to safe −8 dBFS before any processing</span></div>
+              <div class="doc-row"><span class="doc-key">HIGHPASS 35 Hz</span><span class="doc-val">Removes sub-bass rumble from the full mix</span></div>
+              <div class="doc-row"><span class="doc-key">AGC LEVELER</span><span class="doc-val">Threshold −18 dB · Ratio 1.2:1 · Attack 500ms · Release 4s — transparent, only +1.8 dB makeup</span></div>
+              <div class="doc-row"><span class="doc-key">POST-AGC TRIM ×0.82</span><span class="doc-val">Cancels AGC's +1.8 dB makeup — keeps level flat</span></div>
+              <div class="doc-row"><span class="doc-key">SOFT CLIPPER 0.20</span><span class="doc-val">Gentle algebraic saturation — rounds peaks before limiting</span></div>
+              <div class="doc-row"><span class="doc-key">LOOKAHEAD LIM −1 dB</span><span class="doc-val">5ms lookahead — transparent peak control</span></div>
+              <div class="doc-row"><span class="doc-key">BRICKWALL −0.5 dB</span><span class="doc-val">Absolute safety ceiling — zero digital clipping guaranteed</span></div>
+            </div>
+
+            <div class="doc-sub">▸ ON AIR / OFF AIR Logic</div>
+            <div class="doc-table">
+              <div class="doc-row"><span class="doc-key">🔴 ON AIR</span><span class="doc-val">Studio monitors MUTED · Headphones active · Mic live · Ducking −12 dB active (50ms attack)</span></div>
+              <div class="doc-row"><span class="doc-key">⚪ OFF AIR</span><span class="doc-val">Studio monitors ACTIVE · Headphones active · Mic standby · Ducking releases over 800ms</span></div>
             </div>
 
             <div class="doc-sub">▸ Default Fader Levels &amp; Presets</div>
-            <p>Default fader levels are the starting volumes for all channels. Moving a default slider <em>instantly</em> applies that level to the live fader, the console strip and the audio gain node — everything stays in sync.</p>
             <div class="doc-table">
-              <div class="doc-row"><span class="doc-key">DECK A / B</span><span class="doc-val">Default: 80% — leaves headroom for mixing</span></div>
-              <div class="doc-row"><span class="doc-key">MIC</span><span class="doc-val">Default: 90% — high sensitivity for voice</span></div>
-              <div class="doc-row"><span class="doc-key">CART</span><span class="doc-val">Default: 80% — balanced for jingles and ads</span></div>
-              <div class="doc-row"><span class="doc-key">MASTER</span><span class="doc-val">Default: 100% — full output after DSP chain</span></div>
+              <div class="doc-row"><span class="doc-key">DECK A / B</span><span class="doc-val">Default: 81%</span></div>
+              <div class="doc-row"><span class="doc-key">MIC</span><span class="doc-val">Default: 90%</span></div>
+              <div class="doc-row"><span class="doc-key">CART</span><span class="doc-val">Default: 72%</span></div>
+              <div class="doc-row"><span class="doc-key">MASTER</span><span class="doc-val">Default: 100%</span></div>
             </div>
-            <p><strong>Presets:</strong> Type a name in the preset box and tap 💾 SAVE to store the current default levels. Tap ▶ LOAD on any saved preset to recall it — all faders jump to those levels immediately. Presets survive page reloads.</p>
+            <p>Type a name and tap 💾 SAVE to store current levels as a preset. Tap ▶ LOAD on any preset to recall all faders instantly. Presets survive page reloads.</p>
+
+            <div class="doc-sub">▸ Live Streaming — Shoutcast / Icecast</div>
+            <p>Fill in your server details (host, port, mount, password) and tap <strong>📡 CONNECT</strong>.</p>
+            <div class="doc-table">
+              <div class="doc-row"><span class="doc-key">Browser mode</span><span class="doc-val">Requires <code>node server.js</code> relay running locally — see relay README</span></div>
+              <div class="doc-row"><span class="doc-key">Native APK mode</span><span class="doc-val">Streams directly via TCP — no relay needed. App detects mode automatically and shows 📱 Native or 🌐 Browser label</span></div>
+              <div class="doc-row"><span class="doc-key">💾 SAVE</span><span class="doc-val">Saves server settings (password not stored)</span></div>
+              <div class="doc-row"><span class="doc-key">📋 COPY CONFIG</span><span class="doc-val">Copies settings block for use in Butt, MIXXX or AzuraCast</span></div>
+            </div>
 
             <div class="doc-sub">▸ Audio Device Routing</div>
-            <p>On desktop browsers you can route different channels to different audio output devices. Tap <strong>↺ REFRESH DEVICES</strong> to enumerate available outputs, then select the device for each channel from the dropdowns.</p>
-            <div class="doc-tip">💡 Device routing requires the browser to have been granted audio permission. On Android, only the system default output is typically available.</div>
+            <p>On desktop browsers route channels to different audio outputs. Tap <strong>↺ REFRESH DEVICES</strong> to enumerate outputs, then select a device per channel. Android uses the system default output.</p>
 
             <div class="doc-sub">▸ Reset Options</div>
             <div class="doc-table">
-              <div class="doc-row"><span class="doc-key">↺ RESET DSP</span><span class="doc-val">Restores all DSP parameters to factory defaults</span></div>
-              <div class="doc-row"><span class="doc-key">↺ RESET FADERS</span><span class="doc-val">Restores all faders to the current default fader values</span></div>
+              <div class="doc-row"><span class="doc-key">↺ RESET FADERS</span><span class="doc-val">Restores all faders to their default values</span></div>
               <div class="doc-row"><span class="doc-key">✕ CLEAR LIBRARY</span><span class="doc-val">Removes all tracks and clears the queue</span></div>
               <div class="doc-row"><span class="doc-key">✕ CLEAR SHOWS</span><span class="doc-val">Deletes all scheduled shows</span></div>
-              <div class="doc-row"><span class="doc-key">⚠ FULL RESET</span><span class="doc-val">Wipes everything — library, queue, shows, DSP settings, all faders</span></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ── 6. DSP PARAMETERS REFERENCE ── -->
-        <div class="doc-card">
-          <div class="doc-card-head" onclick="toggleDoc('doc6')">
-            <span>🎛 &nbsp;6. DSP PARAMETER REFERENCE</span><span id="doc6-arr">▸</span>
-          </div>
-          <div id="doc6" class="doc-card-body" style="display:none">
-            <div class="doc-sub">▸ Master DSP Parameters</div>
-            <div class="doc-table">
-              <div class="doc-row"><span class="doc-key">HPF FREQ</span><span class="doc-val">20–120 Hz · Default 35 Hz · Higher = more bass removed</span></div>
-              <div class="doc-row"><span class="doc-key">AGC THRESH</span><span class="doc-val">−60 to −6 dB · Default −24 dB · Lower = more aggressive levelling</span></div>
-              <div class="doc-row"><span class="doc-key">DENSITY COMP</span><span class="doc-val">1:1–8:1 · Default 3.5:1 · Higher ratio = more compression</span></div>
-              <div class="doc-row"><span class="doc-key">BASS GAIN</span><span class="doc-val">−6 to +12 dB · Default +3 dB · 90 Hz low-shelf boost/cut</span></div>
-              <div class="doc-row"><span class="doc-key">PRESENCE</span><span class="doc-val">−6 to +12 dB · Default +3 dB · 3 kHz peaking boost/cut</span></div>
-              <div class="doc-row"><span class="doc-key">AIR GAIN</span><span class="doc-val">−6 to +12 dB · Default +2 dB · 9 kHz high-shelf boost/cut</span></div>
-              <div class="doc-row"><span class="doc-key">STEREO WIDTH</span><span class="doc-val">×0.5–×2.0 · Default ×1.05 · Below 1 = narrower, above 1 = wider</span></div>
-              <div class="doc-row"><span class="doc-key">SOFT CLIP</span><span class="doc-val">0.5–1.0 · Default 0.70 · Lower = more saturation/drive</span></div>
-              <div class="doc-row"><span class="doc-key">PSYCHO LOUD</span><span class="doc-val">0–20% · Default +5% · Perceptual loudness enhancement</span></div>
-              <div class="doc-row"><span class="doc-key">LOOK-AHEAD</span><span class="doc-val">1–20 ms · Default 5 ms · Limiter anticipation time</span></div>
-              <div class="doc-row"><span class="doc-key">BRICKWALL LIM</span><span class="doc-val">−3 to 0 dBFS · Default −0.3 dBFS · Absolute output ceiling</span></div>
-            </div>
-            <div class="doc-sub">▸ Mic DSP Parameters</div>
-            <div class="doc-table">
-              <div class="doc-row"><span class="doc-key">MIC HPF</span><span class="doc-val">40–200 Hz · Default 80 Hz · Remove rumble and handling noise</span></div>
-              <div class="doc-row"><span class="doc-key">NOISE GATE</span><span class="doc-val">−80 to −20 dB · Default −45 dB · Gate opens above this level</span></div>
-              <div class="doc-row"><span class="doc-key">DE-ESSER</span><span class="doc-val">4–10 kHz · Default 6 kHz · Target frequency for sibilance control</span></div>
-              <div class="doc-row"><span class="doc-key">MIC COMP</span><span class="doc-val">1:1–8:1 · Default 3:1 · Mic dynamics compression ratio</span></div>
-              <div class="doc-row"><span class="doc-key">WARMTH EQ</span><span class="doc-val">−6 to +8 dB · Default +2 dB · 120 Hz low-shelf</span></div>
-              <div class="doc-row"><span class="doc-key">MIC PRESENCE</span><span class="doc-val">−6 to +8 dB · Default +2 dB · 3 kHz voice clarity boost</span></div>
-              <div class="doc-row"><span class="doc-key">MIC LIMITER</span><span class="doc-val">−12 to 0 dB · Default −4 dB · Hard limit on mic output</span></div>
-              <div class="doc-row"><span class="doc-key">DUCK LEVEL</span><span class="doc-val">0–100% · Default 20% · How much music ducks when mic is live</span></div>
-              <div class="doc-row"><span class="doc-key">DUCK RELEASE</span><span class="doc-val">10–200 frames · Default 55 · How quickly music returns after mic stops</span></div>
+              <div class="doc-row"><span class="doc-key">⚠ FULL RESET</span><span class="doc-val">Wipes everything — library, queue, shows, faders and settings</span></div>
             </div>
           </div>
         </div>
@@ -1116,64 +1300,79 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
         <!-- ── 7. VU METERS ── -->
         <div class="doc-card">
           <div class="doc-card-head" onclick="toggleDoc('doc7')">
-            <span>📊 &nbsp;7. VU METERS &amp; LEVELS</span><span id="doc7-arr">▸</span>
+            <span>📊 &nbsp;6. VU METERS &amp; LEVELS</span><span id="doc7-arr">▸</span>
           </div>
           <div id="doc7" class="doc-card-body" style="display:none">
-            <p>All meters in Eyethu Pro are 20-segment LED-style VU meters modelled on professional broadcast consoles. They display RMS (average) level with a slow-decay peak-hold indicator.</p>
+            <p>All meters are 20-segment LED-style VU meters displaying RMS level with a peak-hold indicator.</p>
             <div class="doc-table">
               <div class="doc-row"><span class="doc-key" style="color:var(--green);">GREEN (0–65%)</span><span class="doc-val">Normal operating level — safe zone</span></div>
-              <div class="doc-row"><span class="doc-key" style="color:var(--accent);">YELLOW (65–85%)</span><span class="doc-val">Approaching hot — reduce level slightly if sustained</span></div>
-              <div class="doc-row"><span class="doc-key" style="color:var(--red);">RED (85–100%)</span><span class="doc-val">High level — the brickwall limiter will engage here</span></div>
-              <div class="doc-row"><span class="doc-key">PEAK DOT</span><span class="doc-val">White-outline segment that holds briefly at the peak level, then decays</span></div>
+              <div class="doc-row"><span class="doc-key" style="color:var(--accent);">YELLOW (65–85%)</span><span class="doc-val">Approaching hot — reduce level if sustained</span></div>
+              <div class="doc-row"><span class="doc-key" style="color:var(--red);">RED (85–100%)</span><span class="doc-val">High level — brickwall limiter will engage</span></div>
+              <div class="doc-row"><span class="doc-key">PEAK DOT</span><span class="doc-val">White-outline segment that holds briefly at peak, then decays</span></div>
             </div>
-            <div class="doc-tip">💡 Aim to keep levels in the green-to-low-yellow range during normal music playback. The DSP brickwall limiter protects against clipping, but sustained red levels will cause audible limiting artefacts.</div>
+            <div class="doc-tip">💡 Aim for green-to-low-yellow during normal playback. The brickwall limiter prevents clipping but sustained red causes audible limiting artefacts.</div>
           </div>
         </div>
 
         <!-- ── 8. PWA & MOBILE ── -->
         <div class="doc-card">
           <div class="doc-card-head" onclick="toggleDoc('doc8')">
-            <span>📱 &nbsp;8. PWA INSTALLATION &amp; MOBILE TIPS</span><span id="doc8-arr">▸</span>
+            <span>📱 &nbsp;7. PWA &amp; ANDROID APK</span><span id="doc8-arr">▸</span>
           </div>
           <div id="doc8" class="doc-card-body" style="display:none">
-            <p>Eyethu Pro is a Progressive Web App — it can be installed directly to your Android home screen, iOS home screen, or Windows/Mac desktop for a full-screen, native-app-like experience.</p>
-            <div class="doc-sub">▸ Installing on Android Chrome</div>
-            <p>An install banner appears automatically at the bottom of the screen on first load. Tap <strong>⬇ INSTALL APP</strong> to add it to your home screen. Alternatively, tap the browser menu (⋮) → <em>Add to Home screen</em>.</p>
-            <div class="doc-sub">▸ Installing on iOS Safari</div>
-            <p>Tap the Share button (□↑) at the bottom of Safari → <em>Add to Home Screen</em> → <em>Add</em>. The app will open full-screen without browser UI.</p>
-            <div class="doc-sub">▸ Installing on Desktop (Chrome/Edge)</div>
-            <p>Click the install icon (⊕) in the browser address bar, or go to browser menu → <em>Install Eyethu Radio</em>.</p>
+            <div class="doc-sub">▸ Browser PWA Installation</div>
+            <div class="doc-table">
+              <div class="doc-row"><span class="doc-key">Android Chrome</span><span class="doc-val">Tap the install banner → Add to Home Screen. Or browser menu ⋮ → Add to Home Screen</span></div>
+              <div class="doc-row"><span class="doc-key">iOS Safari</span><span class="doc-val">Share button □↑ → Add to Home Screen → Add</span></div>
+              <div class="doc-row"><span class="doc-key">Desktop Chrome/Edge</span><span class="doc-val">Click ⊕ in address bar or browser menu → Install Eyethu Radio</span></div>
+            </div>
+            <div class="doc-sub">▸ Native Android APK</div>
+            <p>The APK wraps the full app using Capacitor. Key advantages over the browser version:</p>
+            <div class="doc-table">
+              <div class="doc-row"><span class="doc-key">Direct streaming</span><span class="doc-val">Streams to Icecast/Shoutcast via native TCP — no relay server needed</span></div>
+              <div class="doc-row"><span class="doc-key">Background audio</span><span class="doc-val">Continues playing when screen is off</span></div>
+              <div class="doc-row"><span class="doc-key">LOAD FOLDER</span><span class="doc-val">Opens native Android folder picker — loads all audio files inside</span></div>
+              <div class="doc-row"><span class="doc-key">Updating</span><span class="doc-val">Replace index.html in www/ → run npx cap sync android → build signed APK with same keystore</span></div>
+              <div class="doc-row"><span class="doc-key">Keystore</span><span class="doc-val">eyethu-release.jks · alias: eyethu · password: Eyethu2024 · valid until 2053</span></div>
+            </div>
             <div class="doc-sub">▸ Mobile Tips</div>
             <div class="doc-table">
-              <div class="doc-row"><span class="doc-key">Landscape mode</span><span class="doc-val">Rotate your device — the layout adapts to fill the wider screen with 2-column sections</span></div>
-              <div class="doc-row"><span class="doc-key">Screen stay-on</span><span class="doc-val">Enable "Keep screen on" in your phone's display settings to prevent Auto-DJ from stopping</span></div>
-              <div class="doc-row"><span class="doc-key">Audio on Android</span><span class="doc-val">Tap once anywhere (e.g. deck ▶ button) before using Auto-DJ — Android requires a user gesture to unlock the AudioContext</span></div>
-              <div class="doc-row"><span class="doc-key">Mic permission</span><span class="doc-val">The first time you tap MIC ON, the browser will ask for microphone permission — tap Allow</span></div>
-              <div class="doc-row"><span class="doc-key">Folder import</span><span class="doc-val">On Android Chrome, tap 📁 OPEN FOLDER → browse to your music folder and confirm selection</span></div>
+              <div class="doc-row"><span class="doc-key">Landscape mode</span><span class="doc-val">Rotate device — Queue, Cartwall and Mic panels fill the full width</span></div>
+              <div class="doc-row"><span class="doc-key">Screen stay-on</span><span class="doc-val">Enable Keep Screen On in display settings to prevent Auto-DJ stopping</span></div>
+              <div class="doc-row"><span class="doc-key">First tap</span><span class="doc-val">Tap ▶ once before using Auto-DJ — Android requires a user gesture to unlock AudioContext</span></div>
             </div>
           </div>
         </div>
 
-        <!-- ── 9. KEYBOARD / GESTURES ── -->
+        <!-- ── 9. QUICK REFERENCE ── -->
         <div class="doc-card">
           <div class="doc-card-head" onclick="toggleDoc('doc9')">
-            <span>⌨️ &nbsp;9. TIPS &amp; QUICK REFERENCE</span><span id="doc9-arr">▸</span>
+            <span>⌨️ &nbsp;8. QUICK REFERENCE</span><span id="doc9-arr">▸</span>
           </div>
           <div id="doc9" class="doc-card-body" style="display:none">
-            <div class="doc-sub">▸ Library Quick Actions</div>
+            <div class="doc-sub">▸ Keyboard Shortcuts (Desktop)</div>
+            <div class="doc-table">
+              <div class="doc-row"><span class="doc-key">F1 – F8</span><span class="doc-val">Cart 1–8 — play/stop toggle</span></div>
+              <div class="doc-row"><span class="doc-key">Space / P</span><span class="doc-val">Play / pause active deck</span></div>
+            </div>
+            <div class="doc-sub">▸ Library Actions</div>
             <div class="doc-table">
               <div class="doc-row"><span class="doc-key">Tap track</span><span class="doc-val">Add to queue</span></div>
-              <div class="doc-row"><span class="doc-key">Tap A button</span><span class="doc-val">Load to Deck A</span></div>
-              <div class="doc-row"><span class="doc-key">Tap B button</span><span class="doc-val">Load to Deck B</span></div>
-              <div class="doc-row"><span class="doc-key">Tap ✕ button</span><span class="doc-val">Remove from library</span></div>
+              <div class="doc-row"><span class="doc-key">A / B button</span><span class="doc-val">Load to Deck A or Deck B</span></div>
+              <div class="doc-row"><span class="doc-key">✕ button</span><span class="doc-val">Remove from library</span></div>
             </div>
-            <div class="doc-sub">▸ Collapse / Expand Cards</div>
-            <p>The Queue, Cartwall and Microphone cards all have a ▾/▸ button in their header. Tap the header or the arrow to collapse that section and reclaim screen space — especially useful on phones in portrait mode.</p>
-            <div class="doc-sub">▸ Saving State</div>
-            <p>The app auto-saves your state (library metadata, queue, shows, DSP settings, fader positions, presets) to the browser's localStorage every time you make a change. State is restored automatically on next open.</p>
-            <div class="doc-sub">▸ Audio Formats Supported</div>
-            <p>MP3, WAV, FLAC, AAC, M4A, OGG, OPUS, WebA, WMA, AIFF — support depends on your browser, but MP3, WAV and AAC work on all platforms.</p>
-            <div class="doc-tip">💡 <strong>Best practice workflow:</strong> Load a full folder → enable Auto-DJ → set ON AIR → collapse Queue and Cartwall → enjoy a clean, full-width broadcast surface with just the decks and console visible.</div>
+            <div class="doc-sub">▸ Default Levels Summary</div>
+            <div class="doc-table">
+              <div class="doc-row"><span class="doc-key">Deck A / B</span><span class="doc-val">81%</span></div>
+              <div class="doc-row"><span class="doc-key">Cart</span><span class="doc-val">72%</span></div>
+              <div class="doc-row"><span class="doc-key">Mic</span><span class="doc-val">90%</span></div>
+              <div class="doc-row"><span class="doc-key">Master</span><span class="doc-val">100%</span></div>
+            </div>
+            <div class="doc-sub">▸ Supported Audio Formats</div>
+            <p>MP3, WAV, FLAC, AAC, M4A, OGG, OPUS, WebM, AIFF — MP3, WAV and AAC work on all platforms including Android APK.</p>
+            <div class="doc-sub">▸ Auto-Save</div>
+            <p>Library metadata, queue, shows, fader positions and presets are auto-saved to localStorage on every change and restored on next open.</p>
+            <div class="doc-tip">💡 <strong>Best practice:</strong> Load folder → enable Auto-DJ → press ON AIR → collapse Queue and Cartwall → clean broadcast surface with just decks and console visible.</div>
           </div>
         </div>
 
@@ -1181,6 +1380,7 @@ btn,.btn{display:inline-flex;align-items:center;justify-content:center;padding:6
           Eyethu Pro Radio Studio — Powered by Eyethu AI (Pty) Ltd · All rights reserved
         </div>
 
+      </div><!-- /s-manual -->
       </div><!-- /app-docs -->
 
     </div><!-- /settings -->
@@ -1229,7 +1429,7 @@ const state = {
   deckB: { audio: null, file: null, cueTime: 0, playing: false, sourceNode: null },
   xfade: 50,
   master: 0.95,
-  defaultFaders: { A:80, B:80, M:90, C:80, X:100 },
+  defaultFaders: { A:100, B:100, M:100, C:100, X:100 },
   cueDeviceId: null,
   monitorDeviceId: null,
 };
@@ -1303,15 +1503,13 @@ function initAudio() {
   monitorGain = actx.createGain(); monitorGain.gain.value = 1;
   cueGain     = actx.createGain(); cueGain.gain.value = 0.9;
 
-  // Deck → xfadeGain → xfGain → jingleDuckGain
-  // NOTE: jingleDuckGain → masterGain connection is made inside buildMasterDSP
-  // DO NOT connect jingleDuckGain → masterGain here — buildMasterDSP owns that
+  // Deck → xfadeGain → xfGain → jingleDuckGain → masterGain → finalTrim → output
   deckAGain.connect(xfadeGainA);
   deckBGain.connect(xfadeGainB);
   xfadeGainA.connect(xfGain);
   xfadeGainB.connect(xfGain);
   xfGain.connect(jingleDuckGain);
-  // jingleDuckGain → DSP chain → masterGain  (done in buildMasterDSP)
+  // jingleDuckGain → Master DSP Chain → masterGain  (wired in buildMasterDSP)
 
   masterGain.connect(finalTrim);
   finalTrim.connect(monitorGain);
@@ -1321,6 +1519,142 @@ function initAudio() {
 
   startMeters();
   buildMasterDSP();
+  // Apply current xfader position (default 50 = equal blend)
+  setTimeout(() => {
+    const xv = document.getElementById('xfader');
+    if (xv) setXfade(xv.value);
+  }, 0);
+}
+
+
+// ╔════════════════════════════════════════════════════════════════════════╗
+// ║  MIC PRE-PROCESSING CHAIN                                             ║
+// ║  Mic → HPF 80 Hz → Noise Gate → Safety Limiter -6 dB → Mix Bus       ║
+// ╚════════════════════════════════════════════════════════════════════════╝
+function buildMicPre(source) {
+  if (!actx || !source) return source;
+
+  // 1. Highpass 80 Hz — removes handling noise and breath rumble
+  micPreHPF = actx.createBiquadFilter();
+  micPreHPF.type = 'highpass';
+  micPreHPF.frequency.value = 80;
+  micPreHPF.Q.value = 0.707;
+
+  // 2. Noise Gate (compressor at very high ratio, -45 dB threshold)
+  micPreGate = actx.createDynamicsCompressor();
+  micPreGate.threshold.value = -45;
+  micPreGate.knee.value = 0;
+  micPreGate.ratio.value = 20;
+  micPreGate.attack.value = 0.001;
+  micPreGate.release.value = 0.080;
+
+  // 3. Mic Safety Limiter — ceiling -6 dB
+  micPreLimiter = actx.createDynamicsCompressor();
+  micPreLimiter.threshold.value = -6;
+  micPreLimiter.knee.value = 0;
+  micPreLimiter.ratio.value = 20;
+  micPreLimiter.attack.value = 0.001;
+  micPreLimiter.release.value = 0.050;
+
+  // Wire: source → HPF → Gate → Limiter
+  source.connect(micPreHPF);
+  micPreHPF.connect(micPreGate);
+  micPreGate.connect(micPreLimiter);
+  // micPreLimiter → micGainNode (caller connects)
+  return micPreLimiter;
+}
+
+// ╔════════════════════════════════════════════════════════════════════════╗
+// ║  MASTER DSP CHAIN                                                     ║
+// ║  Mix Bus → HPF → AGC → 3-Band Multiband → EQ → Soft Clip →           ║
+// ║           Lookahead Limiter → Brickwall Limiter → masterGain          ║
+// ╚════════════════════════════════════════════════════════════════════════╝
+function buildMasterDSP() {
+  if (!actx) return;
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // ROOT CAUSE OF DISTORTION (fixed):
+  // Web Audio DynamicsCompressor has automatic, uncancellable
+  // makeup gain: -threshold × (1 - 1/ratio) × 0.6
+  // The old 3-band multiband added +7.2 + 5.9 + 4.5 = +17.6 dB
+  // of automatic makeup, then EQ added +5 dB more, overdriving
+  // the soft clipper completely. MULTIBAND REMOVED.
+  //
+  // CLEAN CHAIN (no automatic makeup accumulation):
+  //   Pre-trim → HPF → AGC (+1.8 dB makeup only) → Soft Clip → Limiter → Brickwall
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  // Soft clip curve — algebraic saturation, output bounded to ±1
+  function softClipCurve(drive) {
+    const n = 512, c = new Float32Array(n);
+    const k = 2 * drive / (1 - drive);
+    for (let i = 0; i < n; i++) {
+      const x = (i * 2) / (n - 1) - 1;
+      c[i] = (1 + k) * x / (1 + k * Math.abs(x));
+    }
+    return c;
+  }
+
+  // ── 1. Pre-trim: bring mix bus down before any processing ─────────────
+  // Decks at 81% fader = −1.8 dBFS — reduce to safe −8 dBFS before DSP
+  const preTrim = actx.createGain();
+  preTrim.gain.value = 0.40;  // −8 dBFS headroom before processing
+
+  // ── 2. Highpass 35 Hz — remove sub-bass rumble ────────────────────────
+  dspHPF = actx.createBiquadFilter();
+  dspHPF.type = 'highpass';
+  dspHPF.frequency.value = 35;
+  dspHPF.Q.value = 0.707;
+
+  // ── 3. Program Leveler / AGC ──────────────────────────────────────────
+  // threshold −18 dB | ratio 1.2:1 | attack 500ms | release 4s
+  // Auto-makeup = −(−18) × (1−1/1.2) × 0.6 = +1.8 dB — acceptable
+  dspAGC = actx.createDynamicsCompressor();
+  dspAGC.threshold.value = -18;
+  dspAGC.knee.value      = 15;   // wide knee — ultra-transparent
+  dspAGC.ratio.value     = 1.2;
+  dspAGC.attack.value    = 0.500;
+  dspAGC.release.value   = 4.0;
+
+  // ── 4. Post-AGC trim — compensate for AGC's +1.8 dB makeup ───────────
+  const postAGC = actx.createGain();
+  postAGC.gain.value = 0.82;  // undo +1.8 dB makeup gain
+
+  // ── 5. Soft Clipper — gentle saturation, drive 0.20 ──────────────────
+  // Low drive = smooth saturation without audible distortion
+  dspSoftClipper = actx.createWaveShaper();
+  dspSoftClipper.curve = softClipCurve(0.20);
+  dspSoftClipper.oversample = '4x';
+
+  // ── 6. Lookahead Limiter — ceiling −1 dB, 5ms ────────────────────────
+  // Auto-makeup at −1 dB = −(−1) × (1−1/20) × 0.6 = +0.57 dB — negligible
+  dspLookaheadLim = actx.createDynamicsCompressor();
+  dspLookaheadLim.threshold.value = -1;
+  dspLookaheadLim.knee.value      = 0;
+  dspLookaheadLim.ratio.value     = 20;
+  dspLookaheadLim.attack.value    = 0.005;
+  dspLookaheadLim.release.value   = 0.100;
+
+  // ── 7. Brickwall Limiter — absolute ceiling −0.5 dB ──────────────────
+  // Auto-makeup at −0.5 dB = negligible ~0.3 dB
+  dspBrickwall = actx.createDynamicsCompressor();
+  dspBrickwall.threshold.value = -0.5;
+  dspBrickwall.knee.value      = 0;
+  dspBrickwall.ratio.value     = 20;
+  dspBrickwall.attack.value    = 0.0003;
+  dspBrickwall.release.value   = 0.050;
+
+  // ── Wire clean chain ─────────────────────────────────────────────────
+  try { jingleDuckGain.disconnect(); } catch(e) {}
+
+  jingleDuckGain.connect(preTrim);
+  preTrim.connect(dspHPF);
+  dspHPF.connect(dspAGC);
+  dspAGC.connect(postAGC);
+  postAGC.connect(dspSoftClipper);
+  dspSoftClipper.connect(dspLookaheadLim);
+  dspLookaheadLim.connect(dspBrickwall);
+  dspBrickwall.connect(masterGain);
 }
 
 function buildVChanSegs(id, n) {
@@ -1469,49 +1803,13 @@ function isDupInShowPlaylist(track, showIndex) {
 // ============================================================
 // LIBRARY
 // ============================================================
+
 function importFiles() {
   initAudio();
   const inp = document.getElementById('file-input');
   inp.value = '';
   inp.onchange = e => {
-    const files = Array.from(e.target.files);
-    let added = 0, skipped = 0;
-    files.forEach(file => {
-      const key = trackKey(file);
-      const existing = state.tracks.findIndex(t => t.key === key);
-      if (existing >= 0 && state.tracks[existing]._needsReimport) {
-        // Restore file to existing track
-        state.tracks[existing].url  = URL.createObjectURL(file);
-        state.tracks[existing].file = file;
-        state.tracks[existing].size = file.size;
-        state.tracks[existing]._needsReimport = false;
-        const tmp = new Audio();
-        tmp.src = state.tracks[existing].url;
-        tmp.onloadedmetadata = () => { state.tracks[existing].duration = tmp.duration; renderLibrary(); };
-        added++;
-        return;
-      }
-      if (isDupInLibrary(file)) { skipped++; return; }
-      const track = {
-        key: trackKey(file),
-        name: file.name.replace(/\.[^.]+$/, ''),
-        file: file,
-        size: file.size,
-        duration: 0,
-        url: URL.createObjectURL(file),
-        _needsReimport: false,
-      };
-      // Get duration
-      const tmp = new Audio();
-      tmp.src = track.url;
-      tmp.onloadedmetadata = () => { track.duration = tmp.duration; renderLibrary(); };
-      state.tracks.push(track);
-      added++;
-    });
-    renderLibrary();
-    if (skipped > 0 && added > 0) showToast(`✅ ${added} added · ⚠️ ${skipped} duplicate(s) skipped`);
-    else if (skipped > 0) showToast(`⚠️ ${skipped} duplicate(s) already in library`);
-    else if (added > 0) showToast(`✅ ${added} track(s) imported`);
+    addAudioFiles(Array.from(e.target.files));
   };
   inp.click();
 }
@@ -1521,72 +1819,52 @@ function addAudioFiles(files) {
   const AUDIO = /^audio\//i;
   const audioFiles = files.filter(f => AUDIO.test(f.type) || /\.(mp3|flac|wav|ogg|aac|m4a|opus|weba|wma|aiff?)$/i.test(f.name));
   let added = 0, skipped = 0;
+
   audioFiles.forEach(file => {
     const key = trackKey(file);
     const existing = state.tracks.findIndex(t => t.key === key);
+
     if (existing >= 0 && state.tracks[existing]._needsReimport) {
+      // Restore existing track
       state.tracks[existing].url  = URL.createObjectURL(file);
       state.tracks[existing].file = file;
       state.tracks[existing].size = file.size;
       state.tracks[existing]._needsReimport = false;
       const tmp = new Audio(); tmp.src = state.tracks[existing].url;
-      tmp.onloadedmetadata = () => { state.tracks[existing].duration = tmp.duration; renderLibrary(); };
+      tmp.onloadedmetadata = () => { state.tracks[existing].duration = tmp.duration; renderLibrary(); saveAppState(); };
+      // Save to IDB so it never needs reimport again
+      file.arrayBuffer().then(buf => idbSaveFile(key, buf, file.name, file.type));
       added++; return;
     }
+
     if (isDupInLibrary(file)) { skipped++; return; }
+
+    const url = URL.createObjectURL(file);
     const track = {
-      key: trackKey(file),
-      name: file.name.replace(/\.[^.]+$/, ''),
-      file, size: file.size, duration: 0,
-      url: URL.createObjectURL(file),
+      key, name: file.name.replace(/\.[^.]+$/, ''),
+      file, size: file.size, duration: 0, url,
       _needsReimport: false,
     };
-    const tmp = new Audio(); tmp.src = track.url;
-    tmp.onloadedmetadata = () => { track.duration = tmp.duration; renderLibrary(); };
+    const tmp = new Audio(); tmp.src = url;
+    tmp.onloadedmetadata = () => { track.duration = tmp.duration; renderLibrary(); saveAppState(); };
+
+    // ── Save audio data to IndexedDB for persistence across sessions ──
+    file.arrayBuffer().then(buf => idbSaveFile(key, buf, file.name, file.type || 'audio/mpeg'));
+
     state.tracks.push(track); added++;
   });
+
   renderLibrary();
   if (skipped > 0 && added > 0) showToast(`✅ ${added} added · ⚠️ ${skipped} skipped`);
   else if (skipped > 0) showToast(`⚠️ ${skipped} already in library`);
-  else if (added > 0) showToast(`✅ ${added} track(s) loaded from folder`);
-  else showToast('No new audio files found in folder');
+  else if (added > 0) showToast(`✅ ${added} track(s) saved permanently`);
+  else showToast('No new audio files found');
 }
 
 // ── Read all audio files recursively from a FileSystemDirectoryHandle ──
-async function collectAudioFromDir(dirHandle, collected) {
-  for await (const [, entry] of dirHandle.entries()) {
-    if (entry.kind === 'file') {
-      const file = await entry.getFile();
-      collected.push(file);
-    } else if (entry.kind === 'directory') {
-      await collectAudioFromDir(entry, collected);
-    }
-  }
-}
 
-async function importFolder() {
+function importFolder() {
   initAudio();
-  // Try modern File System Access API first
-  if (window.showDirectoryPicker) {
-    try {
-      const dirHandle = await window.showDirectoryPicker({ mode: 'read' });
-      showToast('📁 Reading folder…');
-      const collected = [];
-      await collectAudioFromDir(dirHandle, collected);
-      addAudioFiles(collected);
-    } catch (err) {
-      if (err.name !== 'AbortError') {
-        // Fallback to webkitdirectory input
-        useFolderInput();
-      }
-    }
-  } else {
-    // Fallback: use webkitdirectory input (works on most browsers incl. Android Chrome)
-    useFolderInput();
-  }
-}
-
-function useFolderInput() {
   const inp = document.getElementById('folder-input');
   inp.value = '';
   inp.onchange = e => {
@@ -1595,12 +1873,16 @@ function useFolderInput() {
   inp.click();
 }
 
+
+
 function clearLibrary() {
   if (!state.tracks.length) return;
   state.tracks = [];
   state.queue = [];
+  idbClearAll(); // wipe all stored audio from IndexedDB
   renderLibrary();
   renderQueue();
+  saveAppState();
   showToast('Library cleared');
 }
 
@@ -1645,12 +1927,13 @@ function loadDeckDirect(deck, i) {
 
 function removeFromLibrary(i) {
   const track = state.tracks[i];
-  // Also remove from queue if present
   state.queue = state.queue.filter(q => q.key !== track.key);
   if (state.queueIndex >= state.queue.length) state.queueIndex = Math.max(0, state.queue.length - 1);
   state.tracks.splice(i, 1);
+  idbDeleteFile(track.key); // remove from persistent storage too
   renderLibrary();
   renderQueue();
+  saveAppState();
   showToast(`✕ Removed: ${track.name}`);
 }
 
@@ -1791,6 +2074,377 @@ window.addEventListener('resize', applyResponsiveCollapse);
 // ============================================================
 // IN-APP DOCUMENTATION
 // ============================================================
+function toggleSettings(id) {
+  const body = document.getElementById(id);
+  const arr  = document.getElementById(id + '-arr');
+  if (!body) return;
+  const collapsed = body.style.display === 'none';
+  body.style.display = collapsed ? '' : 'none';
+  if (arr) arr.textContent = collapsed ? '▾' : '▸';
+}
+
+// ============================================================
+// CAPACITOR NATIVE BRIDGE DETECTION
+// ============================================================
+const IS_CAPACITOR = !!(window.Capacitor && window.Capacitor.isNativePlatform
+    && window.Capacitor.isNativePlatform());
+
+// Dynamically load lamejs for MP3 encoding (used by native streaming path)
+// Only load if we're in Capacitor native app
+let lameLoaded = false;
+let lameEncoder = null;
+function ensureLame(cb) {
+  if (lameLoaded) { cb(); return; }
+  const s = document.createElement('script');
+  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.1/lame.min.js';
+  s.onload = () => { lameLoaded = true; cb(); };
+  s.onerror = () => { console.warn('lamejs failed to load'); cb(); };
+  document.head.appendChild(s);
+}
+
+// Native Icecast plugin reference (Capacitor)
+function getNativeIcecast() {
+  if (!IS_CAPACITOR) return null;
+  return window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.IcecastPlugin;
+}
+let streamWS        = null;   // WebSocket to relay server
+let streamRecorder  = null;   // MediaRecorder
+let streamConnected = false;
+const RELAY_WS_URL  = 'ws://localhost:3001';
+
+function getStreamSettings() {
+  return {
+    type:     document.getElementById('stream-type').value,
+    host:     document.getElementById('stream-host').value.trim(),
+    port:     document.getElementById('stream-port').value.trim() || '8000',
+    mount:    document.getElementById('stream-mount').value.trim() || '/stream',
+    password: document.getElementById('stream-password').value,
+    name:     document.getElementById('stream-name').value.trim() || 'Eyethu Radio',
+    genre:    document.getElementById('stream-genre').value.trim() || 'Music',
+    bitrate:  document.getElementById('stream-bitrate').value,
+    format:   document.getElementById('stream-format').value,
+  };
+}
+
+function saveStreamSettings() {
+  const s = getStreamSettings();
+  const toSave = {...s, password: ''};
+  localStorage.setItem('eyethu_stream_settings', JSON.stringify(toSave));
+  updateStreamCopyBox();
+  showToast('💾 Stream settings saved');
+}
+
+function loadStreamSettings() {
+  try {
+    const s = JSON.parse(localStorage.getItem('eyethu_stream_settings') || '{}');
+    if (s.type)    document.getElementById('stream-type').value    = s.type;
+    if (s.host)    document.getElementById('stream-host').value    = s.host;
+    if (s.port)    document.getElementById('stream-port').value    = s.port;
+    if (s.mount)   document.getElementById('stream-mount').value   = s.mount;
+    if (s.name)    document.getElementById('stream-name').value    = s.name;
+    if (s.genre)   document.getElementById('stream-genre').value   = s.genre;
+    if (s.bitrate) document.getElementById('stream-bitrate').value = s.bitrate;
+    if (s.format)  document.getElementById('stream-format').value  = s.format;
+    updateStreamCopyBox();
+  } catch(e) {}
+}
+
+function updateStreamCopyBox() {
+  const s = getStreamSettings();
+  if (!s.host) return;
+  const box = document.getElementById('stream-copybox');
+  if (!box) return;
+  box.textContent =
+    `Type:    ${s.type === 'shoutcast' ? 'Shoutcast v2' : 'Icecast 2'}\n` +
+    `Server:  ${s.host}\n` +
+    `Port:    ${s.port}\n` +
+    `Mount:   ${s.mount}\n` +
+    `Station: ${s.name}\n` +
+    `Genre:   ${s.genre}\n` +
+    `Bitrate: ${s.bitrate} kbps\n` +
+    `Format:  ${s.format.toUpperCase()}\n` +
+    `URL:     http://${s.host}:${s.port}${s.mount}`;
+}
+
+function copyStreamConfig() {
+  const box = document.getElementById('stream-copybox');
+  if (!box || !box.textContent) { showToast('Fill in server details first'); return; }
+  navigator.clipboard.writeText(box.textContent)
+    .then(() => showToast('📋 Config copied to clipboard'))
+    .catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = box.textContent;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('📋 Config copied');
+    });
+}
+
+function setStreamStatus(msg, color) {
+  const el = document.getElementById('stream-status');
+  if (el) { el.textContent = msg; el.style.color = color || 'var(--text2)'; }
+}
+
+function streamConnect() {
+  const s = getStreamSettings();
+  if (!s.host)     { showToast('⚠️ Enter a server address'); return; }
+  if (!s.password) { showToast('⚠️ Enter the source password'); return; }
+  updateStreamCopyBox();
+
+  if (IS_CAPACITOR) {
+    // ── NATIVE PATH: direct TCP via IcecastPlugin ─────────────────────────
+    streamConnectNative(s);
+  } else {
+    // ── BROWSER PATH: WebSocket relay (requires node server.js) ───────────
+    streamConnectRelay(s);
+  }
+}
+
+// ── NATIVE: direct TCP to Icecast/Shoutcast ──────────────────────────────
+function streamConnectNative(s) {
+  const plugin = getNativeIcecast();
+  if (!plugin) {
+    showToast('❌ Native plugin not found — rebuild the APK');
+    return;
+  }
+  setStreamStatus('🔄 Connecting to ' + s.host + '…', 'var(--cyan)');
+
+  ensureLame(() => {
+    plugin.connect({
+      host:     s.host,
+      port:     parseInt(s.port),
+      mount:    s.mount,
+      password: s.password,
+      name:     s.name,
+      genre:    s.genre,
+      bitrate:  s.bitrate,
+      format:   s.format,
+      type:     s.type,
+    }).then(result => {
+      if (result.success) {
+        streamConnected = true;
+        document.getElementById('stream-connect-btn').style.display    = 'none';
+        document.getElementById('stream-disconnect-btn').style.display = '';
+        document.getElementById('stream-info').style.display           = '';
+        document.getElementById('stream-url-display').textContent      = result.listenUrl || '';
+        setStreamStatus('🟢 LIVE — direct stream to server', 'var(--green)');
+        showToast('📡 LIVE! Streaming to ' + s.host);
+        startNativeAudioCapture(s);
+      }
+    }).catch(e => {
+      setStreamStatus('❌ ' + e.message, 'var(--red)');
+      showToast('❌ ' + e.message);
+    });
+
+    // Listen for native events (errors, disconnects)
+    window.Capacitor.addListener('streamEvent', (event) => {
+      if (event.type === 'error') {
+        setStreamStatus('❌ ' + event.message, 'var(--red)');
+        streamCleanupNative();
+      } else if (event.type === 'stream_stopped') {
+        setStreamStatus('⚪ Stopped: ' + (event.reason || ''), 'var(--text2)');
+        streamCleanupNative();
+      }
+    });
+  });
+}
+
+// MP3 encoding via lamejs → send base64 chunks to native plugin
+let nativeRecorder = null;
+let nativePCMNode  = null;
+
+function startNativeAudioCapture(s) {
+  initAudio();
+  try {
+    // Tap PCM from master output
+    const bufSize  = 4096;
+    const sampleRate = actx.sampleRate;
+    const mp3enc   = new lamejs.Mp3Encoder(2, sampleRate, parseInt(s.bitrate));
+    const plugin   = getNativeIcecast();
+
+    nativePCMNode = actx.createScriptProcessor(bufSize, 2, 2);
+    if (masterGain) masterGain.connect(nativePCMNode);
+    nativePCMNode.connect(actx.destination);
+
+    nativePCMNode.onaudioprocess = (e) => {
+      if (!streamConnected || !plugin) return;
+      const left  = e.inputBuffer.getChannelData(0);
+      const right = e.inputBuffer.getChannelData(1);
+
+      // Convert Float32 PCM → Int16
+      const l16 = new Int16Array(left.length);
+      const r16 = new Int16Array(right.length);
+      for (let i = 0; i < left.length; i++) {
+        l16[i] = Math.max(-32768, Math.min(32767, left[i]  * 32768));
+        r16[i] = Math.max(-32768, Math.min(32767, right[i] * 32768));
+      }
+
+      // Encode to MP3
+      const mp3buf = mp3enc.encodeBuffer(l16, r16);
+      if (mp3buf.length > 0) {
+        // Convert Uint8Array to base64
+        const b64 = btoa(String.fromCharCode(...new Uint8Array(mp3buf)));
+        plugin.sendChunk({ data: b64 }).catch(() => {});
+      }
+    };
+
+    showToast('🎙 MP3 encoding started');
+  } catch(e) {
+    setStreamStatus('⚠️ Audio capture failed: ' + e.message, 'var(--yellow)');
+  }
+}
+
+function streamCleanupNative() {
+  streamConnected = false;
+  if (nativePCMNode) {
+    try { nativePCMNode.disconnect(); } catch(e) {}
+    nativePCMNode = null;
+  }
+  const plugin = getNativeIcecast();
+  if (plugin) plugin.disconnect().catch(() => {});
+  document.getElementById('stream-connect-btn').style.display    = '';
+  document.getElementById('stream-disconnect-btn').style.display = 'none';
+  document.getElementById('stream-info').style.display           = 'none';
+}
+
+// ── RELAY PATH (browser without Capacitor) ───────────────────────────────
+function streamConnectRelay(s) {
+  setStreamStatus('🔄 Connecting to relay…', 'var(--cyan)');
+
+  streamWS = new WebSocket(RELAY_WS_URL);
+  streamWS.binaryType = 'arraybuffer';
+
+  streamWS.onopen = () => {
+    setStreamStatus('🔄 Relay connected — starting stream…', 'var(--cyan)');
+    streamWS.send(JSON.stringify({ type: 'start_stream', config: s }));
+  };
+
+  streamWS.onmessage = (e) => {
+    try {
+      const msg = JSON.parse(e.data);
+      handleStreamMessage(msg, s);
+    } catch(err) {}
+  };
+
+  streamWS.onerror = () => {
+    setStreamStatus('❌ Cannot connect to relay — is server.js running?', 'var(--red)');
+    showToast('❌ Start the relay: node server.js');
+    streamCleanup();
+  };
+
+  streamWS.onclose = () => {
+    if (streamConnected) {
+      setStreamStatus('⚠️ Relay disconnected', 'var(--yellow)');
+      streamCleanup();
+    }
+  };
+}
+
+function handleStreamMessage(msg, config) {
+  if (msg.type === 'stream_started') {
+    streamConnected = true;
+    document.getElementById('stream-connect-btn').style.display    = 'none';
+    document.getElementById('stream-disconnect-btn').style.display = '';
+    document.getElementById('stream-info').style.display           = '';
+    document.getElementById('stream-url-display').textContent      = msg.listenUrl || '';
+    setStreamStatus('🟢 LIVE — streaming to server', 'var(--green)');
+    showToast('📡 LIVE! Streaming to ' + config.host);
+    startAudioCapture();
+  }
+  else if (msg.type === 'stream_stopped') {
+    setStreamStatus('⚪ Stream stopped: ' + (msg.reason || ''), 'var(--text2)');
+    streamCleanup();
+  }
+  else if (msg.type === 'error') {
+    setStreamStatus('❌ ' + msg.message, 'var(--red)');
+    showToast('❌ ' + msg.message);
+    streamCleanup();
+  }
+  else if (msg.type === 'status_update') {
+    if (msg.status === 'stopped') streamCleanup();
+  }
+}
+
+function startAudioCapture() {
+  initAudio();
+  try {
+    const dest = actx.createMediaStreamDestination();
+    if (masterGain) masterGain.connect(dest);
+
+    const mimeTypes = [
+      'audio/webm;codecs=opus',
+      'audio/webm',
+      'audio/ogg;codecs=opus',
+    ];
+    const mime = mimeTypes.find(m => MediaRecorder.isTypeSupported(m)) || 'audio/webm';
+
+    streamRecorder = new MediaRecorder(dest.stream, {
+      mimeType: mime,
+      audioBitsPerSecond: 256000,
+    });
+
+    streamRecorder.ondataavailable = (e) => {
+      if (e.data && e.data.size > 0 && streamWS && streamWS.readyState === WebSocket.OPEN) {
+        e.data.arrayBuffer().then(buf => {
+          if (streamWS && streamWS.readyState === WebSocket.OPEN) {
+            streamWS.send(buf);
+          }
+        });
+      }
+    };
+
+    streamRecorder.start(250); // 250ms chunks for low latency
+    showToast('🎙 Audio capture started');
+  } catch(e) {
+    setStreamStatus('⚠️ Audio capture failed: ' + e.message, 'var(--yellow)');
+  }
+}
+
+function streamDisconnect() {
+  if (IS_CAPACITOR) {
+    streamCleanupNative();
+    setStreamStatus('⚪ Not connected', 'var(--text2)');
+    showToast('⏹ Stream disconnected');
+    return;
+  }
+  if (streamWS && streamWS.readyState === WebSocket.OPEN) {
+    streamWS.send(JSON.stringify({ type: 'stop_stream' }));
+  }
+  streamCleanup();
+  showToast('⏹ Stream disconnected');
+}
+
+function streamCleanup() {
+  streamConnected = false;
+  if (streamRecorder && streamRecorder.state !== 'inactive') {
+    try { streamRecorder.stop(); } catch(e) {}
+  }
+  streamRecorder = null;
+  if (streamWS) {
+    try { streamWS.close(); } catch(e) {}
+    streamWS = null;
+  }
+  document.getElementById('stream-connect-btn').style.display    = '';
+  document.getElementById('stream-disconnect-btn').style.display = 'none';
+  document.getElementById('stream-info').style.display           = 'none';
+  if (!document.getElementById('stream-status').textContent.startsWith('❌'))
+    setStreamStatus('⚪ Not connected', 'var(--text2)');
+}
+
+// Auto-update copy box on field change
+['stream-host','stream-port','stream-mount','stream-name','stream-genre'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', updateStreamCopyBox);
+});
+['stream-type','stream-bitrate','stream-format'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('change', updateStreamCopyBox);
+});
+
+setTimeout(loadStreamSettings, 300);
+
 function toggleDoc(id) {
   const body = document.getElementById(id);
   const arr  = document.getElementById(id + '-arr');
@@ -1951,10 +2605,13 @@ function seekDeck(deck, e) {
 }
 
 function setDeckVol(deck, val) {
+  val = parseInt(val);
   const gain = deck === 'A' ? deckAGain : deckBGain;
   if (gain) gain.gain.value = val / 100;
   document.getElementById('deck'+deck+'-vol-val').textContent = val + '%';
   updateConsoleFromDeck(deck, val);
+  updateDefaultFaderSlider(deck, val);
+  scheduleSave();
 }
 
 
@@ -1990,20 +2647,169 @@ function autoDJNext(finishedDeck) {
   if (!state.autoDJ || !state.queue.length) return;
   state.queueIndex = (state.queueIndex + 1) % state.queue.length;
   const track = state.queue[state.queueIndex];
-  // Check active show for ad-after-N-songs trigger
+  const nextDeck = (finishedDeck === 'A') ? 'B' : 'A';
+
+  // ── Check active show triggers ──────────────────────────────────────────
+  let adBreakPending  = false;
+  let overlayPending  = false;
+  let adShow = null, ovShow = null;
+
   state.shows.forEach(show => {
     if (!show._triggered) return;
-    show._songCount = (show._songCount || 0) + 1;
+    show._songCount   = (show._songCount   || 0) + 1;
+    show._ovSongCount = (show._ovSongCount || 0) + 1;
+
     if (show.adTrigger === 'songs' && show._songCount >= (show.adSongs || 3)) {
-      show._songCount = 0;
-      setTimeout(() => triggerAdBreak(show), 500);
+      show._songCount  = 0;
+      adBreakPending   = true;
+      adShow           = show;
+    }
+    if (show.ovTrigger === 'songs' && show._ovSongCount >= (show.ovSongs || 2)) {
+      show._ovSongCount = 0;
+      overlayPending    = true;
+      ovShow            = show;
     }
   });
-  // Alternate: play next track on the OTHER deck
-  const nextDeck = (finishedDeck === 'A') ? 'B' : 'A';
+
+  // ── Load next track onto nextDeck ───────────────────────────────────────
   loadTrackToDeck(nextDeck, track);
-  setTimeout(() => playDeck(nextDeck), 500);
   renderQueue();
+
+  if (adBreakPending && adShow) {
+    // AD BREAK: play ad, then start the already-loaded next deck
+    show_statusMsg(adShow, '📢 Ad break…');
+    triggerAdBreakThenPlay(adShow, nextDeck);
+    // Overlay fires AFTER ad if also pending — chain it inside triggerAdBreakThenPlay via flag
+    if (overlayPending && ovShow) ovShow._pendingOverlay = true;
+  } else if (overlayPending && ovShow) {
+    // OVERLAY ONLY: duck music and play sweeper, then start next deck
+    show_statusMsg(ovShow, '🔉 Sweeper…');
+    triggerOverlayThenPlay(ovShow, nextDeck);
+  } else {
+    // NORMAL: just play the next deck after short crossfade gap
+    setTimeout(() => playDeck(nextDeck), 500);
+  }
+}
+
+function show_statusMsg(show, msg) {
+  show._statusMsg = msg;
+  updateSchedStatus();
+  setTimeout(() => { show._statusMsg = '▶ Playing'; updateSchedStatus(); }, 3000);
+}
+
+// Ad break that plays the waiting nextDeck after all ads finish
+function triggerAdBreakThenPlay(show, nextDeck) {
+  const count = show.adInRow || 1;
+
+  function afterAds() {
+    setTimeout(() => {
+      playDeck(nextDeck);
+      showToast('▶ Resuming after ad break');
+      if (show._pendingOverlay) {
+        show._pendingOverlay = false;
+        setTimeout(() => triggerOverlay(show), 1000);
+      }
+    }, 400);
+  }
+
+  // From CART
+  if (show.adSource !== 'files' && show.adCart) {
+    const cartIdx = parseInt(show.adCart) - 1;
+    const cart = state.carts[cartIdx];
+    if (!cart || !cart.url) { setTimeout(() => playDeck(nextDeck), 500); return; }
+    let played = 0;
+    function playNextCart() {
+      if (played >= count) { afterAds(); return; }
+      played++;
+      const a = new Audio(cart.url);
+      a.volume = cartGain;
+      a.onended = playNextCart;
+      a.play().catch(() => afterAds());
+    }
+    showToast(`📢 Ad break — ${count} cart(s)`);
+    playNextCart();
+    return;
+  }
+
+  // From FILES
+  let adList = [];
+  if (show.adFiles && show.adFiles.length) {
+    adList = show.adOrder === 'random'
+      ? show.adFiles.slice().sort(() => Math.random()-0.5).slice(0, count)
+      : show.adFiles.slice(0, count);
+  }
+  if (!adList.length) { setTimeout(() => playDeck(nextDeck), 500); return; }
+
+  let adIdx = 0;
+  function playNextAd() {
+    if (adIdx >= adList.length) { afterAds(); return; }
+    const ad = adList[adIdx++];
+    const a = new Audio(ad.url);
+    a.volume = cartGain;
+    a.onended = playNextAd;
+    a.play().catch(() => playNextAd());
+  }
+  showToast(`📢 Ad break — ${adList.length} file(s)`);
+  playNextAd();
+}
+
+// Overlay that plays the waiting nextDeck after sweeper finishes
+function triggerOverlayThenPlay(show, nextDeck) {
+  const count = show.ovInRow || 1;
+
+  function duckDown() {
+    if (!jingleDuckGain || !actx) return;
+    jingleDuckGain.gain.cancelScheduledValues(actx.currentTime);
+    jingleDuckGain.gain.setValueAtTime(jingleDuckGain.gain.value, actx.currentTime);
+    jingleDuckGain.gain.linearRampToValueAtTime(DUCK_LEVEL, actx.currentTime + DUCK_ATTACK);
+  }
+  function duckUpAndPlay() {
+    if (jingleDuckGain && actx) {
+      const rel = DUCK_RELEASE;
+      jingleDuckGain.gain.cancelScheduledValues(actx.currentTime);
+      jingleDuckGain.gain.setValueAtTime(jingleDuckGain.gain.value, actx.currentTime);
+      jingleDuckGain.gain.linearRampToValueAtTime(1.0, actx.currentTime + rel);
+    }
+    setTimeout(() => playDeck(nextDeck), 300);
+  }
+
+  // From CART — playCart already handles ducking
+  if (show.ovSource !== 'files' && show.ovCart) {
+    playCart(parseInt(show.ovCart) - 1);
+    // Wait for cart to finish then start deck — approximate via cart duration
+    const cart = state.carts[parseInt(show.ovCart) - 1];
+    const dur = (cart && cart.duration) ? (cart.duration * 1000 + 500) : 5000;
+    showToast('🔉 Sweeper playing');
+    setTimeout(() => playDeck(nextDeck), dur);
+    return;
+  }
+
+  // From FILES
+  if (show.ovFiles && show.ovFiles.length) {
+    let pool = show.ovFiles.slice();
+    if (show.ovOrder === 'random') pool = pool.sort(() => Math.random()-0.5);
+    const playlist = pool.slice(0, count);
+    if (!playlist.length) { setTimeout(() => playDeck(nextDeck), 500); return; }
+    duckDown();
+    // Start the next deck at low volume during sweeper, duck it
+    setTimeout(() => playDeck(nextDeck), 300);
+    let idx = 0;
+    function playSweeper() {
+      if (idx >= playlist.length) { duckUpAndPlay = () => {}; duckUpAndPlay(); return; }
+      // Actually just chain sweepers; music is playing quietly underneath
+      const f = playlist[idx++];
+      const a = new Audio(f.url);
+      a.volume = cartGain;
+      a.onended = () => { if (idx >= playlist.length) duckUpAndPlay(); else playSweeper(); };
+      a.play().catch(() => playSweeper());
+    }
+    showToast(`🔉 Sweeper — ${playlist.length} file(s)`);
+    playSweeper();
+    return;
+  }
+
+  // Nothing configured — just play
+  setTimeout(() => playDeck(nextDeck), 500);
 }
 
 // ============================================================
@@ -2030,8 +2836,12 @@ function loadCart(e, i) {
   inp.onchange = ev => {
     const file = ev.target.files[0];
     if (!file) return;
-    state.carts[i] = { name: file.name.replace(/\.[^.]+$/,''), url: URL.createObjectURL(file) };
+    const url = URL.createObjectURL(file);
+    state.carts[i] = { name: file.name.replace(/\.[^.]+$/,''), url, key: 'cart_' + i };
+    // Persist cart audio to IndexedDB
+    file.arrayBuffer().then(buf => idbSaveFile('cart_' + i, buf, file.name, file.type || 'audio/mpeg'));
     buildCartwall();
+    saveAppState();
     showToast(`Cart ${i+1} loaded: ${state.carts[i].name}`);
   };
   inp.click();
@@ -2041,6 +2851,27 @@ function playCart(i) {
   initAudio();
   if (!state.carts[i]) { showToast('Long-press to load cart'); return; }
   if (actx.state === 'suspended') actx.resume();
+
+  // ── TOGGLE: if this cart is already playing → STOP it ─────────────────
+  if (state.cartAudio[i] && !state.cartAudio[i].paused) {
+    state.cartAudio[i].pause();
+    state.cartAudio[i].currentTime = 0;
+    document.getElementById('cart-'+i).classList.remove('playing');
+    const pg = document.getElementById('cart-prog-'+i);
+    if (pg) pg.style.width = '0%';
+    const anyPlaying = state.cartAudio.some((ca, idx) => idx !== i && ca && !ca.paused);
+    if (!anyPlaying && jingleDuckGain) {
+      const releaseTime = DUCK_RELEASE;
+      jingleDuckGain.gain.cancelScheduledValues(actx.currentTime);
+      jingleDuckGain.gain.setValueAtTime(jingleDuckGain.gain.value, actx.currentTime);
+      jingleDuckGain.gain.linearRampToValueAtTime(1.0, actx.currentTime + releaseTime);
+      document.getElementById('autoduck-status').textContent = state.onAir
+        ? '🎙 ON AIR — AUTO-DUCK ACTIVE' : 'AUTO-DUCK: STANDBY';
+    }
+    return;
+  }
+
+  // ── PLAY: start fresh ──────────────────────────────────────────────────
   if (state.cartAudio[i]) { state.cartAudio[i].pause(); state.cartAudio[i].currentTime = 0; }
 
   const a = new Audio(state.carts[i].url);
@@ -2049,11 +2880,11 @@ function playCart(i) {
   document.getElementById('cart-'+i).classList.add('playing');
 
   // Duck music when cart starts
-  const duckLevel = parseInt(document.getElementById('duck-level').textContent) / 100 || 0.2;
+  const duckLevel = DUCK_LEVEL;
   if (jingleDuckGain) {
     jingleDuckGain.gain.cancelScheduledValues(actx.currentTime);
     jingleDuckGain.gain.setValueAtTime(jingleDuckGain.gain.value, actx.currentTime);
-    jingleDuckGain.gain.linearRampToValueAtTime(duckLevel, actx.currentTime + 0.1);
+    jingleDuckGain.gain.linearRampToValueAtTime(DUCK_LEVEL, actx.currentTime + DUCK_ATTACK);
   }
   document.getElementById('autoduck-status').textContent = '🎛 CART PLAYING — MUSIC DUCKED';
 
@@ -2073,8 +2904,7 @@ function playCart(i) {
     if (!anyPlaying) {
       // Restore music — smooth fade back up
       if (jingleDuckGain) {
-        const releaseFrames = parseInt(document.getElementById('duck-rel').textContent) || 55;
-        const releaseTime = releaseFrames / 60;
+        const releaseTime = DUCK_RELEASE;
         jingleDuckGain.gain.cancelScheduledValues(actx.currentTime);
         jingleDuckGain.gain.setValueAtTime(jingleDuckGain.gain.value, actx.currentTime);
         jingleDuckGain.gain.linearRampToValueAtTime(1.0, actx.currentTime + releaseTime);
@@ -2101,8 +2931,7 @@ async function toggleMic() {
     // Restore music — only if no cart is playing
     const anyCartPlaying = state.cartAudio.some(ca => ca && !ca.paused);
     if (!anyCartPlaying && jingleDuckGain) {
-      const releaseFrames = parseInt(document.getElementById('duck-rel').textContent) || 55;
-      const releaseTime = releaseFrames / 60;
+      const releaseTime = DUCK_RELEASE;
       jingleDuckGain.gain.cancelScheduledValues(actx.currentTime);
       jingleDuckGain.gain.setValueAtTime(jingleDuckGain.gain.value, actx.currentTime);
       jingleDuckGain.gain.linearRampToValueAtTime(1.0, actx.currentTime + releaseTime);
@@ -2123,31 +2952,25 @@ async function toggleMic() {
       micGainNode = actx.createGain();
       // ON AIR: open mic. OFF AIR: gate mic at 0
       micGainNode.gain.value = state.onAir ? (document.getElementById('mic-vol').value / 100) : 0;
-      micCompressor = actx.createDynamicsCompressor();
-      micCompressor.threshold.value = -20;
-      micCompressor.ratio.value = 3;
-      micSource.connect(micCompressor);
-      micCompressor.connect(micGainNode);
-      micGainNode.connect(masterGain);
-      // Build full mic DSP chain
-      buildMicDSP();
+
+      // Route: micSource → Mic Pre-Chain (HPF+Gate+Limiter) → micGainNode → jingleDuckGain (mix bus)
+      const preOut = buildMicPre(micSource);
+      preOut.connect(micGainNode);
+      micGainNode.connect(jingleDuckGain);  // mic feeds mix bus, goes through master DSP
+
       document.getElementById('mic-btn').textContent = '🎤 MIC OFF';
       document.getElementById('mic-status').textContent = state.onAir ? 'MIC: ON AIR 🔴' : 'MIC: Standby (off air)';
       document.getElementById('mic-status').className = 'mic-status active';
 
-      // Duck music via jingleDuckGain (same as cart) — only when OFF AIR
-      // When ON AIR the presenter hears music in headphones, no ducking needed
-      if (!state.onAir && jingleDuckGain) {
-        const duckLevel = parseInt(document.getElementById('duck-level').textContent) / 100 || 0.2;
+      // Mic ducking: -12 dB, 50ms attack, 800ms release
+      if (jingleDuckGain && actx) {
         jingleDuckGain.gain.cancelScheduledValues(actx.currentTime);
         jingleDuckGain.gain.setValueAtTime(jingleDuckGain.gain.value, actx.currentTime);
-        jingleDuckGain.gain.linearRampToValueAtTime(duckLevel, actx.currentTime + 0.1);
-        document.getElementById('autoduck-status').textContent = '🎤 MIC ACTIVE — MUSIC DUCKED';
-      } else {
-        document.getElementById('autoduck-status').textContent = '🔇 MONITORS CUT · 🎧 HEADPHONES ON';
+        jingleDuckGain.gain.linearRampToValueAtTime(DUCK_LEVEL, actx.currentTime + DUCK_ATTACK);
+        document.getElementById('autoduck-status').textContent = state.onAir ? '🔇 MONITORS CUT · 🎧 ON AIR' : '🎤 MIC ACTIVE — MUSIC DUCKED (−12 dB)';
       }
 
-      showToast(state.onAir ? '🎤 Mic live — ON AIR' : '🎤 Mic on — music ducked');
+      showToast(state.onAir ? '🎤 Mic live — ON AIR' : '🎤 Mic on — music ducked −12 dB');
     } catch(e) {
       showToast('⚠️ Mic access denied');
     }
@@ -2160,9 +2983,12 @@ function reconnectMic() {
 }
 
 function setMicVol(val) {
+  val = parseInt(val);
   if (micGainNode) micGainNode.gain.value = val / 100;
   document.getElementById('mic-vol-val').textContent = val + '%';
   updateConsoleFromDeck('M', val);
+  updateDefaultFaderSlider('M', val);
+  scheduleSave();
 }
 
 // ============================================================
@@ -2173,20 +2999,20 @@ function goOnAir() {
   if (actx.state === 'suspended') actx.resume();
   state.onAir = true;
 
-  // CUT studio monitors/speakers only — headphones (cueGain) stay on
+  // Mute studio monitors
   if (monitorGain) {
     monitorGain.gain.cancelScheduledValues(actx.currentTime);
     monitorGain.gain.setValueAtTime(monitorGain.gain.value, actx.currentTime);
     monitorGain.gain.linearRampToValueAtTime(0, actx.currentTime + 0.05);
   }
-  // Headphones stay at full — presenter keeps monitoring
+  // Headphones stay active
   if (cueGain) {
     cueGain.gain.cancelScheduledValues(actx.currentTime);
     cueGain.gain.setValueAtTime(cueGain.gain.value, actx.currentTime);
     cueGain.gain.linearRampToValueAtTime(0.9, actx.currentTime + 0.05);
   }
 
-  // Open mic if connected
+  // Open mic if connected — fade in
   if (state.micOn && micGainNode) {
     const micVol = document.getElementById('mic-vol').value / 100;
     micGainNode.gain.cancelScheduledValues(actx.currentTime);
@@ -2194,12 +3020,19 @@ function goOnAir() {
     micGainNode.gain.linearRampToValueAtTime(micVol, actx.currentTime + 0.1);
   }
 
+  // Mic ducking active ON AIR: -12 dB, 50ms attack
+  if (state.micOn && jingleDuckGain) {
+    jingleDuckGain.gain.cancelScheduledValues(actx.currentTime);
+    jingleDuckGain.gain.setValueAtTime(jingleDuckGain.gain.value, actx.currentTime);
+    jingleDuckGain.gain.linearRampToValueAtTime(DUCK_LEVEL, actx.currentTime + DUCK_ATTACK);
+  }
+
   document.getElementById('onair-badge').textContent = '🔴 ON AIR';
   document.getElementById('onair-badge').className = 'live';
-  document.getElementById('mic-status').textContent = 'MIC: ON AIR 🔴';
-  document.getElementById('mic-status').className = 'mic-status active';
-  document.getElementById('autoduck-status').textContent = '🔇 MONITORS CUT · 🎧 HEADPHONES ON';
-  showToast('🔴 ON AIR — Monitors cut, headphones live');
+  document.getElementById('mic-status').textContent = state.micOn ? 'MIC: ON AIR 🔴' : 'MIC: Standby';
+  document.getElementById('mic-status').className = 'mic-status' + (state.micOn ? ' active' : '');
+  document.getElementById('autoduck-status').textContent = '🔇 MONITORS MUTED · 🎧 HEADPHONES ON · MIC DUCKING ACTIVE';
+  showToast('🔴 ON AIR — Monitors muted, mic ducking active');
 }
 
 function goOffAir() {
@@ -2211,30 +3044,46 @@ function goOffAir() {
     monitorGain.gain.setValueAtTime(0, actx.currentTime);
     monitorGain.gain.linearRampToValueAtTime(1, actx.currentTime + 0.1);
   }
+  // Headphones stay active
+  if (cueGain && actx) {
+    cueGain.gain.cancelScheduledValues(actx.currentTime);
+    cueGain.gain.setValueAtTime(cueGain.gain.value, actx.currentTime);
+    cueGain.gain.linearRampToValueAtTime(0.9, actx.currentTime + 0.1);
+  }
 
-  // Gate mic — no signal leaks when off air
+  // Gate mic — standby
   if (micGainNode && actx) {
     micGainNode.gain.cancelScheduledValues(actx.currentTime);
     micGainNode.gain.setValueAtTime(micGainNode.gain.value, actx.currentTime);
     micGainNode.gain.linearRampToValueAtTime(0, actx.currentTime + 0.05);
   }
 
+  // Restore music level — 800ms release
+  if (jingleDuckGain && actx) {
+    jingleDuckGain.gain.cancelScheduledValues(actx.currentTime);
+    jingleDuckGain.gain.setValueAtTime(jingleDuckGain.gain.value, actx.currentTime);
+    jingleDuckGain.gain.linearRampToValueAtTime(1.0, actx.currentTime + DUCK_RELEASE);
+  }
+
   document.getElementById('onair-badge').textContent = '⚪ OFF AIR';
   document.getElementById('onair-badge').className = '';
   document.getElementById('mic-status').textContent = state.micOn ? 'MIC: Standby (off air)' : 'MIC: Off';
   document.getElementById('mic-status').className = 'mic-status';
-  document.getElementById('autoduck-status').textContent = '🔊 MONITORS ON · 🎧 HEADPHONES ON';
-  showToast('⚪ Off Air — Monitors restored, mic gated');
+  document.getElementById('autoduck-status').textContent = '🔊 MONITORS ACTIVE · 🎧 HEADPHONES ON · MIC STANDBY';
+  showToast('⚪ OFF AIR — Monitors active, mic standby');
 }
 
 // ============================================================
 // MASTER
 // ============================================================
 function setMaster(val) {
+  val = parseInt(val);
   state.master = val / 100;
   if (finalTrim) finalTrim.gain.value = state.master;
   document.getElementById('master-val').textContent = val + '%';
   updateConsoleFromDeck('X', val);
+  updateDefaultFaderSlider('X', val);
+  scheduleSave();
 }
 
 // ============================================================
@@ -2243,10 +3092,11 @@ function setMaster(val) {
 
 // Ad files loaded from device
 let adFiles = [];
+let ovFiles = [];
 
 function toggleAdSource() {
   const src = document.getElementById('sf-ad-source').value;
-  document.getElementById('sf-ad-cart-row').style.display = src === 'cart' ? 'flex' : 'none';
+  document.getElementById('sf-ad-cart-row').style.display  = src === 'cart'  ? 'flex' : 'none';
   document.getElementById('sf-ad-files-row').style.display = src === 'files' ? 'block' : 'none';
 }
 
@@ -2255,6 +3105,33 @@ function toggleAdTrigger() {
   document.getElementById('sf-trigger-songs').style.display   = t === 'songs'   ? 'flex' : 'none';
   document.getElementById('sf-trigger-minutes').style.display = t === 'minutes' ? 'flex' : 'none';
   document.getElementById('sf-trigger-time').style.display    = t === 'time'    ? 'flex' : 'none';
+}
+
+function toggleOverlaySource() {
+  const src = document.getElementById('sf-ov-source').value;
+  document.getElementById('sf-ov-cart-row').style.display  = src === 'cart'  ? 'flex' : 'none';
+  document.getElementById('sf-ov-files-row').style.display = src === 'files' ? 'block' : 'none';
+}
+
+function toggleOverlayTrigger() {
+  const t = document.getElementById('sf-ov-trigger').value;
+  document.getElementById('sf-ov-trigger-songs').style.display   = t === 'songs'   ? 'flex' : 'none';
+  document.getElementById('sf-ov-trigger-minutes').style.display = t === 'minutes' ? 'flex' : 'none';
+  document.getElementById('sf-ov-trigger-time').style.display    = t === 'time'    ? 'flex' : 'none';
+  checkAdTimeConflict();
+}
+
+// ── Conflict check: ad time vs overlay time ──────────────────────────────
+function checkAdTimeConflict() {
+  const adTrig = document.getElementById('sf-ad-trigger').value;
+  const ovTrig = document.getElementById('sf-ov-trigger').value;
+  const adTime = document.getElementById('sf-ad-time').value;
+  const ovTime = document.getElementById('sf-ov-time').value;
+  const adConflict = document.getElementById('sf-ad-time-conflict');
+  const ovConflict = document.getElementById('sf-ov-time-conflict');
+  const conflict = adTrig === 'time' && ovTrig === 'time' && adTime && ovTime && adTime === ovTime;
+  if (adConflict) adConflict.style.display = conflict ? 'inline' : 'none';
+  if (ovConflict) ovConflict.style.display = conflict ? 'inline' : 'none';
 }
 
 function loadAdFiles() {
@@ -2274,9 +3151,26 @@ function loadAdFiles() {
   inp.click();
 }
 
+function loadOverlayFiles() {
+  const inp = document.getElementById('show-file-input');
+  inp.value = '';
+  inp.onchange = e => {
+    const files = Array.from(e.target.files);
+    ovFiles = files.map(file => ({
+      key: trackKey(file),
+      name: file.name.replace(/\.[^.]+$/,''),
+      file, size: file.size, duration: 0,
+      url: URL.createObjectURL(file),
+    }));
+    document.getElementById('sf-ov-files-count').textContent = ovFiles.length + ' files loaded';
+    showToast(`✅ ${ovFiles.length} sweeper file(s) loaded`);
+  };
+  inp.click();
+}
+
 function newShow() {
   state.editingShowIndex = -1;
-  adFiles = [];
+  adFiles = []; ovFiles = [];
   document.getElementById('sf-name').value = '';
   document.getElementById('sf-start').value = '';
   document.getElementById('sf-end').value = '';
@@ -2286,6 +3180,17 @@ function newShow() {
   document.getElementById('sf-monthday').value = '1';
   setSelectedDays([]);
   toggleRepeat();
+  // Overlay
+  document.getElementById('sf-ov-source').value  = 'cart';
+  document.getElementById('sf-ov-cart').value    = '';
+  document.getElementById('sf-ov-files-count').textContent = '0 files loaded';
+  document.getElementById('sf-ov-trigger').value = '';
+  document.getElementById('sf-ov-songs').value   = '2';
+  document.getElementById('sf-ov-minutes').value = '10';
+  document.getElementById('sf-ov-time').value    = '';
+  document.getElementById('sf-ov-order').value   = 'random';
+  document.getElementById('sf-ov-inrow').value   = '1';
+  toggleOverlaySource(); toggleOverlayTrigger();
   document.getElementById('sf-intro').value = '';
   document.getElementById('sf-outro').value = '';
   document.getElementById('sf-ad-source').value = 'cart';
@@ -2336,6 +3241,19 @@ function setSelectedDays(days) {
 function saveShow() {
   const name = document.getElementById('sf-name').value.trim();
   if (!name) { showToast('⚠️ Enter a show name'); return; }
+
+  // ── Slot conflict check: ad time vs overlay time ──
+  const adTrigger = document.getElementById('sf-ad-trigger').value;
+  const ovTrigger = document.getElementById('sf-ov-trigger').value;
+  if (adTrigger === 'time' && ovTrigger === 'time') {
+    const adT = document.getElementById('sf-ad-time').value;
+    const ovT = document.getElementById('sf-ov-time').value;
+    if (adT && ovT && adT === ovT) {
+      showToast('⛔ Time conflict! Ad Break and Overlay are both set to ' + adT + '. Change one.');
+      return;
+    }
+  }
+
   const repeat = document.getElementById('sf-repeat').value;
   const show = {
     name,
@@ -2348,7 +3266,19 @@ function saveShow() {
     repeatMonthDay: repeat === 'monthly' ? parseInt(document.getElementById('sf-monthday').value) || 1 : null,
     intro: document.getElementById('sf-intro').value,
     outro: document.getElementById('sf-outro').value,
+    // ── Overlay / Sweeper ──
+    ovSource:  document.getElementById('sf-ov-source').value,
+    ovCart:    document.getElementById('sf-ov-cart').value,
+    ovFiles:   ovFiles.slice(),
+    ovOrder:   document.getElementById('sf-ov-order').value,
+    ovInRow:   parseInt(document.getElementById('sf-ov-inrow').value) || 1,
+    ovTrigger: document.getElementById('sf-ov-trigger').value,
+    ovSongs:   parseInt(document.getElementById('sf-ov-songs').value) || 2,
+    ovMinutes: parseInt(document.getElementById('sf-ov-minutes').value) || 10,
+    ovTime:    document.getElementById('sf-ov-time').value,
+    // ── Pause Ad Break ──
     adSource:  document.getElementById('sf-ad-source').value,
+    adPauseResume: true,
     adCart:    document.getElementById('sf-ad-cart').value,
     adFiles:   adFiles.slice(),
     adOrder:   document.getElementById('sf-ad-order').value,
@@ -2363,6 +3293,8 @@ function saveShow() {
     playlist: state.editingShowIndex >= 0 ? state.shows[state.editingShowIndex].playlist || [] : [],
     _songCount: 0,
     _triggered: false,
+    _ovSongCount: 0,
+    _ovLastMin: 0,
   };
   if (state.editingShowIndex >= 0) {
     state.shows[state.editingShowIndex] = show;
@@ -2396,6 +3328,18 @@ function editShow(i) {
   document.getElementById('sf-intro').value = s.intro || '';
   document.getElementById('sf-outro').value = s.outro || '';
   document.getElementById('sf-ad-source').value = s.adSource || 'cart';
+  // Overlay fields
+  document.getElementById('sf-ov-source').value  = s.ovSource  || 'cart';
+  document.getElementById('sf-ov-cart').value    = s.ovCart    || '';
+  document.getElementById('sf-ov-files-count').textContent = (s.ovFiles||[]).length + ' files loaded';
+  ovFiles = s.ovFiles ? s.ovFiles.slice() : [];
+  document.getElementById('sf-ov-order').value   = s.ovOrder  || 'random';
+  document.getElementById('sf-ov-inrow').value   = s.ovInRow  || 1;
+  document.getElementById('sf-ov-trigger').value = s.ovTrigger || '';
+  document.getElementById('sf-ov-songs').value   = s.ovSongs   || 2;
+  document.getElementById('sf-ov-minutes').value = s.ovMinutes || 10;
+  document.getElementById('sf-ov-time').value    = s.ovTime    || '';
+  toggleOverlaySource(); toggleOverlayTrigger();
   document.getElementById('sf-ad-cart').value = s.adCart || '';
   document.getElementById('sf-ad-files-count').textContent = adFiles.length + ' files loaded';
   document.getElementById('sf-ad-order').value = s.adOrder || 'sequence';
@@ -2567,14 +3511,52 @@ function showMatchesToday(show, now) {
   return true;
 }
 
+function updateSchedStatus() {
+  const bar = document.getElementById('sched-status-bar');
+  if (!bar) return;
+  const active = state.shows.filter(s => s._triggered);
+  if (!active.length) { bar.style.display = 'none'; return; }
+  bar.style.display = '';
+  bar.innerHTML = active.map(s => {
+    const parts = ['\uD83C\uDF99 <strong>' + s.name + '</strong>', s.start + '\u2013' + s.end];
+    if (s._statusMsg) parts.push('\u00b7 ' + s._statusMsg);
+    const adNext = s.adTrigger === 'songs'   ? 'Ad in ' + ((s.adSongs||3) - (s._songCount||0)) + ' songs'
+                 : s.adTrigger === 'minutes' ? 'Ad every ' + s.adMinutes + ' min'
+                 : s.adTrigger === 'time'    ? 'Ad at ' + s.adTime : '';
+    const ovNext = s.ovTrigger === 'songs'   ? 'Overlay in ' + ((s.ovSongs||2) - (s._ovSongCount||0)) + ' songs'
+                 : s.ovTrigger === 'minutes' ? 'Overlay every ' + s.ovMinutes + ' min'
+                 : s.ovTrigger === 'time'    ? 'Overlay at ' + s.ovTime : '';
+    if (adNext) parts.push('\u00b7 ' + adNext);
+    if (ovNext) parts.push('\u00b7 ' + ovNext);
+    return parts.join(' ');
+  }).join('<br>');
+}
+
 function checkScheduledShows(now) {
   const hhmm = now.toTimeString().slice(0,5);
   state.shows.forEach(show => {
-    // Start show — only if today matches recurrence
+
+    // START SHOW
     if (show.start === hhmm && !show._triggered && showMatchesToday(show, now)) {
-      show._triggered = true;
-      show._songCount = 0;
-      showToast(`📅 Show starting: ${show.name}`);
+      show._triggered   = true;
+      show._songCount   = 0;
+      show._ovSongCount = 0;
+      show._lastAdTick  = 0;
+      show._lastOvTick  = 0;
+      show._startedAt   = now;
+      show._firedHHMM   = {};
+      show._statusMsg   = '\u25ba ON AIR';
+      showToast('\uD83D\uDCC5 Show starting: ' + show.name);
+
+      // PLAY INTRO CART
+      if (show.intro) {
+        const introIdx = parseInt(show.intro) - 1;
+        show._statusMsg = '\uD83C\uDFB5 Playing intro\u2026';
+        updateSchedStatus();
+        setTimeout(() => playCart(introIdx), 300);
+      }
+
+      // LOAD PLAYLIST
       if (show.playlist && show.playlist.length) {
         let pl = show.playlist.slice();
         if (show.playlistOrder === 'random') {
@@ -2590,42 +3572,229 @@ function checkScheduledShows(now) {
         state.queue = pl;
         state.queueIndex = 0;
         renderQueue();
-        loadTrackToDeck(show.deck||'A', pl[0]);
-        if (state.autoDJ) setTimeout(() => playDeck(show.deck||'A'), 1000);
+        const startDelay = show.intro ? 1500 : 500;
+        setTimeout(() => {
+          loadTrackToDeck(show.deck||'A', pl[0]);
+          if (state.autoDJ) setTimeout(() => {
+            playDeck(show.deck||'A');
+            show._statusMsg = '\u25ba Playing';
+            updateSchedStatus();
+          }, 400);
+        }, startDelay);
+      }
+      renderShowList();
+    }
+
+    if (!show._triggered) return;
+    if (!show._firedHHMM) show._firedHHMM = {};
+
+    // AT-TIME: AD BREAK (fire once per slot)
+    if (show.adTrigger === 'time' && show.adTime === hhmm && !show._firedHHMM['ad_' + hhmm]) {
+      show._firedHHMM['ad_' + hhmm] = true;
+      show._statusMsg = '\uD83D\uDCE2 Ad break\u2026';
+      updateSchedStatus();
+      triggerAdBreak(show);
+      setTimeout(() => { show._statusMsg = '\u25ba Playing'; updateSchedStatus(); }, 2000);
+    }
+
+    // AT-TIME: OVERLAY (fire once per slot)
+    if (show.ovTrigger === 'time' && show.ovTime === hhmm && !show._firedHHMM['ov_' + hhmm]) {
+      show._firedHHMM['ov_' + hhmm] = true;
+      show._statusMsg = '\uD83D\uDD09 Sweeper\u2026';
+      updateSchedStatus();
+      triggerOverlay(show);
+      setTimeout(() => { show._statusMsg = '\u25ba Playing'; updateSchedStatus(); }, 1500);
+    }
+
+    // MINUTES: AD BREAK
+    const elapsedMin = Math.floor((now - (show._startedAt || now)) / 60000);
+    if (show.adTrigger === 'minutes' && (show.adMinutes||0) > 0) {
+      const tick = Math.floor(elapsedMin / show.adMinutes);
+      if (tick > 0 && tick > (show._lastAdTick||0)) {
+        show._lastAdTick = tick;
+        show._statusMsg = '\uD83D\uDCE2 Ad break\u2026';
+        updateSchedStatus();
+        triggerAdBreak(show);
+        setTimeout(() => { show._statusMsg = '\u25ba Playing'; updateSchedStatus(); }, 2000);
       }
     }
-    // At-time ad trigger
-    if (show._triggered && show.adTrigger === 'time' && show.adTime === hhmm) {
-      triggerAdBreak(show);
+
+    // MINUTES: OVERLAY
+    if (show.ovTrigger === 'minutes' && (show.ovMinutes||0) > 0) {
+      const tick = Math.floor(elapsedMin / show.ovMinutes);
+      if (tick > 0 && tick > (show._lastOvTick||0)) {
+        show._lastOvTick = tick;
+        show._statusMsg = '\uD83D\uDD09 Sweeper\u2026';
+        updateSchedStatus();
+        triggerOverlay(show);
+        setTimeout(() => { show._statusMsg = '\u25ba Playing'; updateSchedStatus(); }, 1500);
+      }
     }
-    // Reset at end — for 'once' shows keep _triggered so they don't re-fire
-    if (show.end === hhmm && show._triggered) {
-      show._triggered = (show.repeat === 'once'); // stays true for once-only shows
+
+    // END SHOW
+    if (show.end === hhmm && !show._firedHHMM['end']) {
+      show._firedHHMM['end'] = true;
+      show._statusMsg = '\uD83C\uDFC1 Ending\u2026';
+      updateSchedStatus();
+      if (show.outro) {
+        const outroIdx = parseInt(show.outro) - 1;
+        playCart(outroIdx);
+        showToast('\uD83C\uDFC1 Show ending: ' + show.name + ' \u2014 playing outro');
+      } else {
+        showToast('\uD83C\uDFC1 Show ended: ' + show.name);
+      }
+      setTimeout(() => {
+        show._triggered = (show.repeat === 'once');
+        show._statusMsg = '';
+        updateSchedStatus();
+        renderShowList();
+      }, 500);
     }
   });
+  updateSchedStatus();
 }
 
 function triggerAdBreak(show) {
   const count = show.adInRow || 1;
+  const pauseResume = show.adPauseResume !== false; // default: true = pause & resume
+
+  // ── 1. Detect and pause the active deck ──────────────────────────────────
+  let pausedDeck = null;
+  let pausedPos  = 0;
+  if (pauseResume) {
+    if (state.deckA.playing) {
+      pausedDeck = 'A';
+      pausedPos  = state.deckA.audio.currentTime;
+      state.deckA.audio.pause();
+      state.deckA.playing = false;
+      document.getElementById('deckA-play').textContent = '▶';
+    } else if (state.deckB.playing) {
+      pausedDeck = 'B';
+      pausedPos  = state.deckB.audio.currentTime;
+      state.deckB.audio.pause();
+      state.deckB.playing = false;
+      document.getElementById('deckB-play').textContent = '▶';
+    }
+  }
+
+  // ── 2. Called after the LAST ad finishes → resume paused deck ────────────
+  function resumeAfterAds() {
+    if (!pausedDeck) return;
+    const d = pausedDeck === 'A' ? state.deckA : state.deckB;
+    if (!d.audio) return;
+    // Small delay so the last ad fully ends before music kicks back in
+    setTimeout(() => {
+      d.audio.currentTime = pausedPos;
+      d.audio.play().then(() => {
+        d.playing = true;
+        document.getElementById('deck'+pausedDeck+'-play').textContent = '⏸';
+        showToast('▶ Resuming after ad break');
+      }).catch(() => {});
+    }, 300);
+  }
+
+  // ── 3. Build ad list ─────────────────────────────────────────────────────
   let adList = [];
   if (show.adSource === 'files' && show.adFiles && show.adFiles.length) {
     adList = show.adOrder === 'random'
       ? show.adFiles.slice().sort(() => Math.random()-0.5).slice(0, count)
       : show.adFiles.slice(0, count);
-  } else if (show.adCart) {
+  }
+
+  // ── 4. Play from CART slots ───────────────────────────────────────────────
+  if (!adList.length && show.adCart) {
     const cartIdx = parseInt(show.adCart) - 1;
-    for (let i=0; i<count; i++) playCart(cartIdx);
+    const cart = state.carts[cartIdx];
+    if (!cart || !cart.url) {
+      if (pausedDeck) resumeAfterAds();
+      return;
+    }
+    // Play N carts in sequence, chained via onended
+    let played = 0;
+    function playNextCart() {
+      if (played >= count) { resumeAfterAds(); return; }
+      played++;
+      const a = new Audio(cart.url);
+      a.volume = cartGain;
+      a.onended = playNextCart;
+      a.play().catch(() => { resumeAfterAds(); });
+    }
+    showToast(`📢 Ad break — ${count} cart(s) · music paused`);
+    playNextCart();
     return;
   }
-  adList.forEach((ad, i) => setTimeout(() => {
+
+  // ── 5. Play from FILE list ────────────────────────────────────────────────
+  if (!adList.length) {
+    if (pausedDeck) resumeAfterAds();
+    return;
+  }
+
+  // Chain files sequentially via onended
+  let adIdx = 0;
+  function playNextAd() {
+    if (adIdx >= adList.length) { resumeAfterAds(); return; }
+    const ad = adList[adIdx++];
     const a = new Audio(ad.url);
     a.volume = cartGain;
-    a.play();
-  }, i * 3000));
-  if (adList.length) showToast(`📢 Ad break: ${adList.length} file(s)`);
+    a.onended = playNextAd;
+    a.play().catch(() => playNextAd());
+  }
+  showToast(`📢 Ad break — ${adList.length} file(s) · music paused`);
+  playNextAd();
 }
 
 // ============================================================
+// ============================================================
+// OVERLAY / SWEEPER — ducks music and plays cart/file over it
+// ============================================================
+function triggerOverlay(show) {
+  const count = show.ovInRow || 1;
+
+  // ── Duck music ────────────────────────────────────────────────────────────
+  function duckDown() {
+    if (!jingleDuckGain || !actx) return;
+    jingleDuckGain.gain.cancelScheduledValues(actx.currentTime);
+    jingleDuckGain.gain.setValueAtTime(jingleDuckGain.gain.value, actx.currentTime);
+    jingleDuckGain.gain.linearRampToValueAtTime(DUCK_LEVEL, actx.currentTime + DUCK_ATTACK);
+  }
+  function duckUp() {
+    if (!jingleDuckGain || !actx) return;
+    const releaseTime = (duckReleaseFrames / 60);
+    jingleDuckGain.gain.cancelScheduledValues(actx.currentTime);
+    jingleDuckGain.gain.setValueAtTime(jingleDuckGain.gain.value, actx.currentTime);
+    jingleDuckGain.gain.linearRampToValueAtTime(1.0, actx.currentTime + releaseTime);
+  }
+
+  // ── Play from FILES ───────────────────────────────────────────────────────
+  if (show.ovSource === 'files' && show.ovFiles && show.ovFiles.length) {
+    let pool = show.ovFiles.slice();
+    if (show.ovOrder === 'random') pool = pool.sort(() => Math.random()-0.5);
+    const playlist = pool.slice(0, count);
+    if (!playlist.length) return;
+    duckDown();
+    let idx = 0;
+    function playNextSweeper() {
+      if (idx >= playlist.length) { duckUp(); return; }
+      const f = playlist[idx++];
+      const a = new Audio(f.url);
+      a.volume = cartGain;
+      a.onended = playNextSweeper;
+      a.play().catch(() => playNextSweeper());
+    }
+    playNextSweeper();
+    showToast(`🔉 Sweeper — ${playlist.length} file(s)`);
+    return;
+  }
+
+  // ── Play from CART ────────────────────────────────────────────────────────
+  if (show.ovCart) {
+    const idx = parseInt(show.ovCart) - 1;
+    playCart(idx);
+    showToast('🔉 Sweeper (cart ' + show.ovCart + ')');
+  }
+}
+
 // AUDIO DEVICE ROUTING
 // ============================================================
 async function refreshDevices() {
@@ -2686,479 +3855,19 @@ document.querySelectorAll('.tab').forEach(tab => {
 // RESET FUNCTIONS
 // ============================================================
 function resetSettings() {
-  resetDSP();
   resetFaders();
   document.querySelectorAll('#panel-settings input[type=range]').forEach(el => { el.value = el.defaultValue; });
   // Re-apply all DSP defaults to audio nodes
-  applyAllDSP();
   showToast('↺ All settings reset to defaults');
 }
 
-// ============================================================
-// DSP SETTINGS — Precise Spec Implementation
-// ============================================================
-
-let dspHPF = null, dspCompressor = null, dspBassEQ = null, dspPresEQ = null;
-let dspAirEQ = null, dspLimiter = null, dspSoftClipper = null;
-let dspMBLowComp = null, dspMBMidComp = null, dspMBHighComp = null;
-let dspMBLowEQ = null, dspMBMidEQ = null, dspMBHighEQ = null;
-let dspLookAheadLim = null;
-let micHPF = null, micGate = null, micDeEsser = null, micDSPComp = null;
-let micWarmEQ = null, micPresEQ = null, micLimiterNode = null, micDuckComp = null;
-
-const dspParams = {
-  // Master DSP — values match slider defaults in HTML
-  hpf: 35, agc: -24, comp: 3.5,
-  bass: 3, pres: 3, air: 2,
-  width: 1.05, clip: 0.7, psycho: 5, lookahead: 5, lim: -0.3,
-  // Multiband (internal only)
-  mbLowRatio: 2.5, mbLowThresh: -24, mbLowAttack: 40, mbLowRelease: 220, mbLowGain: 1.5,
-  mbMidRatio: 2,   mbMidThresh: -20, mbMidAttack: 20, mbMidRelease: 150, mbMidGain: 1,
-  mbHighRatio: 1.8,mbHighThresh:-18, mbHighAttack: 8,  mbHighRelease: 90,  mbHighGain: 0.5,
-  // Mic DSP — values match slider defaults in HTML
-  michpf: 80, gate: -45,
-  esser: 6000,
-  miccomp: 3, warm: 2, micpres: 2, miclim: -4,
-  duckThresh: -20, duckRatio: 2, duckAttack: 6, duckRelease: 150,
-};
-
-function buildMasterDSP() {
-  if (!actx) return;
-
-  // ── Highpass 35 Hz, 12 dB/oct ──
-  dspHPF = actx.createBiquadFilter();
-  dspHPF.type = 'highpass';
-  dspHPF.frequency.value = 35;
-  dspHPF.Q.value = 0.707;
-
-  // ── Program Leveler / AGC ──
-  const agcLeveler = actx.createDynamicsCompressor();
-  agcLeveler.threshold.value = -18;
-  agcLeveler.knee.value = 12;
-  agcLeveler.ratio.value = 1.5; // gentle leveling
-  agcLeveler.attack.value = 0.3;
-  agcLeveler.release.value = 1.0;
-
-  // ── Density Compressor: 2:1, -18 dB, 10ms/100ms ──
-  dspCompressor = actx.createDynamicsCompressor();
-  dspCompressor.threshold.value = -18;
-  dspCompressor.knee.value = 8;
-  dspCompressor.ratio.value = 2;
-  dspCompressor.attack.value = 0.010;
-  dspCompressor.release.value = 0.100;
-
-  // ── 3-Band Multiband Compressor ──
-  // Split filters
-  const mbLowLP  = actx.createBiquadFilter(); mbLowLP.type = 'lowpass';  mbLowLP.frequency.value  = 120;  mbLowLP.Q.value = 0.707;
-  const mbMidHP  = actx.createBiquadFilter(); mbMidHP.type = 'highpass'; mbMidHP.frequency.value  = 120;  mbMidHP.Q.value = 0.707;
-  const mbMidLP  = actx.createBiquadFilter(); mbMidLP.type = 'lowpass';  mbMidLP.frequency.value  = 4000; mbMidLP.Q.value = 0.707;
-  const mbHighHP = actx.createBiquadFilter(); mbHighHP.type = 'highpass';mbHighHP.frequency.value = 4000; mbHighHP.Q.value = 0.707;
-
-  // Band compressors
-  dspMBLowComp = actx.createDynamicsCompressor();
-  dspMBLowComp.threshold.value = -24; dspMBLowComp.ratio.value = 2.5;
-  dspMBLowComp.attack.value = 0.040;  dspMBLowComp.release.value = 0.220; dspMBLowComp.knee.value = 6;
-
-  dspMBMidComp = actx.createDynamicsCompressor();
-  dspMBMidComp.threshold.value = -20; dspMBMidComp.ratio.value = 2;
-  dspMBMidComp.attack.value = 0.020;  dspMBMidComp.release.value = 0.150; dspMBMidComp.knee.value = 6;
-
-  dspMBHighComp = actx.createDynamicsCompressor();
-  dspMBHighComp.threshold.value = -18; dspMBHighComp.ratio.value = 1.8;
-  dspMBHighComp.attack.value = 0.008;  dspMBHighComp.release.value = 0.090; dspMBHighComp.knee.value = 4;
-
-  // Band makeup gains
-  dspMBLowEQ  = actx.createGain(); dspMBLowEQ.gain.value  = dbToLinear(1.5);
-  dspMBMidEQ  = actx.createGain(); dspMBMidEQ.gain.value  = dbToLinear(1.0);
-  dspMBHighEQ = actx.createGain(); dspMBHighEQ.gain.value = dbToLinear(0.5);
-
-  // Merge bus after multiband
-  const mbMerge = actx.createGain(); mbMerge.gain.value = 0.5; // compensate 3 paths summing
-
-  // ── Bass EQ: 90 Hz +3 dB ──
-  dspBassEQ = actx.createBiquadFilter();
-  dspBassEQ.type = 'lowshelf'; dspBassEQ.frequency.value = 90; dspBassEQ.gain.value = 3;
-
-  // ── Presence EQ: 3 kHz +2.5 dB ──
-  dspPresEQ = actx.createBiquadFilter();
-  dspPresEQ.type = 'peaking'; dspPresEQ.frequency.value = 3000; dspPresEQ.Q.value = 1.0; dspPresEQ.gain.value = 2.5;
-
-  // ── Air EQ: 9 kHz +1.5 dB ──
-  dspAirEQ = actx.createBiquadFilter();
-  dspAirEQ.type = 'highshelf'; dspAirEQ.frequency.value = 9000; dspAirEQ.gain.value = 1.5;
-
-  // ── Soft Clipper: Drive 0.55 ──
-  dspSoftClipper = actx.createWaveShaper();
-  dspSoftClipper.curve = makeSoftClipCurve(0.55);
-  dspSoftClipper.oversample = '4x';
-
-  // ── Look-Ahead Limiter: -1 dB ceiling ──
-  dspLookAheadLim = actx.createDynamicsCompressor();
-  dspLookAheadLim.threshold.value = -1;
-  dspLookAheadLim.knee.value = 0;
-  dspLookAheadLim.ratio.value = 20;
-  dspLookAheadLim.attack.value = 0.005; // 5ms look-ahead approx
-  dspLookAheadLim.release.value = 0.1;
-
-  // ── Brickwall Limiter: -0.5 dB absolute ceiling ──
-  dspLimiter = actx.createDynamicsCompressor();
-  dspLimiter.threshold.value = -0.5;
-  dspLimiter.knee.value = 0;
-  dspLimiter.ratio.value = 20;
-  dspLimiter.attack.value = 0.0005;
-  dspLimiter.release.value = 0.05;
-
-  // ── Final output trim — unity 0 dB ──
-  const outputTrim = actx.createGain(); outputTrim.gain.value = 1.0;
-
-  // ── Wire the complete chain ──
-  try { jingleDuckGain.disconnect(); } catch(e) {}
-
-  // jingleDuckGain → HPF → AGC → DensityComp → [multiband split] → merge → BassEQ → PresEQ → AirEQ → SoftClip → LookAheadLim → BrickwallLim → outputTrim → masterGain
-  jingleDuckGain.connect(dspHPF);
-  dspHPF.connect(agcLeveler);
-  agcLeveler.connect(dspCompressor);
-
-  // Multiband split
-  dspCompressor.connect(mbLowLP);
-  dspCompressor.connect(mbMidHP);
-  dspCompressor.connect(mbHighHP);
-
-  mbMidHP.connect(mbMidLP); // mid band = HP+LP
-
-  mbLowLP.connect(dspMBLowComp);   dspMBLowComp.connect(dspMBLowEQ);   dspMBLowEQ.connect(mbMerge);
-  mbMidLP.connect(dspMBMidComp);   dspMBMidComp.connect(dspMBMidEQ);   dspMBMidEQ.connect(mbMerge);
-  mbHighHP.connect(dspMBHighComp); dspMBHighComp.connect(dspMBHighEQ); dspMBHighEQ.connect(mbMerge);
-
-  mbMerge.connect(dspBassEQ);
-  dspBassEQ.connect(dspPresEQ);
-  dspPresEQ.connect(dspAirEQ);
-  dspAirEQ.connect(dspSoftClipper);
-  dspSoftClipper.connect(dspLookAheadLim);
-  dspLookAheadLim.connect(dspLimiter);
-  dspLimiter.connect(outputTrim);
-  outputTrim.connect(masterGain);
-}
-
-function buildMicDSP() {
-  if (!actx || !micSource) return;
-
-  // ── Highpass 80 Hz, 12 dB/oct ──
-  micHPF = actx.createBiquadFilter();
-  micHPF.type = 'highpass'; micHPF.frequency.value = 80; micHPF.Q.value = 0.707;
-
-  // ── Noise Gate: -45 dB, 10ms attack, 120ms release ──
-  micGate = actx.createDynamicsCompressor();
-  micGate.threshold.value = -45; micGate.knee.value = 0;
-  micGate.ratio.value = 20; // gate-like
-  micGate.attack.value = 0.010; micGate.release.value = 0.120;
-
-  // ── De-Esser: 6 kHz, -3 dB reduction ──
-  micDeEsser = actx.createBiquadFilter();
-  micDeEsser.type = 'peaking'; micDeEsser.frequency.value = 6000;
-  micDeEsser.Q.value = 5.0; micDeEsser.gain.value = -3;
-
-  // ── Voice Compressor: 2:1, -18 dB, 8ms/90ms, 0 dB makeup ──
-  micDSPComp = actx.createDynamicsCompressor();
-  micDSPComp.threshold.value = -18; micDSPComp.knee.value = 6;
-  micDSPComp.ratio.value = 2;
-  micDSPComp.attack.value = 0.008; micDSPComp.release.value = 0.090;
-
-  // ── Warmth EQ: 120 Hz +2 dB ──
-  micWarmEQ = actx.createBiquadFilter();
-  micWarmEQ.type = 'lowshelf'; micWarmEQ.frequency.value = 120; micWarmEQ.gain.value = 2;
-
-  // ── Presence EQ: 3 kHz +2 dB ──
-  micPresEQ = actx.createBiquadFilter();
-  micPresEQ.type = 'peaking'; micPresEQ.frequency.value = 3000; micPresEQ.Q.value = 1.0; micPresEQ.gain.value = 2;
-
-  // ── Mic Limiter: -4 dB ceiling ──
-  micLimiterNode = actx.createDynamicsCompressor();
-  micLimiterNode.threshold.value = -4; micLimiterNode.knee.value = 0;
-  micLimiterNode.ratio.value = 20; micLimiterNode.attack.value = 0.001; micLimiterNode.release.value = 0.05;
-
-  // ── Mic Ducking: 2:1, -20 dB thresh, 6ms/150ms ──
-  micDuckComp = actx.createDynamicsCompressor();
-  micDuckComp.threshold.value = -20; micDuckComp.knee.value = 6;
-  micDuckComp.ratio.value = 2;
-  micDuckComp.attack.value = 0.006; micDuckComp.release.value = 0.150;
-
-  // ── Chain: micSource → HPF → Gate → DeEsser → Comp → WarmEQ → PresEQ → Limiter → DuckComp → micGainNode ──
-  try { micSource.disconnect(); } catch(e) {}
-  micSource.connect(micHPF);
-  micHPF.connect(micGate);
-  micGate.connect(micDeEsser);
-  micDeEsser.connect(micDSPComp);
-  micDSPComp.connect(micWarmEQ);
-  micWarmEQ.connect(micPresEQ);
-  micPresEQ.connect(micLimiterNode);
-  micLimiterNode.connect(micDuckComp);
-  micDuckComp.connect(micGainNode);
-}
-
-// ── Helper: dB to linear ──
-function dbToLinear(db) { return Math.pow(10, db / 20); }
-
-function buildMasterDSP() {
-  if (!actx) return;
-
-  // ── Pre-DSP trim — reduce input level BEFORE processing ──
-  // This is the root fix: signal was hitting DSP nodes too hot
-  const preDSPTrim = actx.createGain();
-  preDSPTrim.gain.value = 0.55; // bring signal down before EQ boosts
-
-  // Highpass 35 Hz
-  dspHPF = actx.createBiquadFilter();
-  dspHPF.type = 'highpass';
-  dspHPF.frequency.value = dspParams.hpf;
-  dspHPF.Q.value = 0.707;
-
-  // AGC / Density Compressor
-  dspCompressor = actx.createDynamicsCompressor();
-  dspCompressor.threshold.value = dspParams.agc;
-  dspCompressor.knee.value = 10;  // softer knee — less pumping
-  dspCompressor.ratio.value = dspParams.comp;
-  dspCompressor.attack.value = 0.01;   // slower attack — more transparent
-  dspCompressor.release.value = 0.4;   // slower release — less pumping
-
-  // Bass EQ — 90 Hz lowshelf
-  dspBassEQ = actx.createBiquadFilter();
-  dspBassEQ.type = 'lowshelf';
-  dspBassEQ.frequency.value = 90;
-  dspBassEQ.gain.value = dspParams.bass;
-
-  // Presence EQ — 3 kHz peaking
-  dspPresEQ = actx.createBiquadFilter();
-  dspPresEQ.type = 'peaking';
-  dspPresEQ.frequency.value = 3000;
-  dspPresEQ.Q.value = 1.0;
-  dspPresEQ.gain.value = dspParams.pres;
-
-  // Air EQ — 9 kHz highshelf
-  dspAirEQ = actx.createBiquadFilter();
-  dspAirEQ.type = 'highshelf';
-  dspAirEQ.frequency.value = 9000;
-  dspAirEQ.gain.value = dspParams.air;
-
-  // Post-EQ gain compensation — recover level after EQ
-  const postEQGain = actx.createGain();
-  postEQGain.gain.value = 0.75; // compensate for EQ boosts without clipping
-
-  // Soft Clipper (WaveShaper) — gentler threshold
-  dspSoftClipper = actx.createWaveShaper();
-  dspSoftClipper.curve = makeSoftClipCurve(dspParams.clip);
-  dspSoftClipper.oversample = '4x';
-
-  // Brickwall Limiter — true ceiling
-  dspLimiter = actx.createDynamicsCompressor();
-  dspLimiter.threshold.value = dspParams.lim;
-  dspLimiter.knee.value = 0;
-  dspLimiter.ratio.value = 20;
-  dspLimiter.attack.value = 0.0005; // very fast — true limiting
-  dspLimiter.release.value = 0.15;
-
-  // ── Single clean chain — no double path to masterGain ──
-  // Disconnect jingleDuckGain from anything it may have been connected to
-  try { jingleDuckGain.disconnect(); } catch(e) {}
-
-  jingleDuckGain.connect(preDSPTrim);
-  preDSPTrim.connect(dspHPF);
-  dspHPF.connect(dspCompressor);
-  dspCompressor.connect(dspBassEQ);
-  dspBassEQ.connect(dspPresEQ);
-  dspPresEQ.connect(dspAirEQ);
-  dspAirEQ.connect(postEQGain);
-  postEQGain.connect(dspSoftClipper);
-  dspSoftClipper.connect(dspLimiter);
-  dspLimiter.connect(masterGain);
-  // masterGain → finalTrim → monitors/cue is set in initAudio and stays fixed
-}
-
-function buildMicDSP() {
-  if (!actx || !micSource) return;
-
-  // Highpass 80 Hz
-  micHPF = actx.createBiquadFilter();
-  micHPF.type = 'highpass';
-  micHPF.frequency.value = dspParams.michpf;
-  micHPF.Q.value = 0.707;
-
-  // Noise Gate (simple compressor with high ratio)
-  micGate = actx.createDynamicsCompressor();
-  micGate.threshold.value = dspParams.gate;
-  micGate.knee.value = 0;
-  micGate.ratio.value = 20;
-  micGate.attack.value = 0.001;
-  micGate.release.value = 0.05;
-
-  // De-Esser (narrow peaking notch at 6 kHz)
-  micDeEsser = actx.createBiquadFilter();
-  micDeEsser.type = 'peaking';
-  micDeEsser.frequency.value = dspParams.esser;
-  micDeEsser.Q.value = 4.0;
-  micDeEsser.gain.value = -4;
-
-  // Compressor 3:1
-  micDSPComp = actx.createDynamicsCompressor();
-  micDSPComp.threshold.value = -20;
-  micDSPComp.knee.value = 6;
-  micDSPComp.ratio.value = dspParams.miccomp;
-  micDSPComp.attack.value = 0.005;
-  micDSPComp.release.value = 0.15;
-
-  // Warmth EQ — 120 Hz lowshelf
-  micWarmEQ = actx.createBiquadFilter();
-  micWarmEQ.type = 'lowshelf';
-  micWarmEQ.frequency.value = 120;
-  micWarmEQ.gain.value = dspParams.warm;
-
-  // Presence EQ — 3 kHz peaking
-  micPresEQ = actx.createBiquadFilter();
-  micPresEQ.type = 'peaking';
-  micPresEQ.frequency.value = 3000;
-  micPresEQ.Q.value = 1.0;
-  micPresEQ.gain.value = dspParams.micpres;
-
-  // Mic Limiter
-  micLimiterNode = actx.createDynamicsCompressor();
-  micLimiterNode.threshold.value = dspParams.miclim;
-  micLimiterNode.knee.value = 0;
-  micLimiterNode.ratio.value = 20;
-  micLimiterNode.attack.value = 0.001;
-  micLimiterNode.release.value = 0.05;
-
-  // Chain: micSource → HPF → Gate → DeEsser → Comp → WarmEQ → PresEQ → Limiter → micGainNode
-  micSource.disconnect();
-  micSource.connect(micHPF);
-  micHPF.connect(micGate);
-  micGate.connect(micDeEsser);
-  micDeEsser.connect(micDSPComp);
-  micDSPComp.connect(micWarmEQ);
-  micWarmEQ.connect(micPresEQ);
-  micPresEQ.connect(micLimiterNode);
-  micLimiterNode.connect(micGainNode);
-}
-
-function makeSoftClipCurve(threshold) {
-  const n = 256, curve = new Float32Array(n);
-  for (let i = 0; i < n; i++) {
-    const x = (i * 2) / n - 1;
-    curve[i] = Math.tanh(x / (1 - threshold + 0.01)) * (1 - threshold + 0.01);
-  }
-  return curve;
-}
-
-function updateDSP(param, val) {
-  val = parseFloat(val);
-  dspParams[param] = val;
-  const s = v => v >= 0 ? '+'+v : ''+v;
-
-  switch(param) {
-    case 'hpf':
-      document.getElementById('dsp-hpf').textContent = val+' Hz';
-      if (dspHPF) dspHPF.frequency.value = val;
-      break;
-    case 'agc':
-      document.getElementById('dsp-agc').textContent = (val>=0?'+':'')+val+' dB';
-      if (dspCompressor) dspCompressor.threshold.value = val;
-      break;
-    case 'comp':
-      document.getElementById('dsp-comp').textContent = val+':1';
-      if (dspCompressor) dspCompressor.ratio.value = val;
-      break;
-    case 'bass':
-      document.getElementById('dsp-bass').textContent = s(val)+' dB';
-      if (dspBassEQ) dspBassEQ.gain.value = val;
-      break;
-    case 'pres':
-      document.getElementById('dsp-pres').textContent = s(val)+' dB';
-      if (dspPresEQ) dspPresEQ.gain.value = val;
-      break;
-    case 'air':
-      document.getElementById('dsp-air').textContent = s(val)+' dB';
-      if (dspAirEQ) dspAirEQ.gain.value = val;
-      break;
-    case 'width':
-      document.getElementById('dsp-width').textContent = '×'+parseFloat(val).toFixed(2);
-      break;
-    case 'clip':
-      document.getElementById('dsp-clip').textContent = parseFloat(val).toFixed(2);
-      if (dspSoftClipper) dspSoftClipper.curve = makeSoftClipCurve(val);
-      break;
-    case 'psycho':
-      document.getElementById('dsp-psycho').textContent = '+'+val+'%';
-      // Very gentle boost — max +20% on top of base 0.95
-      if (masterGain) masterGain.gain.value = 0.85 * (1 + val/200);
-      break;
-    case 'lookahead':
-      document.getElementById('dsp-lookahead').textContent = val+' ms';
-      break;
-    case 'lim':
-      document.getElementById('dsp-lim').textContent = (val>=0?'+':'')+val+' dBFS';
-      if (dspLimiter) dspLimiter.threshold.value = val;
-      break;
-    case 'michpf':
-      document.getElementById('dsp-michpf').textContent = val+' Hz';
-      if (micHPF) micHPF.frequency.value = val;
-      break;
-    case 'gate':
-      document.getElementById('dsp-gate').textContent = (val>=0?'+':'')+val+' dB';
-      if (micGate) micGate.threshold.value = val;
-      break;
-    case 'esser':
-      document.getElementById('dsp-esser').textContent = (val/1000).toFixed(1)+' kHz';
-      if (micDeEsser) micDeEsser.frequency.value = val;
-      break;
-    case 'miccomp':
-      document.getElementById('dsp-miccomp').textContent = val+':1';
-      if (micDSPComp) micDSPComp.ratio.value = val;
-      break;
-    case 'warm':
-      document.getElementById('dsp-warm').textContent = s(val)+' dB';
-      if (micWarmEQ) micWarmEQ.gain.value = val;
-      break;
-    case 'micpres':
-      document.getElementById('dsp-micpres').textContent = s(val)+' dB';
-      if (micPresEQ) micPresEQ.gain.value = val;
-      break;
-    case 'miclim':
-      document.getElementById('dsp-miclim').textContent = (val>=0?'+':'')+val+' dB';
-      if (micLimiterNode) micLimiterNode.threshold.value = val;
-      break;
-  }
-}
-
-function applyAllDSP() {
-  // Sync both slider positions AND span labels from dspParams
-  const paramToInputId = {
-    hpf:'dsp-hpf-input', agc:'dsp-agc-input', comp:'dsp-comp-input',
-    bass:'dsp-bass-input', pres:'dsp-pres-input', air:'dsp-air-input',
-    width:'dsp-width-input', clip:'dsp-clip-input', psycho:'dsp-psycho-input',
-    lookahead:'dsp-lookahead-input', lim:'dsp-lim-input',
-    michpf:'dsp-michpf-input', gate:'dsp-gate-input', esser:'dsp-esser-input',
-    miccomp:'dsp-miccomp-input', warm:'dsp-warm-input', micpres:'dsp-micpres-input', miclim:'dsp-miclim-input',
-  };
-  Object.entries(dspParams).forEach(([k, v]) => {
-    const inputId = paramToInputId[k];
-    if (inputId) {
-      const el = document.getElementById(inputId);
-      if (el) el.value = v;
-    }
-    updateDSP(k, v);
-  });
-}
-
-function resetDSP() {
-  const defaults = {
-    hpf:35, agc:-24, comp:3.5, bass:3, pres:3, air:2,
-    width:1.05, clip:0.7, psycho:5, lookahead:5, lim:-0.3,
-    michpf:80, gate:-45, esser:6000, miccomp:3, warm:2, micpres:2, miclim:-4,
-  };
-  Object.assign(dspParams, defaults);
-  document.querySelectorAll('#panel-settings .dsp-param input[type=range]').forEach(el => { el.value = el.defaultValue; });
-  applyAllDSP();
-  showToast('↺ DSP reset to defaults');
-}
+// ─── DSP Node Variables ───────────────────────────────────────────────────
+// Mic Pre-Processing
+let micPreHPF = null, micPreGate = null, micPreLimiter = null;
+// Master DSP Chain
+let dspHPF = null, dspAGC = null;
+let dspSoftClipper = null, dspLookaheadLim = null, dspBrickwall = null;
+// Ducking constants defined at top of script
 
 function applyFaderValue(ch, val) {
   val = parseInt(val);
@@ -3167,16 +3876,19 @@ function applyFaderValue(ch, val) {
     document.getElementById('deckA-vol-val').textContent = val + '%';
     if (deckAGain) deckAGain.gain.value = val / 100;
     updateConsoleFromDeck('A', val);
+    updateDefaultFaderSlider('A', val);
   } else if (ch === 'B') {
     document.getElementById('deckB-vol').value = val;
     document.getElementById('deckB-vol-val').textContent = val + '%';
     if (deckBGain) deckBGain.gain.value = val / 100;
     updateConsoleFromDeck('B', val);
+    updateDefaultFaderSlider('B', val);
   } else if (ch === 'M') {
     document.getElementById('mic-vol').value = val;
     document.getElementById('mic-vol-val').textContent = val + '%';
     if (micGainNode) micGainNode.gain.value = val / 100;
     updateConsoleFromDeck('M', val);
+    updateDefaultFaderSlider('M', val);
   } else if (ch === 'C') {
     cartGain = val / 100;
     syncCartConsole(val);
@@ -3184,7 +3896,9 @@ function applyFaderValue(ch, val) {
     document.getElementById('master-fader').value = val;
     document.getElementById('master-val').textContent = val + '%';
     if (finalTrim) finalTrim.gain.value = val / 100;
+    state.master = val / 100;
     updateConsoleFromDeck('X', val);
+    updateDefaultFaderSlider('X', val);
   }
 }
 
@@ -3266,19 +3980,17 @@ function renderPresets() {
 }
 
 function setDuck(param, val) {
-  if (param==='level') document.getElementById('duck-level').textContent = val+'%';
-  if (param==='rel')   document.getElementById('duck-rel').textContent = val+' fr';
+  // Duck params are constants (DUCK_LEVEL, DUCK_RELEASE)
   scheduleSave();
 }
 
 function resetFaders() {
-  Object.entries(state.defaultFaders).forEach(([ch, val]) => {
+  const defaults = { A:100, B:100, M:100, C:100, X:100 };
+  Object.entries(defaults).forEach(([ch, val]) => {
+    state.defaultFaders[ch] = val;
     applyFaderValue(ch, val);
-    const defSlider = document.querySelector(`input[oninput="setDefaultFader('${ch}',this.value)"]`);
-    if (defSlider) defSlider.value = val;
-    document.getElementById('def-' + ch).textContent = val + '%';
   });
-  showToast('↺ All faders reset to defaults');
+  showToast('↺ All faders reset to 100%');
 }
 
 function resetLibrary() {
@@ -3304,10 +4016,11 @@ function resetAll() {
   state.tracks = []; state.queue = []; state.queueIndex = 0;
   state.shows = []; state.editingShowIndex = -1; state.selectedShowIndex = -1;
   state.carts = Array(8).fill(null); state.cartAudio = Array(8).fill(null);
+  idbClearAll(); // wipe all persistent audio from IndexedDB
   renderLibrary(); renderQueue(); renderShowList(); buildCartwall();
   document.getElementById('show-form').style.display = 'none';
   document.getElementById('playlist-card').style.display = 'none';
-  resetFaders(); resetDSP(); goOffAir();
+  resetFaders(); goOffAir();
   localStorage.removeItem(STORAGE_KEY);
   showToast('⚠ Full reset complete');
 }
@@ -3318,10 +4031,10 @@ function resetAll() {
 function buildConsole() {
   const g = document.getElementById('console-grid');
   const chs = [
-    {name:'DECK A', id:'ch-A', default:80,  oninput:"syncConsole('A',this.value)"},
-    {name:'DECK B', id:'ch-B', default:80,  oninput:"syncConsole('B',this.value)"},
-    {name:'MIC',    id:'ch-M', default:90,  oninput:"syncConsole('M',this.value)"},
-    {name:'CART',   id:'ch-C', default:80,  oninput:"syncCartConsole(this.value)"},
+    {name:'DECK A', id:'ch-A', default:100, oninput:"syncConsole('A',this.value)"},
+    {name:'DECK B', id:'ch-B', default:100, oninput:"syncConsole('B',this.value)"},
+    {name:'MIC',    id:'ch-M', default:100, oninput:"syncConsole('M',this.value)"},
+    {name:'CART',   id:'ch-C', default:100, oninput:"syncCartConsole(this.value)"},
     {name:'MASTER', id:'ch-X', default:100, oninput:"syncConsole('X',this.value)"},
   ];
   g.innerHTML = chs.map(c => `
@@ -3339,51 +4052,61 @@ function buildConsole() {
 
 function syncConsole(ch, val) {
   val = parseInt(val);
-  // Update the console value label
   document.getElementById('con-ch-'+ch+'-val').textContent = val+'%';
 
   if (ch === 'A') {
-    // Sync Deck A volume slider + gain
     document.getElementById('deckA-vol').value = val;
     document.getElementById('deckA-vol-val').textContent = val+'%';
     if (deckAGain) deckAGain.gain.value = val / 100;
   } else if (ch === 'B') {
-    // Sync Deck B volume slider + gain
     document.getElementById('deckB-vol').value = val;
     document.getElementById('deckB-vol-val').textContent = val+'%';
     if (deckBGain) deckBGain.gain.value = val / 100;
   } else if (ch === 'M') {
-    // Sync Mic volume slider + gain
     document.getElementById('mic-vol').value = val;
     document.getElementById('mic-vol-val').textContent = val+'%';
     if (micGainNode) micGainNode.gain.value = val / 100;
   } else if (ch === 'X') {
-    // Sync Master fader + gain
     document.getElementById('master-fader').value = val;
     document.getElementById('master-val').textContent = val+'%';
     if (finalTrim) finalTrim.gain.value = val / 100;
+    state.master = val / 100;
   }
+  // Always sync default fader slider so all three stay in lockstep
+  updateDefaultFaderSlider(ch, val);
+  scheduleSave();
 }
 
 // Keep console in sync when deck/mic/master sliders are moved directly
 function updateConsoleFromDeck(deck, val) {
-  const el = document.getElementById('con-ch-'+deck);
+  val = parseInt(val);
+  const el    = document.getElementById('con-ch-'+deck);
   const elVal = document.getElementById('con-ch-'+deck+'-val');
-  if (el) el.value = val;
+  if (el)    el.value = val;
   if (elVal) elVal.textContent = val+'%';
 }
 
+// Keeps the default fader slider in Settings in sync with live faders
+function updateDefaultFaderSlider(ch, val) {
+  val = parseInt(val);
+  state.defaultFaders[ch] = val;
+  const slider = document.querySelector(`input[oninput="setDefaultFader('${ch}',this.value)"]`);
+  const span   = document.getElementById('def-' + ch);
+  if (slider) slider.value = val;
+  if (span)   span.textContent = val + '%';
+}
+
 // Cart volume — stored separately
-let cartGain = 0.81;
+let cartGain = 1.0;
 function syncCartConsole(val) {
+  val = parseInt(val);
   cartGain = val / 100;
   document.getElementById('con-ch-C-val').textContent = val+'%';
-  // Apply to any currently playing cart audio
   state.cartAudio.forEach(a => { if (a && !a.paused) a.volume = cartGain; });
+  updateDefaultFaderSlider('C', val);
+  scheduleSave();
 }
 buildConsole();
-// Sync all DSP slider positions and span labels on page load
-applyAllDSP();
 
 // ============================================================
 // PWA INSTALL
@@ -3517,177 +4240,4 @@ window.addEventListener('focus', () => {
 // ============================================================
 const STORAGE_KEY = 'eyethu_pro_state_v1';
 
-function saveAppState() {
-  try {
-    const data = {
-      // DSP params
-      dsp: {
-        hpf:  document.querySelector('#panel-settings .dsp-param input[oninput*="hpf"]')?.value,
-        agc:  document.querySelector('#panel-settings .dsp-param input[oninput*="agc"]')?.value,
-        comp: document.querySelector('#panel-settings .dsp-param input[oninput*="comp"]')?.value,
-        bass: document.querySelector('#panel-settings .dsp-param input[oninput*="bass"]')?.value,
-        air:  document.querySelector('#panel-settings .dsp-param input[oninput*="air"]')?.value,
-        pres: document.querySelector('#panel-settings .dsp-param input[oninput*="pres"]')?.value,
-        lim:  document.querySelector('#panel-settings .dsp-param input[oninput*="lim"]')?.value,
-      },
-      // Duck settings
-      duck: {
-        level: document.querySelector('input[oninput*="level"]')?.value,
-        gate:  document.querySelector('input[oninput*="gate"]')?.value,
-        rel:   document.querySelector('input[oninput*="rel"]')?.value,
-      },
-      // Faders
-      faders: {
-        deckA:  document.getElementById('deckA-vol')?.value,
-        deckB:  document.getElementById('deckB-vol')?.value,
-        mic:    document.getElementById('mic-vol')?.value,
-        master: document.getElementById('master-fader')?.value,
-      },
-      // Default faders
-      defaultFaders: state.defaultFaders,
-      // Auto DJ
-      autoDJ: state.autoDJ,
-      // Shows (save metadata but not file blobs)
-      shows: state.shows.map(s => ({
-        name: s.name, start: s.start, end: s.end, deck: s.deck,
-        intro: s.intro, outro: s.outro,
-        adSource: s.adSource, adCart: s.adCart, adOrder: s.adOrder,
-        adInRow: s.adInRow, adTrigger: s.adTrigger, adSongs: s.adSongs,
-        adMinutes: s.adMinutes, adTime: s.adTime,
-        songsInRow: s.songsInRow, weight: s.weight, playlistOrder: s.playlistOrder,
-        // Save track names only (files can't be serialized)
-        playlist: (s.playlist||[]).map(t => ({ name: t.name, key: t.key, duration: t.duration })),
-        adFiles: (s.adFiles||[]).map(t => ({ name: t.name, key: t.key })),
-      })),
-      // Library track names (files can't be persisted, just names for display)
-      libraryMeta: state.tracks.map(t => ({ name: t.name, key: t.key, duration: t.duration })),
-      // Cart names
-      cartNames: state.carts.map(c => c ? { name: c.name } : null),
-      // Crossfader
-      xfade: state.xfade,
-      master: state.master,
-    };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  } catch(e) { console.warn('Save failed:', e); }
-}
 
-function loadAppState() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return;
-    const data = JSON.parse(raw);
-
-    // Restore DSP sliders
-    if (data.dsp) {
-      const map = {hpf:'hpf', agc:'agc', comp:'comp', bass:'bass', air:'air', pres:'pres', lim:'lim'};
-      Object.entries(data.dsp).forEach(([k,v]) => {
-        if (v == null) return;
-        const el = document.querySelector(`#panel-settings .dsp-param input[oninput*="${k}"]`);
-        if (el) { el.value = v; updateDSP(k, v); }
-      });
-    }
-
-    // Restore duck settings
-    if (data.duck) {
-      const dl = document.querySelector('input[oninput*="level"]');
-      const dg = document.querySelector('input[oninput*="gate"]');
-      const dr = document.querySelector('input[oninput*="rel"]');
-      if (dl && data.duck.level) { dl.value = data.duck.level; setDuck('level', data.duck.level); }
-      if (dg && data.duck.gate)  { dg.value = data.duck.gate;  setDuck('gate',  data.duck.gate); }
-      if (dr && data.duck.rel)   { dr.value = data.duck.rel;   setDuck('rel',   data.duck.rel); }
-    }
-
-    // Restore faders
-    if (data.faders) {
-      if (data.faders.deckA)  { document.getElementById('deckA-vol').value  = data.faders.deckA;  document.getElementById('deckA-vol-val').textContent  = data.faders.deckA+'%';  updateConsoleFromDeck('A', data.faders.deckA); }
-      if (data.faders.deckB)  { document.getElementById('deckB-vol').value  = data.faders.deckB;  document.getElementById('deckB-vol-val').textContent  = data.faders.deckB+'%';  updateConsoleFromDeck('B', data.faders.deckB); }
-      if (data.faders.mic)    { document.getElementById('mic-vol').value     = data.faders.mic;    document.getElementById('mic-vol-val').textContent     = data.faders.mic+'%';    updateConsoleFromDeck('M', data.faders.mic); }
-      if (data.faders.master) { document.getElementById('master-fader').value = data.faders.master; document.getElementById('master-val').textContent  = data.faders.master+'%';  updateConsoleFromDeck('X', data.faders.master); }
-    }
-
-    // Restore default faders
-    if (data.defaultFaders) {
-      state.defaultFaders = data.defaultFaders;
-      Object.entries(data.defaultFaders).forEach(([ch, val]) => {
-        const defSlider = document.querySelector(`input[oninput="setDefaultFader('${ch}',this.value)"]`);
-        if (defSlider) defSlider.value = val;
-        const defSpan = document.getElementById('def-' + ch);
-        if (defSpan) defSpan.textContent = val + '%';
-      });
-    }
-
-    // Restore auto DJ
-    if (data.autoDJ !== undefined) {
-      state.autoDJ = data.autoDJ;
-      document.getElementById('autodj-btn').textContent = 'AUTO-DJ: ' + (state.autoDJ ? 'ON' : 'OFF');
-      document.getElementById('autodj-status').textContent = 'AUTO-DJ: ' + (state.autoDJ ? 'ON — STANDBY' : 'OFF');
-    }
-
-    // Restore shows
-    if (data.shows && data.shows.length) {
-      state.shows = data.shows.map(s => ({
-        ...s,
-        playlist: (s.playlist||[]).map(t => ({ ...t, url: null, file: null })),
-        adFiles:  (s.adFiles||[]).map(t => ({ ...t, url: null, file: null })),
-        _triggered: false, _songCount: 0,
-      }));
-      renderShowList();
-    }
-
-    // Restore library metadata (names only — user must re-import files)
-    if (data.libraryMeta && data.libraryMeta.length) {
-      state.tracks = data.libraryMeta.map(t => ({
-        ...t, url: null, file: null, size: 0,
-        _needsReimport: true,
-      }));
-      renderLibrary();
-      showToast(`📂 ${state.tracks.length} track name(s) restored — re-import files to play`);
-    }
-
-    // Restore cart names
-    if (data.cartNames) {
-      data.cartNames.forEach((c, i) => {
-        if (c) state.carts[i] = { name: c.name, url: null };
-      });
-      buildCartwall();
-    }
-
-    // Restore xfade & master
-    if (data.xfade !== undefined) {
-      document.getElementById('xfader').value = data.xfade;
-      state.xfade = data.xfade;
-    }
-
-  } catch(e) { console.warn('Load failed:', e); }
-}
-
-// Auto-save whenever something changes — debounced
-let saveTimer = null;
-function scheduleSave() {
-  clearTimeout(saveTimer);
-  saveTimer = setTimeout(saveAppState, 1000);
-}
-
-// Patch renderLibrary, renderShowList, renderQueue to auto-save
-const _origRenderLibrary  = renderLibrary;
-const _origRenderShowList = renderShowList;
-const _origRenderQueue    = renderQueue;
-renderLibrary  = function() { _origRenderLibrary();  scheduleSave(); };
-renderShowList = function() { _origRenderShowList(); scheduleSave(); };
-renderQueue    = function() { _origRenderQueue();    scheduleSave(); };
-
-// Also save on fader/DSP changes
-document.querySelectorAll('#panel-settings input[type=range], #deckA-vol, #deckB-vol, #mic-vol, #master-fader').forEach(el => {
-  el.addEventListener('input', scheduleSave);
-});
-
-// Load on startup
-loadAppState();
-renderPresets();
-// Apply default fader levels on startup
-Object.entries(state.defaultFaders).forEach(([ch, val]) => applyFaderValue(ch, val));
-// Apply responsive collapse for Queue, Cartwall, Mic
-applyResponsiveCollapse();
-</script>
-</body>
-</html>
