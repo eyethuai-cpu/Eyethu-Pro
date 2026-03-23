@@ -3,14 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <script>
-// GitHub Pages SPA: restore path after 404-redirect
-(function(){
-  var redir = sessionStorage.getItem('ghpages_redirect');
-  if (redir) {
-    sessionStorage.removeItem('ghpages_redirect');
-    if (redir !== '/') window.history.replaceState(null, '', redir);
-  }
-})();
+(function(){var r=sessionStorage.getItem("ghpages_redirect");if(r){sessionStorage.removeItem("ghpages_redirect");if(r!="/")window.history.replaceState(null,"",r);}})();
 </script>
 
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
@@ -867,6 +860,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
             <option value="songs">After N songs</option>
             <option value="minutes">Every X minutes</option>
             <option value="time">At HH:MM</option>
+            <option value="tophour">Top of every hour (:00)</option>
           </select>
         </div>
         <div id="sf-news-trigger-songs" style="display:none;" class="form-row">
@@ -912,6 +906,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
             <option value="songs">After N songs</option>
             <option value="minutes">Every X minutes</option>
             <option value="time">At HH:MM</option>
+            <option value="tophour">Top of every hour (:00)</option>
           </select>
         </div>
         <div id="sf-wx-trigger-songs" style="display:none;" class="form-row">
@@ -1659,6 +1654,13 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
                 style="flex:1;min-width:140px;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;"/>
               <button class="btn sm" onclick="newsSaveKey()">SAVE</button>
               <a id="news-free-key-link" href="https://apitube.io/sign-up" target="_blank" rel="noopener" class="btn sm" style="color:var(--cyan);border-color:var(--cyan);">FREE KEY</a>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+              <label style="font-family:var(--font-mono);font-size:10px;color:var(--text2);min-width:60px;">STATION</label>
+              <input type="text" id="station-name" placeholder="Your Radio Station Name" autocomplete="off"
+                style="flex:1;min-width:140px;background:var(--bg4);border:1px solid var(--cyan);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;"
+                title="Used in on-air TTS announcements — news outros, weather outros and voice test"/>
+              <button class="btn sm" onclick="stationNameSave()" style="border-color:var(--cyan);color:var(--cyan);">SAVE</button>
             </div>
             <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
               <label style="font-family:var(--font-mono);font-size:10px;color:var(--text2);min-width:60px;">XI KEY</label>
@@ -4559,6 +4561,7 @@ function toggleWxTrigger() {
   if (s)  s.style.display  = t === 'songs'   ? 'flex' : 'none';
   if (m)  m.style.display  = t === 'minutes' ? 'flex' : 'none';
   if (tm) tm.style.display = t === 'time'    ? 'flex' : 'none';
+  // tophour: no extra input row needed
 }
 
 function toggleNewsTrigger() {
@@ -4569,6 +4572,7 @@ function toggleNewsTrigger() {
   if (s)  s.style.display  = t === 'songs'   ? 'flex' : 'none';
   if (m)  m.style.display  = t === 'minutes' ? 'flex' : 'none';
   if (tm) tm.style.display = t === 'time'    ? 'flex' : 'none';
+  // tophour: no extra input row needed
 }
 
 function toggleOverlaySource() {
@@ -4958,6 +4962,7 @@ function renderShowList() {
     const newsLabel = s.newsTrigger === 'songs' ? `📰 news/${s.newsSongs} songs`
       : s.newsTrigger === 'minutes' ? `📰 news/${s.newsMinutes}min`
       : s.newsTrigger === 'time' ? `📰 news@${s.newsTime}`
+      : s.newsTrigger === 'tophour' ? `📰 news@:00`
       : '';
     const DAY_NAMES = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
     const repeatLabel = !s.repeat || s.repeat === 'daily' ? '📅 Every day'
@@ -5317,6 +5322,17 @@ function checkScheduledShows(now) {
         wxFireFromShow(show);
       }
     }
+    // TOP OF HOUR: WEATHER BREAK — fires once per clock hour at :00
+    if (show.wxTrigger === 'tophour') {
+      var wxHourKey = 'wx_tophour_' + now.getHours();
+      if (now.getMinutes() === 0 && !show._firedHHMM[wxHourKey]) {
+        show._firedHHMM[wxHourKey] = true;
+        if (!show._adPlaying && !show._ovPlaying && !_newsTTSBreak && !_wxBreakActive) {
+          show_statusMsg(show, '🌤 Weather…');
+          wxFireFromShow(show);
+        }
+      }
+    }
     if (show.wxTrigger === 'minutes' && (show.wxMinutes || 0) > 0) {
       const wxTick = Math.floor(elapsedMin / show.wxMinutes);
       if (wxTick > 0 && wxTick > (show._wxLastTick || 0)) {
@@ -5341,6 +5357,19 @@ function checkScheduledShows(now) {
         show._statusMsg = '\uD83D\uDCF0 News break\u2026';
         updateSchedStatus();
         newsFireFromShow(show);
+      }
+    }
+
+    // TOP OF HOUR: NEWS BREAK — fires once per clock hour at :00
+    if (show.newsTrigger === 'tophour') {
+      var newsHourKey = 'news_tophour_' + now.getHours();
+      if (now.getMinutes() === 0 && !show._firedHHMM[newsHourKey]) {
+        show._firedHHMM[newsHourKey] = true;
+        if (!show._adPlaying && !show._ovPlaying && !_newsTTSBreak && !_wxBreakActive) {
+          show._statusMsg = '\uD83D\uDCF0 News break\u2026';
+          updateSchedStatus();
+          newsFireFromShow(show);
+        }
       }
     }
 
@@ -7027,6 +7056,27 @@ function newsUpdateAutoStatus(msg) {
 var XI_KEY_STORAGE   = 'eyethu_xi_key';
 var XI_VOICE_STORAGE = 'eyethu_xi_voice';
 var XI_MODEL_STORAGE = 'eyethu_xi_model';
+var STATION_NAME_KEY = 'eyethu_station_name';
+
+// Returns the configured station name, falling back to a safe generic string.
+// Used wherever TTS says the station name on air.
+function getStationName() {
+  return localStorage.getItem(STATION_NAME_KEY) || 'your radio station';
+}
+
+function stationNameSave() {
+  var el = document.getElementById('station-name');
+  var name = (el ? el.value.trim() : '');
+  if (!name) { showToast('Enter your station name first'); return; }
+  localStorage.setItem(STATION_NAME_KEY, name);
+  showToast('Station name saved — "' + name + '"');
+}
+
+function stationNameLoad() {
+  var saved = localStorage.getItem(STATION_NAME_KEY);
+  var el = document.getElementById('station-name');
+  if (saved && el) el.value = saved;
+}
 
 (function xiInit() {
   var k = localStorage.getItem(XI_KEY_STORAGE);
@@ -7044,6 +7094,7 @@ var XI_MODEL_STORAGE = 'eyethu_xi_model';
   // Show custom input if voice selector is on custom
   var sel = document.getElementById('xi-voice');
   if (sel) sel.addEventListener('change', xiToggleCustomVoice);
+  stationNameLoad();
 })();
 
 function xiToggleCustomVoice() {
@@ -7166,7 +7217,7 @@ async function xiTestVoice() {
   if (actx && actx.state === 'suspended') actx.resume();
   showToast('Testing voice...');
   try {
-    await xiSpeak('Good evening. This is Eyethu Radio. Broadcasting live.', xiGetVoiceId(), xiGetModel());
+    await xiSpeak('Good evening. This is ' + getStationName() + '. Broadcasting live.', xiGetVoiceId(), xiGetModel());
     showToast('Voice test complete');
   } catch(e) {
     showToast('Voice test failed: ' + e.message);
@@ -7256,13 +7307,16 @@ async function newsStartBreak() {
   newsSetStatus('reading', 'On air - ElevenLabs news break');
 
   // ── Step 3: ElevenLabs reads headlines ───────────────────────────────
+  // Each headline is its own TTS request so ElevenLabs generates natural
+  // sentence-level prosody per item. No "Headline 1 / Headline 2" prefix —
+  // that sounds robotic. A 900 ms silence between headlines gives air.
   var segments = [];
-  _newsArticles.forEach(function(a, i) {
-    var headline = 'Headline ' + (i+1) + '. ' + a.title + '.';
-    var detail   = a.description ? ' ' + a.description.split('.')[0] + '.' : '';
-    segments.push({ text: headline + detail, articleIdx: i });
+  _newsArticles.forEach(function(a) {
+    var title  = a.title.trim().replace(/\.+$/, '');   // strip trailing dots
+    var detail = a.description ? ' ' + a.description.split('.')[0].trim() + '.' : '';
+    segments.push({ text: title + '.' + detail, articleIdx: segments.length });
   });
-  segments.push({ text: "That's your news update. Stay tuned to Eyethu Radio.", articleIdx: -1 });
+  segments.push({ text: "That's your news update. Stay tuned to " + getStationName() + '.', articleIdx: -1 });
 
   var voiceId = xiGetVoiceId();
   var modelId = xiGetModel();
@@ -7286,8 +7340,10 @@ async function newsStartBreak() {
       showToast('TTS error: ' + e.message);
       break;
     }
+    // Pause between headlines (not after the final outro segment).
+    // 900 ms feels like a natural breath between bulletin items.
     if (_newsTTSBreak && i < segments.length - 1) {
-      await new Promise(function(r){ setTimeout(r, 300); });
+      await new Promise(function(r){ setTimeout(r, 900); });
     }
   }
 
@@ -7638,19 +7694,102 @@ async function wxFireFromShow(show) {
   if (show.wxCities && show.wxCities.trim()) {
     _wxCitiesOverride = show.wxCities.split(',').map(function(x){ return x.trim(); }).filter(Boolean);
   }
-  var staleThresh = show.wxTrigger === 'minutes'
-    ? (show.wxMinutes || 30) * 60 * 1000
-    : 30 * 60 * 1000;
-  if (!_wxData || Date.now() - _wxLastFetchAt > staleThresh) {
-    await wxFetch(_wxCitiesOverride);
+
+  // ── Step 1: Fade out and stop the playing deck BEFORE the fetch ──────────
+  // This way the fetch delay is silent dead-air time at most, not mid-song.
+  initAudio();
+  if (actx && actx.state === 'suspended') actx.resume();
+
+  var activeDeck = null, activeGain = null;
+  if (state.deckA.playing && state.deckA.audio) { activeDeck = 'A'; activeGain = deckAGain; }
+  else if (state.deckB.playing && state.deckB.audio) { activeDeck = 'B'; activeGain = deckBGain; }
+
+  if (activeDeck && activeGain && actx) {
+    activeGain.gain.cancelScheduledValues(actx.currentTime);
+    activeGain.gain.setValueAtTime(activeGain.gain.value, actx.currentTime);
+    activeGain.gain.linearRampToValueAtTime(0, actx.currentTime + 3);
+    await new Promise(function(r){ setTimeout(r, 3200); });
+    var dA = activeDeck === 'A' ? state.deckA : state.deckB;
+    if (dA.audio) dA.audio.pause();
+    dA.playing = false;
+    var pb = document.getElementById('deck' + activeDeck + '-play');
+    if (pb) { pb.textContent = '▶'; pb.setAttribute('aria-pressed', 'false'); }
   }
-  if (_wxData) {
-    await wxStartBreak();
-  } else {
+
+  // ── Step 2: Always fetch fresh weather data now ───────────────────────────
+  show._statusMsg = '🌤 Fetching weather…';
+  updateSchedStatus();
+  await wxFetch(_wxCitiesOverride);
+
+  if (!_wxData) {
     showToast('Weather break skipped — no data available');
+    // Restart music since we already stopped it
+    if (activeDeck && activeGain) newsRestoreDeckGain(activeDeck, activeGain);
+    var nd = (activeDeck === 'A' ? state.deckB : state.deckA);
+    if (state.autoDJ && state.queue.length) {
+      var pl = state.queue.shift(); state.queue.push(pl);
+      var nx = typeof noRepeatFindNext === 'function' ? noRepeatFindNext() : state.queue[0];
+      var nxDeck = activeDeck === 'A' ? 'B' : 'A';
+      if (nx) { loadTrackToDeck(nxDeck, nx); renderQueue(); setTimeout(function(){ playDeckWhenReady(nxDeck); }, 300); }
+    }
+    _wxJingleOverride = null;
+    _wxCitiesOverride = null;
+    show._statusMsg = '► Playing';
+    updateSchedStatus();
+    return;
   }
-  _wxJingleOverride  = null;
-  _wxCitiesOverride  = null;
+
+  // ── Step 3: Play the weather break (jingle + TTS) ────────────────────────
+  // wxStartBreak normally handles its own fade-out, but we've already stopped
+  // the deck. We pass the activeDeck info so it restores gain and starts the
+  // next song correctly when done. We temporarily set _wxBreakActive so
+  // wxStartBreak's early-exit guard doesn't block us.
+  show._statusMsg = '🌤 Weather on air…';
+  updateSchedStatus();
+
+  // Play jingle
+  var jingleVal = (_wxJingleOverride !== null) ? _wxJingleOverride
+    : ((document.getElementById('wx-jingle-cart') || {}).value || '');
+  var jIdx = jingleVal !== '' ? parseInt(jingleVal, 10) : -1;
+  if (jIdx >= 0 && state.carts && state.carts[jIdx] && state.carts[jIdx].url) {
+    await new Promise(function(resolve) {
+      var ja = new Audio(state.carts[jIdx].url);
+      if (actx && fixedTrim) {
+        try {
+          var js = actx.createMediaElementSource(ja);
+          js.connect(fixedTrim);
+          ja.onended = function(){ try{ js.disconnect(); }catch(e){} resolve(); };
+          ja.onerror = function(){ try{ js.disconnect(); }catch(e){} resolve(); };
+        } catch(e2){ ja.onended = resolve; ja.onerror = resolve; }
+      } else { ja.onended = resolve; ja.onerror = resolve; }
+      ja.play().catch(resolve);
+    });
+  }
+
+  // ElevenLabs reads weather
+  _wxBreakActive = true;
+  var units  = ((document.getElementById('wx-units') || {}).value) || 'metric';
+  var script = wxBuildScript(_wxData, units, _wxCitiesData);
+  if (document.getElementById('wx-status')) document.getElementById('wx-status').textContent = 'Reading on air...';
+  try { await xiSpeak(script, xiGetVoiceId(), xiGetModel()); } catch(e) { showToast('Weather TTS error: ' + e.message); }
+  _wxBreakActive = false;
+
+  // ── Step 4: Restore gain and start next song ──────────────────────────────
+  if (activeDeck && activeGain) newsRestoreDeckGain(activeDeck, activeGain);
+  var nextDeck = activeDeck === 'A' ? 'B' : 'A';
+  if (state.autoDJ && state.queue.length) {
+    var played = state.queue.shift(); state.queue.push(played);
+    var nxt = typeof noRepeatFindNext === 'function' ? noRepeatFindNext() : state.queue[0];
+    if (nxt) { loadTrackToDeck(nextDeck, nxt); renderQueue(); setTimeout(function(){ playDeckWhenReady(nextDeck); }, 300); }
+  } else {
+    var nd2 = nextDeck === 'A' ? state.deckA : state.deckB;
+    if (nd2.audio && !nd2.playing) { nd2.audio.currentTime = 0; setTimeout(function(){ playDeckWhenReady(nextDeck); }, 300); }
+  }
+  if (document.getElementById('wx-status')) document.getElementById('wx-status').textContent = 'Updated ' + new Date().toLocaleTimeString();
+  showToast('🌤 Weather break ended — next song starting');
+
+  _wxJingleOverride = null;
+  _wxCitiesOverride = null;
   show._statusMsg = '► Playing';
   updateSchedStatus();
 }
@@ -7707,7 +7846,7 @@ function wxBuildScript(primaryData, units, allCitiesData) {
   } else {
     cityList = parts.slice(0, -1).join(', ') + ', and ' + parts[parts.length-1] + '.';
   }
-  return 'And now for the weather. ' + cityList + " That's your weather update. Stay tuned to Eyethu Radio.";
+  return 'And now for the weather. ' + cityList + " That's your weather update. Stay tuned to " + getStationName() + '.';
 }
 
 async function wxStartBreak() {

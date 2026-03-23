@@ -1,3 +1,2 @@
-# GitHub Pages config — no Jekyll processing needed (pure static HTML)
 include:
   - .nojekyll
