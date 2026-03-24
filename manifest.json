@@ -1,0 +1,24 @@
+{
+  "name": "Eyethu Pro Radio Studio",
+  "short_name": "Eyethu Radio",
+  "description": "Professional Radio Automation Studio \u2014 Powered by Eyethu AI (Pty) Ltd",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0f",
+  "theme_color": "#0a0a0f",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjgwIiBmaWxsPSIjMGEwYTBmIi8+PHBhdGggZD0iTTEwOCAyNTYgQTE0OCAxNDggMCAwIDEgMjU2IDEwOCIgc3Ryb2tlPSIjZjBjMDQwIiBzdHJva2Utd2lkdGg9IjI4IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiIG9wYWNpdHk9IjAuNSIvPjxwYXRoIGQ9Ik0yNTYgMTA4IEExNDggMTQ4IDAgMCAxIDQwNCAyNTYiIHN0cm9rZT0iI2YwYzA0MCIgc3Ryb2tlLXdpZHRoPSIyOCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBvcGFjaXR5PSIwLjUiLz48cGF0aCBkPSJNMTUwIDI1NiBBMTA2IDEwNiAwIDAgMSAyNTYgMTUwIiBzdHJva2U9IiNmMGMwNDAiIHN0cm9rZS13aWR0aD0iMjYiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iMC43NSIvPjxwYXRoIGQ9Ik0yNTYgMTUwIEExMDYgMTA2IDAgMCAxIDM2MiAyNTYiIHN0cm9rZT0iI2YwYzA0MCIgc3Ryb2tlLXdpZHRoPSIyNiIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBvcGFjaXR5PSIwLjc1Ii8+PHBhdGggZD0iTTE5NCAyNTYgQTYyIDYyIDAgMCAxIDI1NiAxOTQiIHN0cm9rZT0iI2YwYzA0MCIgc3Ryb2tlLXdpZHRoPSIyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTI1NiAxOTQgQTYyIDYyIDAgMCAxIDMxOCAyNTYiIHN0cm9rZT0iI2YwYzA0MCIgc3Ryb2tlLXdpZHRoPSIyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PGNpcmNsZSBjeD0iMjU2IiBjeT0iMjU2IiByPSIzMCIgZmlsbD0iI2YwYzA0MCIvPjxsaW5lIHgxPSIyNTYiIHkxPSIyNTYiIHgyPSIyNTYiIHkyPSIzOTAiIHN0cm9rZT0iI2YwYzA0MCIgc3Ryb2tlLXdpZHRoPSIyMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHJlY3QgeD0iMTk2IiB5PSIzNzYiIHdpZHRoPSIxMjAiIGhlaWdodD0iMjIiIHJ4PSIxMSIgZmlsbD0iI2YwYzA0MCIvPjx0ZXh0IHg9IjI1NiIgeT0iNDYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2ssc2Fucy1zZXJpZiIgZm9udC1zaXplPSI1MiIgZm9udC13ZWlnaHQ9IjkwMCIgZmlsbD0iI2YwYzA0MCIgb3BhY2l0eT0iMC45IiBsZXR0ZXItc3BhY2luZz0iOCI+RVI8L3RleHQ+PC9zdmc+",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "id": "/index.html",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ]
+}
