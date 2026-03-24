@@ -2,10 +2,6 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<script>
-(function(){var r=sessionStorage.getItem("ghpages_redirect");if(r){sessionStorage.removeItem("ghpages_redirect");if(r!="/")window.history.replaceState(null,"",r);}})();
-</script>
-
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
 <meta name="screen-orientation" content="any"/>
 <title>Eyethu Pro Radio Studio — Powered by Eyethu AI (Pty) Ltd</title>
@@ -52,7 +48,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 #logo{font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--accent);letter-spacing:2px;white-space:nowrap;}
 #onair-badge{padding:4px 10px;border-radius:3px;font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:2px;border:1px solid var(--border2);color:var(--text2);background:var(--bg3);transition:all .3s;}
 #onair-badge.live{background:var(--red);color:#fff;border-color:var(--red);box-shadow:0 0 12px rgba(224,48,64,.5);animation:pulse 1.5s infinite;}
-#clock{font-family:var(--font-mono);font-size:14px;color:var(--accent);min-width:80px;text-align:right;}
+#clock{font-family:var(--font-mono);font-size:15px;color:var(--accent);min-width:96px;text-align:right;line-height:1.3;display:flex;flex-direction:column;align-items:flex-end;gap:1px;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.7;}}
 
 /* TAB BAR — two rows, no overflow */
@@ -304,7 +300,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 @media(min-width:1200px){
   #topbar{padding:6px 24px;}
   #logo{font-size:16px;}
-  #clock{font-size:16px;}
+  #clock{font-size:17px;min-width:110px;}
   .tab{font-size:12px;padding:9px 4px;letter-spacing:1px;}
   .deck-time{font-size:22px;}
   .vu-meter{height:18px;}
@@ -434,6 +430,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     <div class="tab-row tab-row-2">
       <div class="tab" role="tab" aria-selected="false" aria-controls="panel-news"     data-tab="news">📰 NEWS</div>
       <div class="tab" role="tab" aria-selected="false" aria-controls="panel-weather"  data-tab="weather">🌤 WEATHER</div>
+      <div class="tab" role="tab" aria-selected="false" aria-controls="panel-traffic"  data-tab="traffic">🚦 TRAFFIC</div>
       <div class="tab" role="tab" aria-selected="false" aria-controls="panel-stations" data-tab="stations">📻 STATIONS</div>
       <div class="tab" role="tab" aria-selected="false" aria-controls="panel-metadata" data-tab="metadata">🎵 METADATA</div>
     </div>
@@ -860,7 +857,10 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
             <option value="songs">After N songs</option>
             <option value="minutes">Every X minutes</option>
             <option value="time">At HH:MM</option>
-            <option value="tophour">Top of every hour (:00)</option>
+            <option value="tophour3">Top of hour — every 3 hrs (03:00, 06:00...)</option>
+                <option value="tophour6">Top of hour — every 6 hrs (06:00, 12:00...)</option>
+                <option value="tophour9">Top of hour — every 9 hrs (09:00, 18:00...)</option>
+                <option value="tophour12">Top of hour — every 12 hrs (00:00, 12:00)</option>
           </select>
         </div>
         <div id="sf-news-trigger-songs" style="display:none;" class="form-row">
@@ -906,7 +906,10 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
             <option value="songs">After N songs</option>
             <option value="minutes">Every X minutes</option>
             <option value="time">At HH:MM</option>
-            <option value="tophour">Top of every hour (:00)</option>
+            <option value="tophour3">Top of hour — every 3 hrs (03:00, 06:00...)</option>
+                <option value="tophour6">Top of hour — every 6 hrs (06:00, 12:00...)</option>
+                <option value="tophour9">Top of hour — every 9 hrs (09:00, 18:00...)</option>
+                <option value="tophour12">Top of hour — every 12 hrs (00:00, 12:00)</option>
           </select>
         </div>
         <div id="sf-wx-trigger-songs" style="display:none;" class="form-row">
@@ -1670,6 +1673,14 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
               <a href="https://elevenlabs.io/sign-up" target="_blank" rel="noopener" class="btn sm" style="color:var(--accent);border-color:var(--accent);">FREE KEY</a>
             </div>
             <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+              <label style="font-family:var(--font-mono);font-size:10px;color:var(--text2);min-width:60px;">GOOGLE KEY</label>
+              <input type="password" id="google-tts-key" placeholder="Google Cloud TTS key (fallback)" autocomplete="off"
+                style="flex:1;min-width:140px;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;"
+                title="Optional — used automatically if ElevenLabs is unavailable or quota exceeded"/>
+              <button class="btn sm" onclick="googleTtsSaveKey()" style="border-color:var(--green);color:var(--green);">SAVE</button>
+              <a href="https://console.cloud.google.com/apis/library/texttospeech.googleapis.com" target="_blank" rel="noopener" class="btn sm" style="color:var(--green);border-color:var(--green);">GET KEY &#8599;</a>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
               <label style="font-family:var(--font-mono);font-size:10px;color:var(--text2);min-width:60px;">VOICE</label>
               <select id="xi-voice" style="flex:1;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">
                 <option value="nPczCjzI2devNBz1zQrb">Brian &mdash; Deep news anchor</option>
@@ -1689,6 +1700,58 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
                 <option value="eleven_turbo_v2">Turbo v2 &mdash; Fast, good quality</option>
               </select>
               <button class="btn sm" onclick="xiTestVoice()" style="border-color:var(--accent);color:var(--accent);">TEST VOICE</button>
+            </div>
+            <!-- ── AI PRESENTER ─────────────────────────────────────── -->
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--green);margin:12px 0 4px;letter-spacing:1px;border-bottom:1px solid var(--border);padding-bottom:3px;">🎙 AI RADIO PRESENTER</div>
+            <div style="font-family:var(--font-mono);font-size:9px;color:var(--text2);margin-bottom:6px;">Natural radio presenter voice — reads News + Weather + Traffic in one broadcast. Uses station name, presenter name, personality style and language.</div>
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+              <label style="font-family:var(--font-mono);font-size:10px;color:var(--text2);min-width:60px;">PRESENTER</label>
+              <input type="text" id="presenter-name" placeholder="e.g. Thabo Mthembu" autocomplete="off"
+                style="flex:1;min-width:140px;background:var(--bg4);border:1px solid var(--green);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;"
+                title="Presenter name spoken on air — e.g. With John Smith on Morning Drive"/>
+              <button class="btn sm" onclick="presenterSave()" style="border-color:var(--green);color:var(--green);">SAVE</button>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+              <label style="font-family:var(--font-mono);font-size:10px;color:var(--text2);min-width:60px;">LANGUAGE</label>
+              <select id="presenter-lang" style="flex:1;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">
+                <option value="en">English</option>
+                <option value="zu">Zulu (isiZulu)</option>
+              </select>
+              <label style="font-family:var(--font-mono);font-size:10px;color:var(--text2);min-width:64px;margin-left:4px;">PERSONALITY</label>
+              <select id="presenter-personality" style="flex:1;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">
+                <option value="default">Default — professional</option>
+                <option value="energetic">Energetic — upbeat</option>
+                <option value="calm">Calm — measured pauses</option>
+                <option value="gospel">Gospel — inspirational</option>
+                <option value="jazz">Jazz — smooth vibes</option>
+              </select>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+              <label style="font-family:var(--font-mono);font-size:10px;color:var(--text2);min-width:60px;">INCLUDE</label>
+              <label style="display:flex;align-items:center;gap:4px;font-family:var(--font-mono);font-size:10px;color:var(--text2);cursor:pointer;">
+                <input type="checkbox" id="presenter-inc-news" checked style="accent-color:var(--green);"/> News
+              </label>
+              <label style="display:flex;align-items:center;gap:4px;font-family:var(--font-mono);font-size:10px;color:var(--text2);cursor:pointer;">
+                <input type="checkbox" id="presenter-inc-weather" checked style="accent-color:var(--green);"/> Weather
+              </label>
+              <label style="display:flex;align-items:center;gap:4px;font-family:var(--font-mono);font-size:10px;color:var(--text2);cursor:pointer;">
+                <input type="checkbox" id="presenter-inc-traffic" style="accent-color:var(--green);" onchange="document.getElementById('presenter-traffic-row').style.display=this.checked?'flex':'none'"/> Traffic
+              </label>
+            </div>
+            <div id="presenter-traffic-row" style="display:none;flex-direction:column;gap:4px;">
+              <div style="font-family:var(--font-mono);font-size:9px;color:var(--text2);margin-top:2px;">Traffic details (manual — type current conditions):</div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <input type="text" id="presenter-traffic-road" placeholder="Road — e.g. N1 northbound near Sandton" autocomplete="off"
+                  style="flex:2;min-width:140px;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;"/>
+                <input type="text" id="presenter-traffic-status" placeholder="Status — e.g. heavy traffic" autocomplete="off"
+                  style="flex:1;min-width:100px;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;"/>
+                <input type="number" id="presenter-traffic-delay" placeholder="Delay (min)" min="0" max="120" value="15"
+                  style="width:80px;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;"/>
+              </div>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:2px;">
+              <button class="btn primary" onclick="presenterReadOnAir()" style="background:var(--green);border-color:var(--green);color:#000;">🎙 READ ON AIR</button>
+              <div id="presenter-status" style="font-family:var(--font-mono);font-size:9px;color:var(--text2);"></div>
             </div>
             <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
               <label style="font-family:var(--font-mono);font-size:10px;color:var(--text2);min-width:60px;">COUNTRY</label>
@@ -1736,7 +1799,10 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
               <label style="font-family:var(--font-mono);font-size:10px;color:var(--text2);min-width:60px;">AUTO BREAK</label>
               <select id="news-break-interval" style="background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">
                 <option value="0">Off — manual only</option>
-                <option value="tophour">Top of every hour (:00)</option>
+                <option value="tophour3">Top of hour — every 3 hrs (03:00, 06:00...)</option>
+                <option value="tophour6">Top of hour — every 6 hrs (06:00, 12:00...)</option>
+                <option value="tophour9">Top of hour — every 9 hrs (09:00, 18:00...)</option>
+                <option value="tophour12">Top of hour — every 12 hrs (00:00, 12:00)</option>
                 <option value="30">Every 30 min</option>
                 <option value="60" selected>Every 60 min</option>
                 <option value="90">Every 90 min</option>
@@ -1845,7 +1911,10 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
               <label style="font-family:var(--font-mono);font-size:10px;color:var(--text2);min-width:60px;">AUTO BREAK</label>
               <select id="wx-break-interval" style="background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">
                 <option value="0">Off — manual only</option>
-                <option value="tophour">Top of every hour (:00)</option>
+                <option value="tophour3">Top of hour — every 3 hrs (03:00, 06:00...)</option>
+                <option value="tophour6">Top of hour — every 6 hrs (06:00, 12:00...)</option>
+                <option value="tophour9">Top of hour — every 9 hrs (09:00, 18:00...)</option>
+                <option value="tophour12">Top of hour — every 12 hrs (00:00, 12:00)</option>
                 <option value="30">Every 30 min</option>
                 <option value="60" selected>Every 60 min</option>
                 <option value="90">Every 90 min</option>
@@ -1880,6 +1949,85 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
         </div>
       </div>
     </div><!-- /weather panel -->
+
+    <!-- TRAFFIC PANEL -->
+    <div class="panel" id="panel-traffic" role="tabpanel" aria-label="Traffic">
+      <div class="card" style="width:100%;margin-bottom:8px;">
+        <div class="card-head"><span class="card-title">🚦 TRAFFIC BREAKS &mdash; TOMTOM + TTS</span></div>
+        <div class="card-body">
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px;">
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+              <label style="font-family:var(--font-mono);font-size:10px;color:var(--text2);min-width:60px;">TT KEY</label>
+              <input type="password" id="tt-api-key" placeholder="TomTom API key" autocomplete="off"
+                style="flex:1;min-width:140px;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;"/>
+              <button class="btn sm" onclick="ttSaveKey()">SAVE</button>
+              <a href="https://developer.tomtom.com/user/register" target="_blank" rel="noopener" class="btn sm" style="color:var(--cyan);border-color:var(--cyan);">FREE KEY &#8599;</a>
+            </div>
+            <div style="font-family:var(--font-mono);font-size:9px;color:var(--text2);">Roads to monitor — up to 5 locations (city name, road, or lat,lon)</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;">
+              <input type="text" id="tt-road-1" placeholder="Road 1 — e.g. N1 Johannesburg" autocomplete="off" style="background:var(--bg4);border:1px solid var(--accent);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;"/>
+              <input type="text" id="tt-road-2" placeholder="Road 2" autocomplete="off" style="background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;"/>
+              <input type="text" id="tt-road-3" placeholder="Road 3" autocomplete="off" style="background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;"/>
+              <input type="text" id="tt-road-4" placeholder="Road 4" autocomplete="off" style="background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;"/>
+              <input type="text" id="tt-road-5" placeholder="Road 5" autocomplete="off" style="background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;grid-column:1/-1;"/>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+              <label style="font-family:var(--font-mono);font-size:10px;color:var(--text2);min-width:60px;">RADIUS</label>
+              <select id="tt-radius" style="background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">
+                <option value="2000">2 km</option>
+                <option value="5000" selected>5 km</option>
+                <option value="10000">10 km</option>
+                <option value="20000">20 km</option>
+              </select>
+              <label style="font-family:var(--font-mono);font-size:10px;color:var(--text2);min-width:66px;margin-left:6px;">MAX ITEMS</label>
+              <select id="tt-max-items" style="background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">
+                <option value="2">2 per road</option>
+                <option value="3" selected>3 per road</option>
+                <option value="5">5 per road</option>
+              </select>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+              <label style="font-family:var(--font-mono);font-size:10px;color:var(--text2);min-width:60px;">AUTO BREAK</label>
+              <select id="tt-break-interval" style="background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">
+                <option value="0">Off — manual only</option>
+                <option value="tophour3">Top of hour — every 3 hrs (03:00, 06:00...)</option>
+                <option value="tophour6">Top of hour — every 6 hrs (06:00, 12:00...)</option>
+                <option value="tophour9">Top of hour — every 9 hrs (09:00, 18:00...)</option>
+                <option value="tophour12">Top of hour — every 12 hrs (00:00, 12:00)</option>
+                <option value="30">Every 30 min</option>
+                <option value="60" selected>Every 60 min</option>
+                <option value="90">Every 90 min</option>
+                <option value="120">Every 2 hours</option>
+              </select>
+              <button class="btn sm" id="tt-break-auto-btn" onclick="ttToggleAutoBreak()" style="border-color:var(--border2);color:var(--text2);">AUTO: OFF</button>
+              <div id="tt-break-auto-status" style="font-family:var(--font-mono);font-size:9px;color:var(--text2);"></div>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+              <label style="font-family:var(--font-mono);font-size:10px;color:var(--text2);min-width:60px;">JINGLE</label>
+              <select id="tt-jingle-cart" style="flex:1;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">
+                <option value="">None &mdash; traffic starts immediately</option>
+                <option value="0">Cart 1</option><option value="1">Cart 2</option><option value="2">Cart 3</option>
+                <option value="3">Cart 4</option><option value="4">Cart 5</option><option value="5">Cart 6</option>
+                <option value="6">Cart 7</option><option value="7">Cart 8</option><option value="8">Cart 9</option>
+                <option value="9">Cart 10</option><option value="10">Cart 11</option><option value="11">Cart 12</option>
+              </select>
+            </div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+              <button class="btn primary" onclick="ttFetch()">FETCH TRAFFIC</button>
+              <button class="btn" id="tt-break-btn" onclick="ttStartBreak()" style="display:none;border-color:var(--cyan);color:var(--cyan);">READ ON AIR</button>
+              <div id="tt-status" style="font-family:var(--font-mono);font-size:10px;color:var(--text2);"></div>
+            </div>
+          </div>
+          <div id="tt-display" style="display:none;">
+            <div id="tt-incidents-grid" style="display:flex;flex-direction:column;gap:6px;"></div>
+          </div>
+          <div style="margin-top:8px;padding:8px 10px;background:rgba(255,140,0,.05);border:1px solid var(--border);border-radius:4px;font-family:var(--font-mono);font-size:9px;color:var(--text2);line-height:1.7;">
+            TomTom free: 2,500 req/day &nbsp;&middot;&nbsp; No credit card &nbsp;&middot;&nbsp; developer.tomtom.com/user/register &nbsp;&middot;&nbsp;
+            Reads incidents, closures, flow &amp; travel time &nbsp;&middot;&nbsp; Fires after weather when both set to top-of-hour
+          </div>
+        </div>
+      </div>
+    </div><!-- /traffic panel -->
 
     <!-- STATIONS PANEL -->
     <div class="panel" id="panel-stations" role="tabpanel" aria-label="Stations">
@@ -2170,7 +2318,7 @@ function updateClock() {
   const yyyy = now.getFullYear();
   const time = now.toTimeString().slice(0,8);
   document.getElementById('clock').innerHTML =
-    `<span style="font-size:10px;color:var(--text2);display:block;text-align:right;font-family:var(--font-mono);">${day} ${dd}/${mm}/${yyyy}</span>${time}`;
+    `<span style="font-size:9px;color:var(--text2);letter-spacing:0.5px;font-family:var(--font-mono);white-space:nowrap;">${day} ${dd}/${mm}/${yyyy}</span><span style="font-size:15px;letter-spacing:1px;font-family:var(--font-mono);color:var(--accent);">${time}</span>`;
   // Run scheduler at most once per second (not 60× per rAF tick)
   const sec = now.getSeconds();
   if (sec !== _lastSchedSecond) {
@@ -4970,7 +5118,7 @@ function renderShowList() {
     const newsLabel = s.newsTrigger === 'songs' ? `📰 news/${s.newsSongs} songs`
       : s.newsTrigger === 'minutes' ? `📰 news/${s.newsMinutes}min`
       : s.newsTrigger === 'time' ? `📰 news@${s.newsTime}`
-      : s.newsTrigger === 'tophour' ? `📰 news@:00`
+      : _isTopHour(s.newsTrigger) ? `📰 news@:00`
       : '';
     const DAY_NAMES = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
     const repeatLabel = !s.repeat || s.repeat === 'daily' ? '📅 Every day'
@@ -5334,11 +5482,11 @@ function checkScheduledShows(now) {
     // TOP OF HOUR: WEATHER BREAK — fires once per clock hour at :00
     // When news is ALSO tophour on this show, weather defers — newsFireFromShow
     // checks _wxPendingAfterNews and chains into weather after news ends.
-    if (show.wxTrigger === 'tophour') {
+    if (_isTopHour(show.wxTrigger)) {
       var wxHourKey = 'wx_tophour_' + now.getHours();
       if (now.getMinutes() === 0 && !show._firedHHMM[wxHourKey]) {
         show._firedHHMM[wxHourKey] = true;
-        var newsAlsoTopHour = show.newsTrigger === 'tophour';
+        var newsAlsoTopHour = _isTopHour(show.newsTrigger);
         var newsHourKeyCheck = 'news_tophour_' + now.getHours();
         if (newsAlsoTopHour && !show._firedHHMM[newsHourKeyCheck]) {
           // News fires first — mark wx as pending, newsFireFromShow picks it up
@@ -5372,7 +5520,7 @@ function checkScheduledShows(now) {
     }
 
     // TOP OF HOUR: NEWS BREAK — fires once per clock hour at :00
-    if (show.newsTrigger === 'tophour') {
+    if (_isTopHour(show.newsTrigger)) {
       var newsHourKey = 'news_tophour_' + now.getHours();
       if (now.getMinutes() === 0 && !show._firedHHMM[newsHourKey]) {
         show._firedHHMM[newsHourKey] = true;
@@ -6959,31 +7107,47 @@ async function newsFireFromShow(show) {
     await newsFetch();
   }
 
+  // ── Top-of-hour: if weather follows news, suppress song start inside newsEndBreak
+  // so there is no song gap between the two breaks.
+  if (show._wxPendingAfterNews) {
+    _wxWillFollowNews = true;
+  }
+
   if (_newsArticles.length) {
     await newsStartBreak();
   } else {
     showToast('News break skipped — no headlines available');
+    _wxWillFollowNews = false;
   }
 
   // Clear jingle override
   _newsJingleOverride = null;
 
-  // Update show status back to playing
-  show._statusMsg = '\u25ba Playing';
-  updateSchedStatus();
-
-  // ── Top-of-hour coordination: if weather was deferred (both wx and news
-  // set to tophour), fire weather now that news has fully finished.
+  // ── Top-of-hour coordination: fire weather immediately after news with no song gap
   if (show._wxPendingAfterNews) {
     show._wxPendingAfterNews = false;
-    // Short breath between news outro and weather intro
-    await new Promise(function(r){ setTimeout(r, 1500); });
+    _wxWillFollowNews = false; // already consumed by newsEndBreak
     if (!_wxBreakActive) {
+      var _ttIntCheck = (document.getElementById('tt-break-interval') || {}).value || '0';
+      if (_isTopHour(_ttIntCheck) && _ttBreakAutoOn) _ttWillFollowWx = true;
       show._statusMsg = '\uD83C\uDF24 Weather\u2026';
       updateSchedStatus();
-      wxFireFromShow(show);
+      await wxFireFromShow(show); // await so show status restores AFTER weather done
+      _ttWillFollowWx = false;
     }
   }
+
+  // ── After weather: fire traffic if it is also set to top-of-hour
+  var _ttInterval = (document.getElementById('tt-break-interval') || {}).value || '0';
+  if (_isTopHour(_ttInterval) && _ttBreakAutoOn && !_ttBreakActive) {
+    if (_ttBreakAutoTimer) { clearTimeout(_ttBreakAutoTimer); _ttBreakAutoTimer = null; }
+    show._statusMsg = '\uD83D\uDEA6 Traffic\u2026';
+    updateSchedStatus();
+    await ttFireAutoBreak();
+  }
+
+  show._statusMsg = '\u25ba Playing';
+  updateSchedStatus();
 }
 // ── Auto News Break — fires every N minutes automatically ────────────────────
 // Completely separate from the headline fetch timer.
@@ -6994,6 +7158,8 @@ var _newsAutoTimer     = null;
 var _newsAutoOn        = false;
 var _newsLastBreakAt   = 0;    // timestamp of last break end
 var _newsXIAbort       = null; // AbortController for in-flight ElevenLabs fetch
+var _wxWillFollowNews  = false; // true when weather is queued to fire immediately after news — suppresses song start in newsEndBreak
+var _ttWillFollowWx    = false; // true when traffic is queued to fire immediately after weather — suppresses song start in wxEndBreak
 
 function newsToggleAutoBreak() {
   _newsAutoOn = !_newsAutoOn;
@@ -7005,18 +7171,19 @@ function newsToggleAutoBreak() {
       showToast('Set AUTO BREAK interval first');
       return;
     }
-    var xiKey   = (document.getElementById('xi-api-key').value   || '').trim() || localStorage.getItem(XI_KEY_STORAGE)   || '';
-    var newsKey = (document.getElementById('news-api-key').value || '').trim() || localStorage.getItem(NEWS_KEY_STORAGE) || '';
-    if (!xiKey || !newsKey) {
+    var xiKey    = (document.getElementById('xi-api-key').value    || '').trim() || localStorage.getItem(XI_KEY_STORAGE) || '';
+    var googleKey = (document.getElementById('google-tts-key').value || '').trim() || localStorage.getItem(GOOGLE_TTS_KEY_STORAGE) || '';
+    var newsKey   = (document.getElementById('news-api-key').value   || '').trim() || localStorage.getItem(NEWS_KEY_STORAGE) || '';
+    if ((!xiKey && !googleKey) || !newsKey) {
       _newsAutoOn = false;
-      showToast('Both NEWS KEY and XI KEY required for auto breaks');
+      showToast('NEWS KEY + at least one TTS key (ElevenLabs or Google) required');
       return;
     }
     // Stop the separate headline refresh — auto break fetches fresh news itself
     if (_newsFetchTimer) { clearInterval(_newsFetchTimer); _newsFetchTimer = null; }
     if (btn) { btn.textContent = 'AUTO: ON'; btn.style.borderColor = 'var(--green)'; btn.style.color = 'var(--green)'; }
     newsScheduleAutoBreak();
-    showToast('Auto news break ON' + (interval === 'tophour' ? ' — top of every hour' : ' — every ' + interval + ' min'));
+    showToast('Auto news break ON' + (_isTopHour(interval) ? ' — every ' + (_nextTopHour(interval).step) + 'h at :00' : ' — every ' + interval + ' min'));
   } else {
     if (_newsAutoTimer) { clearTimeout(_newsAutoTimer); _newsAutoTimer = null; }
     if (btn) { btn.textContent = 'AUTO: OFF'; btn.style.borderColor = 'var(--border2)'; btn.style.color = 'var(--text2)'; }
@@ -7032,27 +7199,21 @@ function newsScheduleAutoBreak() {
   var interval = (document.getElementById('news-break-interval').value || '0');
   if (!interval || interval === '0') return;
 
-  if (interval === 'tophour') {
-    // Fire at the next top of the hour (:00)
-    var now    = (typeof wtNow === 'function') ? wtNow() : new Date();
-    var msToNextHour = (60 - now.getMinutes()) * 60000 - now.getSeconds() * 1000 - now.getMilliseconds();
-    if (msToNextHour < 5000) msToNextHour += 3600000; // if within 5s of :00, wait for the NEXT hour
-    var nextAt = new Date(now.getTime() + msToNextHour);
-    var hhmm   = nextAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    newsUpdateAutoStatus('Next break at ' + hhmm + ' (top of hour)');
+  if (_isTopHour(interval)) {
+    var th = _nextTopHour(interval);
+    newsUpdateAutoStatus('Next news break at ' + th.label + ' (every ' + th.step + 'h)');
     _newsAutoTimer = setTimeout(function() {
       if (!_newsAutoOn) return;
       newsFireAutoBreak();
-    }, msToNextHour);
+    }, th.ms);
   } else {
-    // Interval-based: calculate time until next break
     var mins       = parseInt(interval, 10);
     var msInterval = mins * 60 * 1000;
     var elapsed    = _newsLastBreakAt ? Date.now() - _newsLastBreakAt : 0;
     var remaining  = Math.max(5000, msInterval - elapsed);
     var nextAt2    = new Date(Date.now() + remaining);
     var hhmm2      = nextAt2.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    newsUpdateAutoStatus('Next break at ' + hhmm2 + ' (fresh headlines auto-fetched)');
+    newsUpdateAutoStatus('Next news break at ' + hhmm2);
     _newsAutoTimer = setTimeout(function() {
       if (!_newsAutoOn) return;
       newsFireAutoBreak();
@@ -7079,10 +7240,20 @@ async function newsFireAutoBreak() {
     // If weather is also waiting as tophour, let it run now since news failed
     var newsInterval = (document.getElementById('news-break-interval').value || '0');
     var wxInterval   = (document.getElementById('wx-break-interval').value   || '0');
-    if (newsInterval === 'tophour' && wxInterval === 'tophour' && _wxBreakAutoOn) {
+    if (_isTopHour(newsInterval) && _isTopHour(wxInterval) && _wxBreakAutoOn) {
       wxFireAutoBreak();
     }
     return;
+  }
+
+  // ── Top-of-hour: suppress song-start in newsEndBreak when weather follows
+  var newsInt = (document.getElementById('news-break-interval').value || '0');
+  var wxInt   = (document.getElementById('wx-break-interval').value   || '0');
+  var weatherFollows = (_isTopHour(newsInt) && _isTopHour(wxInt) && _wxBreakAutoOn);
+  if (weatherFollows) {
+    _wxWillFollowNews = true;
+    // Cancel the independent wx tophour timer — we fire it directly after news
+    if (_wxBreakAutoTimer) { clearTimeout(_wxBreakAutoTimer); _wxBreakAutoTimer = null; }
   }
 
   // Fire the break
@@ -7096,17 +7267,20 @@ async function newsFireAutoBreak() {
     _newsAutoTimer = setTimeout(function(){ if (_newsAutoOn) newsFireAutoBreak(); }, 120000);
   }
 
-  // ── Top-of-hour coordination: if weather is also set to tophour,
-  // fire it now that news has fully finished (music stopped, deck restored).
-  // This guarantees News → Weather order with no overlap.
-  var newsInt = (document.getElementById('news-break-interval').value || '0');
-  var wxInt   = (document.getElementById('wx-break-interval').value   || '0');
-  if (newsInt === 'tophour' && wxInt === 'tophour' && _wxBreakAutoOn) {
-    // Cancel the independent wx tophour timer — we'll fire it directly
-    if (_wxBreakAutoTimer) { clearTimeout(_wxBreakAutoTimer); _wxBreakAutoTimer = null; }
-    // Short gap between news outro and weather intro
-    await new Promise(function(r){ setTimeout(r, 1500); });
-    wxFireAutoBreak();
+  // ── Fire weather immediately — no song between news and weather
+  if (weatherFollows && !_wxBreakActive) {
+    _wxWillFollowNews = false; // consumed
+    var _ttInt2 = (document.getElementById('tt-break-interval') || {}).value || '0';
+    if (_isTopHour(_ttInt2) && _ttBreakAutoOn) _ttWillFollowWx = true;
+    await wxFireAutoBreak(); // await so scheduling resumes only after weather done
+    _ttWillFollowWx = false;
+  }
+
+  // ── After weather: fire traffic if it is also top-of-hour
+  var _ttInt3 = (document.getElementById('tt-break-interval') || {}).value || '0';
+  if (_isTopHour(_ttInt3) && _ttBreakAutoOn && !_ttBreakActive) {
+    if (_ttBreakAutoTimer) { clearTimeout(_ttBreakAutoTimer); _ttBreakAutoTimer = null; }
+    await ttFireAutoBreak();
   }
 }
 
@@ -7116,7 +7290,8 @@ function newsUpdateAutoStatus(msg) {
 }
 
 // ── ElevenLabs key/voice helpers ────────────────────────────────────────
-var XI_KEY_STORAGE   = 'eyethu_xi_key';
+var XI_KEY_STORAGE        = 'eyethu_xi_key';
+var GOOGLE_TTS_KEY_STORAGE = 'eyethu_google_tts_key';
 var XI_VOICE_STORAGE = 'eyethu_xi_voice';
 var XI_MODEL_STORAGE = 'eyethu_xi_model';
 var STATION_NAME_KEY = 'eyethu_station_name';
@@ -7141,6 +7316,358 @@ function stationNameLoad() {
   if (saved && el) el.value = saved;
 }
 
+// ════════════════════════════════════════════════════════════════════════════
+// AI RADIO PRESENTER SYSTEM
+// Generates natural radio presenter speech: Intro → News → Weather → Traffic → Outro
+// Integrates with existing xiSpeak, _newsArticles, _wxData, getStationName()
+// ════════════════════════════════════════════════════════════════════════════
+
+var PRESENTER_NAME_KEY = 'eyethu_presenter_name';
+var PRESENTER_LANG_KEY = 'eyethu_presenter_lang';
+var PRESENTER_PERSONALITY_KEY = 'eyethu_presenter_personality';
+
+function presenterSave() {
+  var name = (document.getElementById('presenter-name').value || '').trim();
+  var lang = (document.getElementById('presenter-lang').value || 'en');
+  var personality = (document.getElementById('presenter-personality').value || 'default');
+  if (name) localStorage.setItem(PRESENTER_NAME_KEY, name);
+  localStorage.setItem(PRESENTER_LANG_KEY, lang);
+  localStorage.setItem(PRESENTER_PERSONALITY_KEY, personality);
+  showToast('Presenter settings saved — ' + (name || 'no name set'));
+}
+
+function presenterLoad() {
+  var name = localStorage.getItem(PRESENTER_NAME_KEY);
+  var lang = localStorage.getItem(PRESENTER_LANG_KEY);
+  var personality = localStorage.getItem(PRESENTER_PERSONALITY_KEY);
+  var nEl = document.getElementById('presenter-name');
+  var lEl = document.getElementById('presenter-lang');
+  var pEl = document.getElementById('presenter-personality');
+  if (name && nEl) nEl.value = name;
+  if (lang && lEl) lEl.value = lang;
+  if (personality && pEl) pEl.value = personality;
+}
+
+function presenterGetData() {
+  var lang        = (document.getElementById('presenter-lang')        || {}).value || localStorage.getItem(PRESENTER_LANG_KEY) || 'en';
+  var personality = (document.getElementById('presenter-personality') || {}).value || localStorage.getItem(PRESENTER_PERSONALITY_KEY) || 'default';
+  var presenterName = (document.getElementById('presenter-name')      || {}).value || localStorage.getItem(PRESENTER_NAME_KEY) || '';
+  var stationName = getStationName();
+
+  // News: all up to 5 loaded headlines
+  var incNews = (document.getElementById('presenter-inc-news') || {}).checked !== false;
+  var newsItems = [];
+  if (incNews && _newsArticles && _newsArticles.length) {
+    newsItems = _newsArticles.slice(0, 5).map(function(a) {
+      return {
+        headline: a.title.trim().replace(/\.+$/, ''),
+        detail:   a.description ? a.description.split(/\.\s+/)[0].trim() : ''
+      };
+    });
+  }
+
+  // Weather: all fetched cities (uses _wxCitiesData if available, else _wxData)
+  var incWeather = (document.getElementById('presenter-inc-weather') || {}).checked !== false;
+  var weatherItems = [];
+  var units = ((document.getElementById('wx-units') || {}).value) || 'metric';
+  var unitLabel = units === 'imperial' ? 'Fahrenheit' : 'degrees';
+  if (incWeather) {
+    var wxSources = (_wxCitiesData && _wxCitiesData.length) ? _wxCitiesData
+                  : (_wxData ? [_wxData] : []);
+    weatherItems = wxSources.map(function(d) {
+      return {
+        city:      d.name || 'your area',
+        temp:      Math.round(d.main.temp),
+        condition: (d.weather && d.weather[0]) ? d.weather[0].description : 'clear',
+        humidity:  d.main ? d.main.humidity : null,
+        wind:      d.wind ? Math.round(d.wind.speed) : null,
+        unit:      unitLabel
+      };
+    });
+  }
+
+  // Traffic: live TomTom data (_ttIncidents), fall back to manual fields if empty
+  var incTraffic = (document.getElementById('presenter-inc-traffic') || {}).checked;
+  var trafficItems = [];
+  if (incTraffic) {
+    if (_ttIncidents && _ttIncidents.length) {
+      trafficItems = _ttIncidents; // full array — ttBuildScript handles formatting
+    } else {
+      // Legacy manual fields fallback
+      var road   = (document.getElementById('presenter-traffic-road')   || {}).value || '';
+      var tstat  = (document.getElementById('presenter-traffic-status') || {}).value || '';
+      var delay  = parseInt((document.getElementById('presenter-traffic-delay') || {}).value, 10) || 0;
+      if (road || tstat) trafficItems = [{ manual: true, road: road, status: tstat, delay: delay }];
+    }
+  }
+
+  return { stationName, presenterName, language: lang, personality, newsItems, weatherItems, trafficItems };
+}
+
+// ── Script building ──────────────────────────────────────────────────────────
+
+function presenterGetIntro(stationName, presenterName, lang) {
+  var withPresenter = presenterName ? (lang === 'zu' ? ' no ' + presenterName : ', with ' + presenterName) : '';
+  if (lang === 'zu') {
+    return 'Sawubona... ulalele ' + stationName + withPresenter + '.';
+  }
+  return "Good day... you're listening to " + stationName + withPresenter + '.';
+}
+
+function presenterFormatNews(newsItems, lang) {
+  if (!newsItems || !newsItems.length) return '';
+  var LEADS = [
+    'Our top story this hour...',
+    'Also in the news...',
+    'In other news...',
+    'And there is more...',
+    'And finally...'
+  ];
+  var LEADS_ZU = [
+    'Indaba yethu enkulu...',
+    'Futhi ezindabeni...',
+    'Kwamanye amakheli...',
+    'Kukhona okunye...',
+    'Lokho okugcineni...'
+  ];
+  var leads = lang === 'zu' ? LEADS_ZU : LEADS;
+  var lines = newsItems.map(function(item, idx) {
+    var lead = leads[Math.min(idx, leads.length - 1)];
+    var title = item.headline;
+    var extra = item.detail ? ' ' + item.detail + '.' : '';
+    return lead + ' ' + title + '.' + extra;
+  });
+  return lines.join(' ');
+}
+
+function presenterFormatWeather(weatherItems, lang) {
+  if (!weatherItems || !weatherItems.length) return '';
+
+  function _wxCondPhrase(d, t, u) {
+    d = (d || 'clear').toLowerCase();
+    if (d.includes('thunderstorm')) return 'a thunderstorm rolling in, at ' + t + ' ' + u;
+    if (d.includes('drizzle'))      return 'light drizzle, sitting at ' + t + ' ' + u;
+    if (d.includes('heavy rain'))   return 'heavy rain, at ' + t + ' ' + u;
+    if (d.includes('rain'))         return "some rain coming down, around " + t + ' ' + u;
+    if (d.includes('snow'))         return 'snowing, at ' + t + ' ' + u;
+    if (d.includes('mist') || d.includes('fog') || d.includes('haze'))
+                                    return 'misty and overcast, at ' + t + ' ' + u;
+    if (d.includes('overcast'))     return 'overcast, at ' + t + ' ' + u;
+    if (d.includes('broken') || d.includes('scattered')) return 'partly cloudy, at ' + t + ' ' + u;
+    if (d.includes('few clouds'))   return 'mostly clear, a nice ' + t + ' ' + u;
+    if (d.includes('clear') || d.includes('sunny')) return 'clear skies and a beautiful ' + t + ' ' + u;
+    return d + ', at ' + t + ' ' + u;
+  }
+
+  var CONNECTORS = ['', 'Moving over to ', 'Heading to ', 'And in ', 'And over in '];
+
+  if (lang === 'zu') {
+    var zuLines = weatherItems.map(function(w) {
+      return 'E' + w.city + ', kushisa ' + w.temp + ' degrees, kube ' + w.condition + '.';
+    });
+    return 'Isimo sezulu... ' + zuLines.join(' ');
+  }
+
+  var lines = weatherItems.map(function(w, idx) {
+    var conn = CONNECTORS[Math.min(idx, CONNECTORS.length - 1)];
+    var phrase = _wxCondPhrase(w.condition, w.temp, w.unit);
+    var extra = '';
+    if (w.humidity && w.humidity > 70) extra = ' Humidity at ' + w.humidity + ' percent.';
+    else if (w.wind && w.wind > 30)    extra = ' Winds at ' + w.wind + ' kilometres per hour.';
+    return conn + w.city + '... ' + phrase + '.' + extra;
+  });
+  return 'Now, your weather... ' + lines.join(' ');
+}
+
+function presenterFormatTraffic(trafficItems, lang) {
+  if (!trafficItems || !trafficItems.length) return '';
+
+  // Legacy manual entry fallback
+  if (trafficItems[0] && trafficItems[0].manual) {
+    var t = trafficItems[0];
+    if (lang === 'zu') return 'Ezindleleni... kune ' + t.status + ' ku ' + t.road + ', ukubambezeleka kungaba imizuzu engu ' + t.delay + '.';
+    return 'And on the roads... ' + t.status + ' on the ' + t.road + (t.delay ? ', with delays of around ' + t.delay + ' minutes' : '') + '.';
+  }
+
+  // Live TomTom data — reuse ttBuildScript which already generates natural sentences
+  // but strip the intro/outro since the presenter wraps those
+  var incidents = trafficItems.filter(function(x){ return x.incident; });
+  var flowOnly  = trafficItems.filter(function(x){ return x.flow && !x.incident; });
+
+  if (!incidents.length && !flowOnly.length) return '';
+
+  var parts = [];
+
+  if (!incidents.length) {
+    parts.push('Good news on the roads... all monitored routes are flowing freely.');
+  }
+
+  incidents.forEach(function(item, idx) {
+    var p = item.incident.properties || {};
+    var cat = p.iconCategory;
+    var delay = p.delay ? Math.round(p.delay / 60) : 0;
+    var from = p.from || '';
+    var to = p.to || '';
+    var roads = (p.roadNumbers && p.roadNumbers.length) ? 'the ' + p.roadNumbers.join(' and ') : 'near ' + item.road;
+    var desc = (p.events && p.events[0] && p.events[0].description) ? p.events[0].description : '';
+    var prefix = idx === 0 ? 'On the roads... ' : 'Also, ';
+
+    var line;
+    if (cat === 8) {
+      line = prefix + 'a road closure ' + roads + (from ? ', from ' + from + (to ? ' to ' + to : '') : '') + '. Use an alternative route.';
+    } else if (cat === 1) {
+      line = prefix + 'an accident ' + roads + (from ? ' between ' + from + (to ? ' and ' + to : '') : '') + (delay ? ', causing about ' + delay + ' minutes delay' : '') + '.';
+    } else if (cat === 6) {
+      line = prefix + 'heavy congestion ' + roads + (from ? ' from ' + from + (to ? ' towards ' + to : '') : '') + (delay ? ', expect ' + delay + ' minutes' : '') + '.';
+    } else if (cat === 9) {
+      line = prefix + 'road works ' + roads + (from ? ' near ' + from : '') + '. Allow extra time.';
+    } else {
+      line = prefix + (desc || 'an incident') + ' reported ' + roads + (delay ? ', adding about ' + delay + ' minutes' : '') + '.';
+    }
+    parts.push(line);
+  });
+
+  if (flowOnly.length && incidents.length) {
+    var clearList = flowOnly.map(function(x){ return x.road; }).join(' and ');
+    parts.push('The good news... ' + clearList + ' ' + (flowOnly.length > 1 ? 'are' : 'is') + ' clear.');
+  }
+
+  if (lang === 'zu') return 'Ezindleleni... ' + parts.join(' ');
+  return parts.join(' ');
+}
+
+function presenterGetOutro(stationName, lang) {
+  if (lang === 'zu') return "Yilokho okwamanje... qhubeka ulalele " + stationName + '.';
+  return "That's your latest update... stay tuned for more on " + stationName + '.';
+}
+
+function presenterApplyPersonality(text, personality) {
+  switch (personality) {
+    case 'energetic': return text.replace(/\.\.\./g, '!').replace(/\.(?!\d)/g, '!');
+    case 'calm':      return text.replace(/\.\.\./g, '... ').replace(/\.(?!\d)/g, '. ');
+    case 'gospel':    return 'Blessings... ' + text + ' Stay inspired.';
+    case 'jazz':      return 'Smooth vibes... ' + text;
+    default:          return text;
+  }
+}
+
+function presenterEnhanceSpeech(text) {
+  // Ensure natural pauses: ... already present from templates, just clean up spacing
+  return text.replace(/\s{2,}/g, ' ').replace(/\.\.\. /g, '... ').trim();
+}
+
+// Lightweight settings reader used by ALL break scripts (news, weather, traffic).
+// Falls back to localStorage so it works even when the presenter panel isn't visible.
+function presenterGetSettings() {
+  var lang        = (document.getElementById('presenter-lang')        || {}).value || localStorage.getItem(PRESENTER_LANG_KEY)        || 'en';
+  var personality = (document.getElementById('presenter-personality') || {}).value || localStorage.getItem(PRESENTER_PERSONALITY_KEY) || 'default';
+  var name        = (document.getElementById('presenter-name')        || {}).value || localStorage.getItem(PRESENTER_NAME_KEY)        || '';
+  var station     = getStationName();
+  var withName    = name ? (lang === 'zu' ? ' no ' + name : ', with ' + name) : '';
+  return { lang: lang, personality: personality, name: name, station: station, withName: withName };
+}
+
+function presenterBuildScript(data) {
+  var parts = [];
+  parts.push(presenterGetIntro(data.stationName, data.presenterName, data.language));
+
+  // All headlines
+  var newsPart = presenterFormatNews(data.newsItems, data.language);
+  if (newsPart) parts.push(newsPart);
+
+  // All weather cities
+  var wxPart = presenterFormatWeather(data.weatherItems, data.language);
+  if (wxPart) parts.push(wxPart);
+
+  // All traffic — live TomTom or manual
+  var trPart = presenterFormatTraffic(data.trafficItems, data.language);
+  if (trPart) parts.push(trPart);
+
+  parts.push(presenterGetOutro(data.stationName, data.language));
+
+  var script = parts.join(' ');
+  script = presenterEnhanceSpeech(script);
+  script = presenterApplyPersonality(script, data.personality);
+  return script;
+}
+
+// ── Preview ──────────────────────────────────────────────────────────────────
+
+function presenterPreview() {
+  var data   = presenterGetData();
+  var script = presenterBuildScript(data);
+  var box    = document.getElementById('presenter-preview-box');
+  var status = document.getElementById('presenter-status');
+  if (box) { box.style.display = 'block'; box.textContent = script; }
+  if (status) status.textContent = 'Script preview — ' + script.length + ' chars';
+}
+
+// ── Read on air ──────────────────────────────────────────────────────────────
+
+async function presenterReadOnAir() {
+  var xiKey     = (document.getElementById('xi-api-key').value    || '').trim() || localStorage.getItem(XI_KEY_STORAGE) || '';
+  var googleKey  = (document.getElementById('google-tts-key').value || '').trim() || localStorage.getItem(GOOGLE_TTS_KEY_STORAGE) || '';
+  if (!xiKey && !googleKey) { showToast('Enter an ElevenLabs or Google TTS key first'); return; }
+
+  var data   = presenterGetData();
+  var script = presenterBuildScript(data);
+  var status = document.getElementById('presenter-status');
+  var box    = document.getElementById('presenter-preview-box');
+
+  if (box) { box.style.display = 'block'; box.textContent = script; }
+
+  // Fade out playing deck
+  initAudio();
+  if (actx && actx.state === 'suspended') actx.resume();
+  var activeDeck = null, activeGain = null;
+  if (state.deckA.playing && state.deckA.audio) { activeDeck = 'A'; activeGain = deckAGain; }
+  else if (state.deckB.playing && state.deckB.audio) { activeDeck = 'B'; activeGain = deckBGain; }
+
+  if (activeDeck && activeGain && actx) {
+    if (status) status.textContent = 'Fading out music...';
+    activeGain.gain.cancelScheduledValues(actx.currentTime);
+    activeGain.gain.setValueAtTime(activeGain.gain.value, actx.currentTime);
+    activeGain.gain.linearRampToValueAtTime(0, actx.currentTime + 3);
+    await new Promise(function(r){ setTimeout(r, 3200); });
+    var d = activeDeck === 'A' ? state.deckA : state.deckB;
+    if (d.audio) d.audio.pause();
+    d.playing = false;
+    var pb = document.getElementById('deck' + activeDeck + '-play');
+    if (pb) { pb.textContent = '▶'; pb.setAttribute('aria-pressed', 'false'); }
+  }
+
+  if (status) status.textContent = '🎙 Reading on air...';
+  showToast('🎙 AI Presenter on air...');
+
+  try {
+    await ttsSpeak(script, xiGetVoiceId(), xiGetModel());
+  } catch(e) {
+    showToast('Presenter TTS error: ' + e.message);
+    if (status) status.textContent = 'Error: ' + e.message;
+  }
+
+  // Restore gain and start next song
+  if (activeDeck && activeGain) newsRestoreDeckGain(activeDeck, activeGain);
+  var nextDeck = activeDeck === 'A' ? 'B' : 'A';
+  if (state.autoDJ && state.queue.length) {
+    var played = state.queue.shift(); state.queue.push(played);
+    var nxt = typeof noRepeatFindNext === 'function' ? noRepeatFindNext() : state.queue[0];
+    if (nxt) { loadTrackToDeck(nextDeck, nxt); renderQueue(); setTimeout(function(){ playDeckWhenReady(nextDeck); }, 300); }
+  } else {
+    var nd2 = nextDeck === 'A' ? state.deckA : state.deckB;
+    if (nd2.audio && !nd2.playing) { nd2.audio.currentTime = 0; setTimeout(function(){ playDeckWhenReady(nextDeck); }, 300); }
+  }
+
+  if (status) status.textContent = 'Done — next song starting';
+  showToast('🎙 Presenter done — next song starting');
+}
+
+// Load saved presenter settings on startup
+(function presenterInit() {
+  // Delay slightly so DOM is ready
+  setTimeout(presenterLoad, 100);
+})();
+
 (function xiInit() {
   var k = localStorage.getItem(XI_KEY_STORAGE);
   var v = localStorage.getItem(XI_VOICE_STORAGE);
@@ -7158,6 +7685,7 @@ function stationNameLoad() {
   var sel = document.getElementById('xi-voice');
   if (sel) sel.addEventListener('change', xiToggleCustomVoice);
   stationNameLoad();
+  googleTtsLoad();
 })();
 
 function xiToggleCustomVoice() {
@@ -7177,6 +7705,122 @@ function xiSaveKey() {
   localStorage.setItem(XI_MODEL_STORAGE, m);
   showToast('ElevenLabs settings saved');
   newsCheckHideSetup();
+}
+
+// ── Google Cloud TTS ─────────────────────────────────────────────────────────
+function googleTtsSaveKey() {
+  var k = (document.getElementById('google-tts-key').value || '').trim();
+  if (!k) { showToast('Enter your Google Cloud TTS API key'); return; }
+  localStorage.setItem(GOOGLE_TTS_KEY_STORAGE, k);
+  showToast('Google TTS key saved — will be used as ElevenLabs fallback');
+}
+
+function googleTtsLoad() {
+  var k = localStorage.getItem(GOOGLE_TTS_KEY_STORAGE);
+  var el = document.getElementById('google-tts-key');
+  if (k && el) el.value = k;
+}
+
+// Speak text using Google Cloud TTS Neural2 voice.
+// Returns a Promise that resolves when audio finishes.
+function googleSpeak(text) {
+  var key = (document.getElementById('google-tts-key').value || '').trim()
+          || localStorage.getItem(GOOGLE_TTS_KEY_STORAGE) || '';
+  if (!key) return Promise.reject(new Error('No Google TTS key'));
+
+  return fetch('https://texttospeech.googleapis.com/v1/text:synthesize?key=' + encodeURIComponent(key), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      input: { text: text },
+      voice: { languageCode: 'en-ZA', name: 'en-ZA-Neural2-A' },
+      audioConfig: { audioEncoding: 'MP3', speakingRate: 0.95, pitch: -1.0 }
+    })
+  })
+  .then(function(res) {
+    if (!res.ok) return res.json().then(function(e){ throw new Error('Google TTS error ' + res.status + ': ' + (e.error && e.error.message || '')); });
+    return res.json();
+  })
+  .then(function(data) {
+    return new Promise(function(resolve, reject) {
+      if (!data.audioContent) { reject(new Error('No audio content from Google TTS')); return; }
+      var byteChars = atob(data.audioContent);
+      var bytes = new Uint8Array(byteChars.length);
+      for (var i = 0; i < byteChars.length; i++) bytes[i] = byteChars.charCodeAt(i);
+      var blob = new Blob([bytes], { type: 'audio/mpeg' });
+      var blobUrl = URL.createObjectURL(blob);
+      var audio = new Audio(blobUrl);
+      if (actx && fixedTrim) {
+        try {
+          var src = actx.createMediaElementSource(audio);
+          src.connect(fixedTrim);
+          audio.onended = function() { try { src.disconnect(); } catch(e){} URL.revokeObjectURL(blobUrl); resolve(); };
+          audio.onerror = function() { try { src.disconnect(); } catch(e){} URL.revokeObjectURL(blobUrl); resolve(); };
+        } catch(e) {
+          audio.volume = 0.9;
+          audio.onended = function() { URL.revokeObjectURL(blobUrl); resolve(); };
+          audio.onerror = function() { URL.revokeObjectURL(blobUrl); resolve(); };
+        }
+      } else {
+        audio.volume = 0.9;
+        audio.onended = function() { URL.revokeObjectURL(blobUrl); resolve(); };
+        audio.onerror = function() { URL.revokeObjectURL(blobUrl); resolve(); };
+      }
+      audio.play().catch(function() { URL.revokeObjectURL(blobUrl); resolve(); });
+    });
+  });
+}
+
+// Web Speech API (browser built-in) — last resort fallback, no key needed.
+function webSpeechSpeak(text) {
+  return new Promise(function(resolve) {
+    if (!window.speechSynthesis) { resolve(); return; }
+    window.speechSynthesis.cancel();
+    var utt = new SpeechSynthesisUtterance(text);
+    utt.rate = 0.92; utt.pitch = 0.95; utt.volume = 1.0;
+    // Prefer a Google en-ZA or en-GB voice if available
+    var voices = window.speechSynthesis.getVoices();
+    var preferred = voices.find(function(v){ return v.lang === 'en-ZA'; })
+                  || voices.find(function(v){ return v.lang.startsWith('en-') && v.name.toLowerCase().includes('google'); })
+                  || voices.find(function(v){ return v.lang.startsWith('en'); });
+    if (preferred) utt.voice = preferred;
+    utt.onend = resolve; utt.onerror = resolve;
+    window.speechSynthesis.speak(utt);
+  });
+}
+
+// Unified TTS: try ElevenLabs → Google Cloud TTS → Web Speech API
+async function ttsSpeak(text, voiceId, modelId) {
+  // 1. Try ElevenLabs
+  var xiKey = (document.getElementById('xi-api-key').value || '').trim() || localStorage.getItem(XI_KEY_STORAGE) || '';
+  if (xiKey) {
+    try {
+      await xiSpeak(text, voiceId, modelId);
+      return;
+    } catch(e) {
+      console.warn('[TTS] ElevenLabs failed:', e.message);
+      // Show the actual error (key issue, quota, server error, etc.)
+      var gKey2 = (document.getElementById('google-tts-key').value || '').trim() || localStorage.getItem(GOOGLE_TTS_KEY_STORAGE) || '';
+      if (gKey2) {
+        showToast('⚠ ElevenLabs: ' + e.message + ' — switching to Google TTS');
+      } else {
+        showToast('⚠ ElevenLabs: ' + e.message + ' — using browser voice');
+      }
+    }
+  }
+  // 2. Try Google Cloud TTS
+  var gKey = (document.getElementById('google-tts-key').value || '').trim() || localStorage.getItem(GOOGLE_TTS_KEY_STORAGE) || '';
+  if (gKey) {
+    try {
+      await googleSpeak(text);
+      return;
+    } catch(e) {
+      console.warn('[TTS] Google TTS failed:', e.message, '— falling back to Web Speech');
+      showToast('⚠ Google TTS: ' + e.message + ' — using browser voice');
+    }
+  }
+  // 3. Web Speech API fallback (no key needed)
+  await webSpeechSpeak(text);
 }
 
 // Collapse and dim the setup guide once both keys are present
@@ -7240,7 +7884,37 @@ function xiSpeak(text, voiceId, modelId) {
     })
   })
   .then(function(res) {
-    if (!res.ok) return res.json().then(function(e){ throw new Error(e.detail && e.detail.message || 'ElevenLabs error ' + res.status); });
+    if (!res.ok) {
+      var status = res.status;
+      // Try to parse JSON body for the real message; fall back gracefully if body is not JSON
+      return res.text().then(function(body) {
+        var msg;
+        try {
+          var parsed = JSON.parse(body);
+          // detail may be a string or an object with a .message field
+          if (parsed.detail) {
+            msg = (typeof parsed.detail === 'string')
+              ? parsed.detail
+              : (parsed.detail.message || parsed.detail.status || JSON.stringify(parsed.detail));
+          } else if (parsed.message) {
+            msg = parsed.message;
+          }
+        } catch(jsonErr) {
+          // Non-JSON body — use the raw text (trimmed) if short, otherwise ignore
+          msg = (body && body.length < 200) ? body.trim() : '';
+        }
+        // Map common HTTP status codes to actionable messages
+        if (!msg || msg.length > 300) {
+          if (status === 401) msg = 'Invalid API key — check your ElevenLabs key in the NEWS tab';
+          else if (status === 403) msg = 'Access denied — check your ElevenLabs plan';
+          else if (status === 422) msg = 'Invalid request sent to ElevenLabs (check voice ID / model)';
+          else if (status === 429) msg = 'ElevenLabs quota exceeded — free tier is 10,000 chars/month';
+          else if (status >= 500)  msg = 'ElevenLabs server error (' + status + ') — try again shortly';
+          else msg = 'ElevenLabs error ' + status;
+        }
+        throw new Error(msg);
+      });
+    }
     return res.blob();
   })
   .then(function(blob) {
@@ -7278,25 +7952,60 @@ async function xiTestVoice() {
   if (!k) { showToast('Enter your ElevenLabs API key first'); return; }
   initAudio();
   if (actx && actx.state === 'suspended') actx.resume();
-  showToast('Testing voice...');
+  showToast('Testing ElevenLabs voice...');
   try {
-    await xiSpeak('Good evening. This is ' + getStationName() + '. Broadcasting live.', xiGetVoiceId(), xiGetModel());
-    showToast('Voice test complete');
+    // Test ElevenLabs directly — bypasses fallback so we get the real error if it fails
+    await xiSpeak('Good ' + _timeOfDay() + '... this is ' + getStationName() + '. Broadcasting live.', xiGetVoiceId(), xiGetModel());
+    showToast('✅ ElevenLabs voice test complete');
   } catch(e) {
-    showToast('Voice test failed: ' + e.message);
+    showToast('❌ ElevenLabs: ' + e.message);
   }
+}
+
+// ── Shared top-of-hour scheduling helper ───────────────────────────────────
+// Returns {ms, label} for the next clock time that aligns to the given tophour
+// interval (tophour3 = every 3rd hour :00, tophour6 = every 6th, etc.)
+function _nextTopHour(intervalVal) {
+  var step = parseInt((intervalVal || '').replace('tophour', ''), 10) || 1;
+  var now = (typeof wtNow === 'function') ? wtNow() : new Date();
+  var h = now.getHours();
+  // Find next hour divisible by step that is strictly after current time
+  var nextH = h + 1; // at minimum the next whole hour
+  // Round up to the next multiple of step
+  while (nextH % step !== 0) nextH++;
+  // ms until that moment
+  var msToNext = (nextH - h) * 3600000
+               - now.getMinutes()  * 60000
+               - now.getSeconds()  * 1000
+               - now.getMilliseconds();
+  if (msToNext < 5000) msToNext += step * 3600000; // safety: if almost exactly on :00
+  var nextDate = new Date(now.getTime() + msToNext);
+  var hhmm = nextDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  return { ms: msToNext, label: hhmm, step: step };
+}
+
+// Returns true for any tophour variant
+function _isTopHour(val) { return val && val.toString().startsWith('tophour'); }
+
+// Helper: returns 'morning', 'afternoon' or 'evening' based on local hour
+function _timeOfDay() {
+  var h = new Date().getHours();
+  if (h < 12) return 'morning';
+  if (h < 17) return 'afternoon';
+  return 'evening';
 }
 
 // ── News break — full broadcast flow ───────────────────────────────────
 // 1. Fade out playing deck over 5 seconds then stop
 // 2. Play news jingle cart (if selected)
-// 3. ElevenLabs reads all headlines through DSP chain
+// 3. Natural radio script read via ttsSpeak (ElevenLabs → Google → Web Speech)
 // 4. Start next song fresh from Auto-DJ queue
 async function newsStartBreak() {
   if (!_newsArticles.length) { showToast('Fetch news first'); return; }
   if (_newsTTSBreak) { newsStopBreak(); return; }
-  var key = (document.getElementById('xi-api-key').value || '').trim() || localStorage.getItem(XI_KEY_STORAGE) || '';
-  if (!key) { showToast('Enter your ElevenLabs API key in the XI KEY field'); return; }
+  var _ttsXiKey     = (document.getElementById('xi-api-key').value    || '').trim() || localStorage.getItem(XI_KEY_STORAGE) || '';
+  var _ttsGoogleKey  = (document.getElementById('google-tts-key').value || '').trim() || localStorage.getItem(GOOGLE_TTS_KEY_STORAGE) || '';
+  if (!_ttsXiKey && !_ttsGoogleKey) { showToast('Enter an ElevenLabs or Google TTS key first'); return; }
 
   initAudio();
   if (actx && actx.state === 'suspended') actx.resume();
@@ -7367,19 +8076,67 @@ async function newsStartBreak() {
     if (!_newsTTSBreak) { if (activeDeck) newsRestoreDeckGain(activeDeck, activeGain); return; }
   }
 
-  newsSetStatus('reading', 'On air - ElevenLabs news break');
+  newsSetStatus('reading', 'On air — news break');
 
-  // ── Step 3: ElevenLabs reads headlines ───────────────────────────────
-  // Each headline is its own TTS request so ElevenLabs generates natural
-  // sentence-level prosody per item. No "Headline 1 / Headline 2" prefix —
-  // that sounds robotic. A 900 ms silence between headlines gives air.
+  // ── Step 3: Natural radio script — each headline gets a lead-in phrase,
+  //    pauses (commas and ellipsis) and a brief detail. Each segment is its
+  //    own TTS request so the engine generates clean per-sentence prosody.
+  //    ttsSpeak() tries ElevenLabs → Google Cloud TTS → Web Speech API.
+
+  // Natural lead-ins that rotate across the 5 headline slots
+  var LEAD_INS = [
+    'Our top story this hour...',
+    'Also in the news...',
+    'In other news...',
+    'And there is more...',
+    'And finally...'
+  ];
+
+  // Helper: strip trailing dots, collapse whitespace, ensure single sentence end
+  function _cleanTitle(t) {
+    return t.trim().replace(/\.{2,}$/,'').replace(/\.$/, '').replace(/\s{2,}/g,' ');
+  }
+
+  // Helper: get first meaningful sentence from description, or empty string
+  function _firstSentence(desc) {
+    if (!desc) return '';
+    var s = desc.split(/\.\s+/)[0].trim();
+    if (!s || s.length < 12) return '';
+    // Truncate if very long
+    if (s.length > 140) s = s.substring(0, 140).replace(/\s\S+$/, '');
+    return s + '.';
+  }
+
+  var ps = presenterGetSettings();
+  var articles = _newsArticles.slice(0, 5); // cap at 5
   var segments = [];
-  _newsArticles.forEach(function(a) {
-    var title  = a.title.trim().replace(/\.+$/, '');   // strip trailing dots
-    var detail = a.description ? ' ' + a.description.split('.')[0].trim() + '.' : '';
-    segments.push({ text: title + '.' + detail, articleIdx: segments.length });
+
+  // Presenter-aware intro
+  var newsIntro, newsOutro;
+  if (ps.lang === 'zu') {
+    newsIntro = 'Sawubona' + ps.withName + '... lapha e' + ps.station + '. Nansi imibiko yamanje.';
+    newsOutro = 'Yilokho ngezindaba... qhubeka ulalele ' + ps.station + '.';
+  } else {
+    newsIntro = 'Good ' + _timeOfDay() + ps.withName + '... you are listening to ' + ps.station + '. Here is your news update.';
+    newsOutro = 'That is your news update... stay tuned to ' + ps.station + ', and we will be right back with more music.';
+  }
+  segments.push({ text: presenterApplyPersonality(presenterEnhanceSpeech(newsIntro), ps.personality), articleIdx: -2 });
+
+  articles.forEach(function(a, idx) {
+    var lead, title, extra, text;
+    title = _cleanTitle(a.title);
+    extra = _firstSentence(a.description);
+    if (ps.lang === 'zu') {
+      var zuLeads = ['Indaba enkulu...', 'Futhi ezindabeni...', 'Okunye okusha...', 'Kukhona okuningi...', 'Ekugcineni...'];
+      lead = zuLeads[idx] || 'Futhi...';
+    } else {
+      lead = LEAD_INS[idx] || 'Also...';
+    }
+    text = extra ? lead + ' ' + title + '... ' + extra : lead + ' ' + title + '.';
+    segments.push({ text: text, articleIdx: idx });
   });
-  segments.push({ text: "That's your news update. Stay tuned to " + getStationName() + '.', articleIdx: -1 });
+
+  segments.push({ text: presenterApplyPersonality(newsOutro, ps.personality), articleIdx: -1 });
 
   var voiceId = xiGetVoiceId();
   var modelId = xiGetModel();
@@ -7397,16 +8154,15 @@ async function newsStartBreak() {
     }
     try {
       if (stateEl) stateEl.textContent = 'READING ON AIR';
-      await xiSpeak(seg.text, voiceId, modelId);
+      await ttsSpeak(seg.text, voiceId, modelId);
     } catch(e) {
-      console.warn('[XI] TTS error:', e.message);
+      console.warn('[TTS] Error:', e.message);
       showToast('TTS error: ' + e.message);
       break;
     }
-    // Pause between headlines (not after the final outro segment).
-    // 900 ms feels like a natural breath between bulletin items.
+    // Natural breath pause between items (not after the final sign-off)
     if (_newsTTSBreak && i < segments.length - 1) {
-      await new Promise(function(r){ setTimeout(r, 900); });
+      await new Promise(function(r){ setTimeout(r, 1100); });
     }
   }
 
@@ -7445,22 +8201,23 @@ function newsEndBreak(activeDeck, activeGain) {
   document.querySelectorAll('.news-item').forEach(function(el){ el.classList.remove('reading'); });
 
   // ── Step 4: restore deck gain then start next song ───────────────────
+  // Skip if weather is about to follow — weather will start the song after it finishes.
+  if (_wxWillFollowNews) {
+    newsSetStatus('live', _newsArticles.length + ' headlines loaded');
+    showToast('News done — weather update next');
+    return;
+  }
+
   if (activeDeck && activeGain) {
-    // Restore gain to default level (faded to 0 during break)
     newsRestoreDeckGain(activeDeck, activeGain);
   }
 
   // Start next song fresh — works whether Auto-DJ is on or off.
-  // Pick next deck: alternate from active, but respect show deck preference if known.
-  // Find the active show to check its deck preference.
   var _activeShow = (state.shows || []).find(function(s){ return s._triggered; });
   var _showDeck = _activeShow ? (_activeShow.deck || 'A') : null;
-  // If show has a deck preference use its opposite (normal alternating within a show).
-  // If no active show, alternate from whichever deck was faded out.
   var nextDeck = activeDeck ? (activeDeck === 'A' ? 'B' : 'A')
                : (_showDeck === 'A' ? 'B' : 'A');
   if (state.autoDJ && state.queue.length) {
-    // Rotate queue and load next track, then play
     var played = state.queue.shift();
     state.queue.push(played);
     var nextTrack = typeof noRepeatFindNext === 'function' ? noRepeatFindNext() : state.queue[0];
@@ -7470,7 +8227,6 @@ function newsEndBreak(activeDeck, activeGain) {
       setTimeout(function() { playDeckWhenReady(nextDeck); }, 300);
     }
   } else {
-    // Auto-DJ off — just play the next deck if it has a track loaded
     var nd = nextDeck === 'A' ? state.deckA : state.deckB;
     if (nd.audio && !nd.playing) {
       nd.audio.currentTime = 0;
@@ -7479,23 +8235,26 @@ function newsEndBreak(activeDeck, activeGain) {
   }
 
   newsSetStatus('live', _newsArticles.length + ' headlines loaded');
-  showToast('News break ended - next song starting');
+  showToast('News break ended — next song starting');
 }
 
 // ── Read a single article via ElevenLabs ─────────────────────────────────
 async function newsReadSingle(i) {
   var a = _newsArticles[i];
   if (!a) return;
-  var key = (document.getElementById('xi-api-key').value || '').trim() || localStorage.getItem(XI_KEY_STORAGE) || '';
-  if (!key) { showToast('Enter your ElevenLabs API key first'); return; }
+  var _rsTtsXiKey    = (document.getElementById('xi-api-key').value    || '').trim() || localStorage.getItem(XI_KEY_STORAGE) || '';
+  var _rsTtsGoogleKey = (document.getElementById('google-tts-key').value || '').trim() || localStorage.getItem(GOOGLE_TTS_KEY_STORAGE) || '';
+  if (!_rsTtsXiKey && !_rsTtsGoogleKey) { showToast('Enter an ElevenLabs or Google TTS key first'); return; }
   initAudio();
   if (actx && actx.state === 'suspended') actx.resume();
-  var text = a.title + '. ' + (a.description ? a.description.split('.')[0] + '.' : '');
+  var cleanTitle = a.title.trim().replace(/\.+$/, '');
+  var extra = a.description ? a.description.split(/\.\s+/)[0].trim() : '';
+  var text = cleanTitle + '.' + (extra ? ' ' + extra + '.' : '');
   document.querySelectorAll('.news-item').forEach(function(el){ el.classList.remove('reading'); });
   var el = document.getElementById('news-item-' + i); if (el) el.classList.add('reading');
-  showToast('Generating: ' + a.title.slice(0,35) + '...');
+  showToast('Reading: ' + a.title.slice(0,35) + '...');
   try {
-    await xiSpeak(text, xiGetVoiceId(), xiGetModel());
+    await ttsSpeak(text, xiGetVoiceId(), xiGetModel());
     if (el) el.classList.remove('reading');
   } catch(e) {
     showToast('TTS error: ' + e.message);
@@ -7744,11 +8503,12 @@ function wxToggleAutoBreak() {
       showToast('Set AUTO BREAK interval first');
       return;
     }
-    var xiKey = (document.getElementById('xi-api-key').value || '').trim() || localStorage.getItem(XI_KEY_STORAGE) || '';
-    var wxKey = (document.getElementById('wx-api-key').value || '').trim() || localStorage.getItem(WX_KEY_STORAGE) || '';
-    if (!xiKey || !wxKey) {
+    var wxXiKey     = (document.getElementById('xi-api-key').value    || '').trim() || localStorage.getItem(XI_KEY_STORAGE) || '';
+    var wxGoogleKey  = (document.getElementById('google-tts-key').value || '').trim() || localStorage.getItem(GOOGLE_TTS_KEY_STORAGE) || '';
+    var wxKey        = (document.getElementById('wx-api-key').value     || '').trim() || localStorage.getItem(WX_KEY_STORAGE) || '';
+    if ((!wxXiKey && !wxGoogleKey) || !wxKey) {
       _wxBreakAutoOn = false;
-      showToast('Both WX KEY and XI KEY required for auto weather breaks');
+      showToast('WX KEY + at least one TTS key (ElevenLabs or Google) required');
       return;
     }
     if (btn) { btn.textContent = 'AUTO: ON'; btn.style.borderColor = 'var(--green)'; btn.style.color = 'var(--green)'; }
@@ -7773,35 +8533,23 @@ function wxScheduleAutoBreak() {
   var interval = (document.getElementById('wx-break-interval').value || '0');
   if (!interval || interval === '0') return;
 
-  if (interval === 'tophour') {
-    // If news is also set to tophour, news will chain into weather after it finishes.
-    // We still set a fallback timer so weather fires even if news is disabled mid-run.
+  if (_isTopHour(interval)) {
     var newsInterval = (document.getElementById('news-break-interval').value || '0');
-    var now = (typeof wtNow === 'function') ? wtNow() : new Date();
-    var msToNextHour = (60 - now.getMinutes()) * 60000 - now.getSeconds() * 1000 - now.getMilliseconds();
-    if (msToNextHour < 5000) msToNextHour += 3600000;
+    var th = _nextTopHour(interval);
 
-    if (newsInterval === 'tophour' && _newsAutoOn) {
-      // News will call wxFireAutoBreak() directly — no independent timer needed this cycle.
-      // Set status so user sees it's coordinated.
-      var nextAt = new Date(now.getTime() + msToNextHour);
-      var hhmm = nextAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      wxUpdateBreakAutoStatus('Plays after news at ' + hhmm + ' (coordinated)');
-      // Fallback: if news doesn't chain us within 15 min of the hour, fire independently
+    if (_isTopHour(newsInterval) && _newsAutoOn) {
+      // News will chain weather — set a safety fallback 15 min after target
+      wxUpdateBreakAutoStatus('Plays after news at ' + th.label + ' (coordinated, every ' + th.step + 'h)');
       _wxBreakAutoTimer = setTimeout(function() {
-        if (!_wxBreakAutoOn) return;
-        // Only fire if not already running (news may have just chained us)
-        if (!_wxBreakActive) wxFireAutoBreak();
-      }, msToNextHour + 15 * 60 * 1000);
+        if (!_wxBreakAutoOn || _wxBreakActive) return;
+        wxFireAutoBreak();
+      }, th.ms + 15 * 60 * 1000);
     } else {
-      // News not in tophour mode — fire weather independently at :00
-      var nextAt2 = new Date(now.getTime() + msToNextHour);
-      var hhmm2 = nextAt2.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      wxUpdateBreakAutoStatus('Next weather break at ' + hhmm2 + ' (top of hour)');
+      wxUpdateBreakAutoStatus('Next weather break at ' + th.label + ' (every ' + th.step + 'h)');
       _wxBreakAutoTimer = setTimeout(function() {
         if (!_wxBreakAutoOn) return;
         wxFireAutoBreak();
-      }, msToNextHour);
+      }, th.ms);
     }
   } else {
     var mins       = parseInt(interval, 10);
@@ -7888,11 +8636,18 @@ async function wxFireAutoBreak() {
   var units  = ((document.getElementById('wx-units') || {}).value) || 'metric';
   var script = wxBuildScript(_wxData, units, _wxCitiesData);
   if (document.getElementById('wx-status')) document.getElementById('wx-status').textContent = 'Reading on air...';
-  try { await xiSpeak(script, xiGetVoiceId(), xiGetModel()); } catch(e) { showToast('Weather TTS error: ' + e.message); }
+  try { await ttsSpeak(script, xiGetVoiceId(), xiGetModel()); } catch(e) { showToast('Weather TTS error: ' + e.message); }
   _wxBreakActive = false;
   _wxLastBreakAt = Date.now();
 
-  // Restore gain and start next song
+  // Skip song start if traffic is about to follow
+  if (_ttWillFollowWx) {
+    if (document.getElementById('wx-status')) document.getElementById('wx-status').textContent = 'Updated ' + new Date().toLocaleTimeString();
+    showToast('🌤 Weather done — traffic update next');
+    wxScheduleAutoBreak();
+    return;
+  }
+
   if (activeDeck && activeGain) newsRestoreDeckGain(activeDeck, activeGain);
   var nextDeck = activeDeck === 'A' ? 'B' : 'A';
   if (state.autoDJ && state.queue.length) {
@@ -7995,10 +8750,18 @@ async function wxFireFromShow(show) {
   var units  = ((document.getElementById('wx-units') || {}).value) || 'metric';
   var script = wxBuildScript(_wxData, units, _wxCitiesData);
   if (document.getElementById('wx-status')) document.getElementById('wx-status').textContent = 'Reading on air...';
-  try { await xiSpeak(script, xiGetVoiceId(), xiGetModel()); } catch(e) { showToast('Weather TTS error: ' + e.message); }
+  try { await ttsSpeak(script, xiGetVoiceId(), xiGetModel()); } catch(e) { showToast('Weather TTS error: ' + e.message); }
   _wxBreakActive = false;
 
-  // ── Step 4: Restore gain and start next song ──────────────────────────────
+  // ── Step 4: Restore gain and start next song — skip if traffic follows ──
+  if (_ttWillFollowWx) {
+    if (document.getElementById('wx-status')) document.getElementById('wx-status').textContent = 'Updated ' + new Date().toLocaleTimeString();
+    showToast('🌤 Weather done — traffic update next');
+    _wxJingleOverride = null;
+    _wxCitiesOverride = null;
+    return;
+  }
+
   if (activeDeck && activeGain) newsRestoreDeckGain(activeDeck, activeGain);
   var nextDeck = activeDeck === 'A' ? 'B' : 'A';
   if (state.autoDJ && state.queue.length) {
@@ -8057,27 +8820,65 @@ function wxRender(d, units) { wxRenderMulti([d], units); }
 //        Cape Town 24 sunny, Durban 28 humid. That's your weather."
 function wxBuildScript(primaryData, units, allCitiesData) {
   var cities = (allCitiesData && allCitiesData.length) ? allCitiesData : [primaryData];
-  var deg  = units === 'imperial' ? ' Fahrenheit' : ' degrees';
-  var parts = cities.map(function(d) {
+  var degWord  = units === 'imperial' ? 'degrees Fahrenheit' : 'degrees';
+  var degShort = units === 'imperial' ? 'degrees' : 'degrees';
+
+  // Natural condition phrases
+  function _wxPhrase(desc, temp, degW) {
+    var d = (desc || 'clear').toLowerCase();
+    var t = temp;
+    if (d.includes('thunderstorm'))  return 'a thunderstorm is rolling in, with temperatures around ' + t + ' ' + degW;
+    if (d.includes('drizzle'))       return 'expect a light drizzle, sitting at ' + t + ' ' + degW;
+    if (d.includes('heavy rain'))    return 'heavy rain is falling, with ' + t + ' ' + degW;
+    if (d.includes('rain'))          return 'some rain in the air, with temperatures around ' + t + ' ' + degW;
+    if (d.includes('snow'))          return 'it is snowing, at ' + t + ' ' + degW;
+    if (d.includes('mist') || d.includes('fog') || d.includes('haze'))
+                                     return 'misty and overcast at ' + t + ' ' + degW;
+    if (d.includes('overcast'))      return 'overcast skies with ' + t + ' ' + degW;
+    if (d.includes('broken clouds') || d.includes('scattered clouds'))
+                                     return 'partly cloudy, with a pleasant ' + t + ' ' + degW;
+    if (d.includes('few clouds'))    return 'mostly clear skies, a lovely ' + t + ' ' + degW;
+    if (d.includes('clear'))         return 'clear skies and a beautiful ' + t + ' ' + degW;
+    if (d.includes('sunny'))         return 'sunny and warm at ' + t + ' ' + degW;
+    // fallback
+    return d + ', at ' + t + ' ' + degW;
+  }
+
+  // City connectors for multi-city reads
+  var CONNECTORS = ['', 'Moving over to ', 'Heading to ', 'And in ', 'And over in '];
+
+  var cityLines = cities.map(function(d, idx) {
     var name = d.name || 'your area';
     var temp = Math.round(d.main.temp);
     var desc = d.weather && d.weather[0] ? d.weather[0].description : 'clear';
-    return name + ' ' + temp + deg + ' ' + desc;
+    var humidity = d.main && d.main.humidity ? d.main.humidity : null;
+    var wind     = d.wind && d.wind.speed ? Math.round(d.wind.speed) : null;
+    var windUnit = units === 'imperial' ? 'miles per hour' : 'kilometres per hour';
+
+    var phrase = _wxPhrase(desc, temp, degWord);
+    var extra  = '';
+    if (humidity !== null && humidity > 70) extra = ' Humidity is sitting at ' + humidity + ' percent.';
+    else if (wind !== null && wind > 30)    extra = ' Winds are picking up at ' + wind + ' ' + windUnit + '.';
+
+    var connector = CONNECTORS[Math.min(idx, CONNECTORS.length - 1)];
+    return connector + name + ', ' + phrase + '.' + extra;
   });
-  var cityList;
-  if (parts.length === 1) {
-    cityList = parts[0] + '.';
-  } else {
-    cityList = parts.slice(0, -1).join(', ') + ', and ' + parts[parts.length-1] + '.';
+
+  var intro  = 'Good ' + _timeOfDay() + '... time for your weather update on ' + getStationName() + '.';
+  var outro  = "That's the weather... stay warm, stay safe, and we'll have more music coming right up.";
+
+  if (cityLines.length === 1) {
+    return intro + ' ' + cityLines[0] + ' ' + outro;
   }
-  return 'And now for the weather. ' + cityList + " That's your weather update. Stay tuned to " + getStationName() + '.';
+  return intro + ' ' + cityLines.join(' ') + ' ' + outro;
 }
 
 async function wxStartBreak() {
   if (!_wxData) { showToast('Fetch weather first'); return; }
   if (_wxBreakActive) return;
-  var key = (document.getElementById('xi-api-key').value || '').trim() || localStorage.getItem(XI_KEY_STORAGE) || '';
-  if (!key) { showToast('Enter your ElevenLabs API key in the NEWS tab XI KEY field'); return; }
+  var xiKey2    = (document.getElementById('xi-api-key').value    || '').trim() || localStorage.getItem(XI_KEY_STORAGE) || '';
+  var googleKey2 = (document.getElementById('google-tts-key').value || '').trim() || localStorage.getItem(GOOGLE_TTS_KEY_STORAGE) || '';
+  if (!xiKey2 && !googleKey2) { showToast('Enter an ElevenLabs or Google TTS key in the NEWS tab first'); return; }
   initAudio();
   if (actx && actx.state === 'suspended') actx.resume();
   _wxBreakActive = true;
@@ -8114,7 +8915,7 @@ async function wxStartBreak() {
   var units  = ((document.getElementById('wx-units')||{}).value) || 'metric';
   var script = wxBuildScript(_wxData, units, _wxCitiesData);
   document.getElementById('wx-status').textContent = 'Reading on air...';
-  try { await xiSpeak(script, xiGetVoiceId(), xiGetModel()); } catch(e) { showToast('Weather TTS error: ' + e.message); }
+  try { await ttsSpeak(script, xiGetVoiceId(), xiGetModel()); } catch(e) { showToast('Weather TTS error: ' + e.message); }
   // Step 4: restore and start next song
   _wxBreakActive = false;
   if (activeDeck && activeGain) newsRestoreDeckGain(activeDeck, activeGain);
@@ -8241,6 +9042,480 @@ function rbPlayOn(deck, idx) {
   }).catch(function(e) {
     showToast('Cannot play stream: ' + e.message);
   });
+}
+
+// ════════════════════════════════════════════════════════════════════════
+// TRAFFIC — TomTom Incidents + Flow API
+// Free: 2,500 req/day. CORS supported. No credit card.
+// https://developer.tomtom.com/traffic-api
+// ════════════════════════════════════════════════════════════════════════
+
+var TT_KEY_STORAGE      = 'eyethu_tt_key';
+var TT_ROADS_STORAGE    = 'eyethu_tt_roads';
+var _ttIncidents        = [];   // fetched incident objects
+var _ttLastFetchAt      = 0;
+var _ttBreakActive      = false;
+var _ttBreakAutoOn      = false;
+var _ttBreakAutoTimer   = null;
+var _ttLastBreakAt      = 0;
+var _ttJingleOverride   = null;
+
+(function ttInit() {
+  var k = localStorage.getItem(TT_KEY_STORAGE);
+  var kEl = document.getElementById('tt-api-key');
+  if (k && kEl) kEl.value = k;
+  var saved = localStorage.getItem(TT_ROADS_STORAGE);
+  if (saved) {
+    try {
+      var roads = JSON.parse(saved);
+      for (var i = 0; i < Math.min(roads.length, 5); i++) {
+        var el = document.getElementById('tt-road-' + (i+1));
+        if (el && roads[i]) el.value = roads[i];
+      }
+    } catch(e) {}
+  }
+})();
+
+function ttSaveKey() {
+  var k = (document.getElementById('tt-api-key').value || '').trim();
+  if (!k) { showToast('Enter your TomTom API key'); return; }
+  localStorage.setItem(TT_KEY_STORAGE, k);
+  showToast('TomTom key saved');
+}
+
+function ttGetRoads() {
+  var roads = [];
+  for (var i = 1; i <= 5; i++) {
+    var v = ((document.getElementById('tt-road-' + i) || {}).value || '').trim();
+    if (v) roads.push(v);
+  }
+  return roads;
+}
+
+// Geocode a place name → {lat, lon} using TomTom Geocoding API
+async function ttGeocode(query, apiKey) {
+  var url = 'https://api.tomtom.com/search/2/geocode/' + encodeURIComponent(query) + '.json?key=' + encodeURIComponent(apiKey) + '&limit=1';
+  var res = await fetch(url);
+  if (!res.ok) throw new Error('Geocode failed ' + res.status);
+  var data = await res.json();
+  if (!data.results || !data.results.length) throw new Error('No geocode result for: ' + query);
+  var pos = data.results[0].position;
+  return { lat: pos.lat, lon: pos.lon, label: data.results[0].address.freeformAddress || query };
+}
+
+// Fetch traffic incidents for a lat/lon point within the configured radius
+async function ttFetchIncidentsAt(lat, lon, radius, apiKey) {
+  // TomTom Incident Details API — bbox from centre + radius (approx degrees)
+  var deg = (radius / 111000);
+  var minLat = (lat - deg).toFixed(6), maxLat = (lat + deg).toFixed(6);
+  var minLon = (lon - deg).toFixed(6), maxLon = (lon + deg).toFixed(6);
+  var bbox = minLon + ',' + minLat + ',' + maxLon + ',' + maxLat;
+  var url = 'https://api.tomtom.com/traffic/services/5/incidentDetails'
+          + '?key=' + encodeURIComponent(apiKey)
+          + '&bbox=' + encodeURIComponent(bbox)
+          + '&fields={incidents{type,geometry{type},properties{id,iconCategory,magnitudeOfDelay,events{description,code,iconCategory},startTime,endTime,from,to,length,delay,roadNumbers,timeValidity,probabilityOfOccurrence,numberOfReports,lastReportTime,tmc{countryCode,tableNumber,tableVersion,direction,points{location,offset}}}}}'
+          + '&language=en-GB&categoryFilter=0,1,2,3,4,5,6,7,8,9,10,11,14&timeValidityFilter=present';
+  var res = await fetch(url);
+  if (!res.ok) throw new Error('TomTom incidents error ' + res.status);
+  var data = await res.json();
+  return (data.incidents || []);
+}
+
+// Fetch flow data (current speed vs free-flow speed) for a point
+async function ttFetchFlowAt(lat, lon, apiKey) {
+  var url = 'https://api.tomtom.com/traffic/services/4/flowSegmentData/absolute/10/json'
+          + '?key=' + encodeURIComponent(apiKey)
+          + '&point=' + lat + ',' + lon;
+  var res = await fetch(url);
+  if (!res.ok) return null;
+  var data = await res.json();
+  return data.flowSegmentData || null;
+}
+
+// Map TomTom iconCategory to readable label
+function ttCategoryLabel(cat) {
+  var map = {
+    0:'Unknown',1:'Accident',2:'Fog',3:'Dangerous Conditions',4:'Rain',5:'Ice',
+    6:'Jam',7:'Lane Closed',8:'Road Closed',9:'Road Works',10:'Wind',
+    11:'Flooding',14:'Broken Down Vehicle'
+  };
+  return map[cat] || ('Incident type ' + cat);
+}
+
+// Map magnitudeOfDelay to plain English
+function ttDelayLabel(mag) {
+  if (mag === 0) return 'no delay';
+  if (mag === 1) return 'minor delay';
+  if (mag === 2) return 'moderate delay';
+  if (mag === 3) return 'major delay';
+  if (mag === 4) return 'road blocked';
+  return 'delay';
+}
+
+async function ttFetch() {
+  var key = (document.getElementById('tt-api-key').value || '').trim() || localStorage.getItem(TT_KEY_STORAGE) || '';
+  if (!key) { showToast('Enter your TomTom API key first'); return; }
+  var roads = ttGetRoads();
+  if (!roads.length) { showToast('Enter at least one road or location'); return; }
+
+  // Save roads
+  localStorage.setItem(TT_ROADS_STORAGE, JSON.stringify(roads));
+
+  var statusEl = document.getElementById('tt-status');
+  var displayEl = document.getElementById('tt-display');
+  var gridEl = document.getElementById('tt-incidents-grid');
+  if (statusEl) statusEl.textContent = 'Fetching traffic data...';
+
+  var radius = parseInt((document.getElementById('tt-radius') || {}).value || '5000', 10);
+  var maxItems = parseInt((document.getElementById('tt-max-items') || {}).value || '3', 10);
+
+  _ttIncidents = [];
+  var allItems = [];
+
+  for (var i = 0; i < roads.length; i++) {
+    var road = roads[i];
+    if (statusEl) statusEl.textContent = 'Checking ' + road + '...';
+    try {
+      var coords;
+      // Check if it's already lat,lon
+      var latLonMatch = road.match(/^(-?\d+\.?\d*),\s*(-?\d+\.?\d*)$/);
+      if (latLonMatch) {
+        coords = { lat: parseFloat(latLonMatch[1]), lon: parseFloat(latLonMatch[2]), label: road };
+      } else {
+        coords = await ttGeocode(road, key);
+      }
+
+      var incidents = await ttFetchIncidentsAt(coords.lat, coords.lon, radius, key);
+      var flow = await ttFetchFlowAt(coords.lat, coords.lon, key);
+
+      // Sort by severity (magnitudeOfDelay desc)
+      incidents.sort(function(a, b) {
+        return ((b.properties && b.properties.magnitudeOfDelay) || 0) - ((a.properties && a.properties.magnitudeOfDelay) || 0);
+      });
+
+      var taken = incidents.slice(0, maxItems);
+      taken.forEach(function(inc) {
+        allItems.push({ road: coords.label, incident: inc, flow: null });
+      });
+
+      // Add flow info as a summary item if no incidents
+      if (!taken.length && flow) {
+        allItems.push({ road: coords.label, incident: null, flow: flow });
+      }
+
+    } catch(e) {
+      allItems.push({ road: road, incident: null, flow: null, error: e.message });
+    }
+  }
+
+  _ttIncidents = allItems;
+  _ttLastFetchAt = Date.now();
+
+  // Render cards
+  if (gridEl) {
+    if (!allItems.length) {
+      gridEl.innerHTML = '<div style="font-family:var(--font-mono);font-size:10px;color:var(--text2);padding:8px;">No incidents found in the monitored areas.</div>';
+    } else {
+      gridEl.innerHTML = allItems.map(function(item) {
+        if (item.error) {
+          return '<div style="padding:8px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;font-family:var(--font-mono);font-size:10px;color:var(--red);">'
+            + '⚠ ' + esc(item.road) + ': ' + esc(item.error) + '</div>';
+        }
+        if (item.flow && !item.incident) {
+          var pct = item.flow.freeFlowSpeed > 0 ? Math.round((item.flow.currentSpeed / item.flow.freeFlowSpeed) * 100) : 100;
+          var flowColor = pct >= 80 ? 'var(--green)' : pct >= 50 ? 'var(--accent)' : 'var(--red)';
+          return '<div style="padding:8px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;">'
+            + '<div style="font-family:var(--font-mono);font-size:9px;color:var(--text2);">' + esc(item.road) + '</div>'
+            + '<div style="font-size:11px;color:' + flowColor + ';">✅ Traffic flowing normally — ' + item.flow.currentSpeed + ' km/h (' + pct + '% of free-flow)</div>'
+            + '</div>';
+        }
+        var p = item.incident.properties || {};
+        var cat = ttCategoryLabel(p.iconCategory);
+        var delay = ttDelayLabel(p.magnitudeOfDelay);
+        var from = p.from || '';
+        var to = p.to || '';
+        var desc = (p.events && p.events[0] && p.events[0].description) ? p.events[0].description : cat;
+        var roads = (p.roadNumbers && p.roadNumbers.length) ? p.roadNumbers.join(', ') : '';
+        var delayMin = p.delay ? Math.round(p.delay / 60) : 0;
+        var severity = (p.magnitudeOfDelay || 0) >= 3 ? 'var(--red)' : (p.magnitudeOfDelay || 0) >= 2 ? 'var(--accent)' : 'var(--text2)';
+        return '<div style="padding:8px;background:var(--bg3);border:1px solid var(--border);border-left:3px solid ' + severity + ';border-radius:4px;">'
+          + '<div style="display:flex;gap:6px;align-items:center;margin-bottom:3px;">'
+          + '<span style="font-family:var(--font-mono);font-size:9px;color:var(--text2);">' + esc(item.road) + (roads ? ' · ' + esc(roads) : '') + '</span>'
+          + '<span style="font-family:var(--font-mono);font-size:9px;color:' + severity + ';margin-left:auto;">' + delay.toUpperCase() + '</span>'
+          + '</div>'
+          + '<div style="font-size:11px;color:var(--text);">' + esc(desc) + '</div>'
+          + (from ? '<div style="font-family:var(--font-mono);font-size:9px;color:var(--text2);margin-top:2px;">From: ' + esc(from) + (to ? ' → ' + esc(to) : '') + '</div>' : '')
+          + (delayMin > 0 ? '<div style="font-family:var(--font-mono);font-size:9px;color:var(--accent);">Delay: ~' + delayMin + ' min</div>' : '')
+          + '</div>';
+      }).join('');
+    }
+    displayEl.style.display = '';
+  }
+
+  var count = allItems.filter(function(x){ return x.incident; }).length;
+  if (statusEl) statusEl.textContent = count + ' incident' + (count !== 1 ? 's' : '') + ' — updated ' + new Date().toLocaleTimeString();
+  var btn = document.getElementById('tt-break-btn');
+  if (btn) btn.style.display = '';
+  if (!count) showToast('🚦 Traffic clear on all monitored roads');
+  else showToast('🚦 ' + count + ' traffic incident' + (count !== 1 ? 's' : '') + ' fetched');
+}
+
+// ── Build natural radio traffic script ───────────────────────────────────────
+function ttBuildScript(items) {
+  var stationName = getStationName();
+  var intro = 'Good ' + _timeOfDay() + '... time for your traffic update on ' + stationName + '.';
+  var outro = "That's your traffic update... drive safely out there, and we'll have more music coming right up.";
+
+  var incidents = items.filter(function(x){ return x.incident; });
+  var flowOnly  = items.filter(function(x){ return x.flow && !x.incident; });
+
+  if (!incidents.length && !flowOnly.length) {
+    return intro + ' All roads are clear with no reported incidents at this time. ' + outro;
+  }
+
+  var parts = [];
+
+  if (!incidents.length && flowOnly.length) {
+    parts.push('Good news for commuters... all monitored roads are flowing freely at this time.');
+  }
+
+  incidents.forEach(function(item, idx) {
+    var p = item.incident.properties || {};
+    var cat = ttCategoryLabel(p.iconCategory).toLowerCase();
+    var delay = ttDelayLabel(p.magnitudeOfDelay);
+    var desc = (p.events && p.events[0] && p.events[0].description) ? p.events[0].description : cat;
+    var from = p.from || '';
+    var to = p.to || '';
+    var roads = (p.roadNumbers && p.roadNumbers.length) ? p.roadNumbers.join(' and ') : '';
+    var delayMin = p.delay ? Math.round(p.delay / 60) : 0;
+    var roadLabel = roads ? 'on the ' + roads : 'near ' + item.road;
+
+    var line;
+    if (p.iconCategory === 8) {
+      // Road closed
+      line = (idx === 0 ? 'There is a road closure ' : 'Also, a road closure ') + roadLabel;
+      if (from) line += ', from ' + from + (to ? ' through to ' + to : '');
+      line += '. Please use an alternative route.';
+    } else if (p.iconCategory === 1) {
+      // Accident
+      line = (idx === 0 ? 'An accident has been reported ' : 'There is also an accident ') + roadLabel;
+      if (from) line += ' between ' + from + (to ? ' and ' + to : '');
+      line += ', causing ' + delay;
+      if (delayMin > 0) line += ' of around ' + delayMin + ' minutes';
+      line += '.';
+    } else if (p.iconCategory === 6) {
+      // Jam
+      line = (idx === 0 ? 'Heavy traffic and congestion ' : 'Also, congestion ') + roadLabel;
+      if (from) line += ' from ' + from + (to ? ' to ' + to : '');
+      if (delayMin > 0) line += ', with delays of approximately ' + delayMin + ' minutes';
+      line += '.';
+    } else if (p.iconCategory === 9) {
+      // Road works
+      line = 'Road works ' + roadLabel;
+      if (from) line += ' near ' + from;
+      line += ', expect ' + delay + '. Plan extra time on your journey.';
+    } else {
+      line = (desc.charAt(0).toUpperCase() + desc.slice(1)) + ' ' + roadLabel;
+      if (delayMin > 0) line += ', delays of about ' + delayMin + ' minutes';
+      line += '.';
+    }
+    parts.push(line);
+  });
+
+  // Add a clear-road note if some roads are fine
+  if (flowOnly.length && incidents.length) {
+    var clearRoads = flowOnly.map(function(x){ return x.road; }).join(' and ');
+    parts.push('The good news... ' + clearRoads + ' ' + (flowOnly.length > 1 ? 'are' : 'is') + ' flowing freely.');
+  }
+
+  return intro + ' ' + parts.join(' ') + ' ' + outro;
+}
+
+// ── Traffic break — full broadcast flow (mirrors wxStartBreak) ────────────────
+async function ttStartBreak() {
+  if (!_ttIncidents.length) { showToast('Fetch traffic first'); return; }
+  if (_ttBreakActive) return;
+
+  var xiKey    = (document.getElementById('xi-api-key').value    || '').trim() || localStorage.getItem(XI_KEY_STORAGE) || '';
+  var googleKey = (document.getElementById('google-tts-key').value || '').trim() || localStorage.getItem(GOOGLE_TTS_KEY_STORAGE) || '';
+  if (!xiKey && !googleKey) { showToast('Enter an ElevenLabs or Google TTS key in the NEWS tab first'); return; }
+
+  initAudio();
+  if (actx && actx.state === 'suspended') actx.resume();
+  _ttBreakActive = true;
+
+  // Step 1: fade out playing deck
+  var activeDeck = null, activeGain = null;
+  if (state.deckA.playing && state.deckA.audio) { activeDeck = 'A'; activeGain = deckAGain; }
+  else if (state.deckB.playing && state.deckB.audio) { activeDeck = 'B'; activeGain = deckBGain; }
+
+  if (activeDeck && activeGain && actx) {
+    document.getElementById('tt-status').textContent = 'Fading out music...';
+    activeGain.gain.cancelScheduledValues(actx.currentTime);
+    activeGain.gain.setValueAtTime(activeGain.gain.value, actx.currentTime);
+    activeGain.gain.linearRampToValueAtTime(0, actx.currentTime + 5);
+    await new Promise(function(r){ setTimeout(r, 5100); });
+    if (!_ttBreakActive) { newsRestoreDeckGain(activeDeck, activeGain); return; }
+    var d = activeDeck === 'A' ? state.deckA : state.deckB;
+    if (d.audio) d.audio.pause();
+    d.playing = false;
+    var pb = document.getElementById('deck' + activeDeck + '-play');
+    if (pb) { pb.textContent = '▶'; pb.setAttribute('aria-pressed', 'false'); }
+  }
+
+  // Step 2: jingle
+  var jingleVal = (_ttJingleOverride !== null) ? _ttJingleOverride
+    : ((document.getElementById('tt-jingle-cart') || {}).value || '');
+  var jIdx = jingleVal !== '' ? parseInt(jingleVal, 10) : -1;
+  if (jIdx >= 0 && state.carts && state.carts[jIdx] && state.carts[jIdx].url) {
+    document.getElementById('tt-status').textContent = 'Jingle...';
+    await new Promise(function(resolve) {
+      var ja = new Audio(state.carts[jIdx].url);
+      if (actx && fixedTrim) {
+        try { var js = actx.createMediaElementSource(ja); js.connect(fixedTrim);
+          ja.onended = function(){ try{ js.disconnect(); }catch(e){} resolve(); };
+          ja.onerror = function(){ try{ js.disconnect(); }catch(e){} resolve(); };
+        } catch(e2){ ja.onended = resolve; ja.onerror = resolve; }
+      } else { ja.onended = resolve; ja.onerror = resolve; }
+      ja.play().catch(resolve);
+    });
+  }
+
+  // Step 3: read script
+  var script = ttBuildScript(_ttIncidents);
+  document.getElementById('tt-status').textContent = 'Reading on air...';
+  try { await ttsSpeak(script, xiGetVoiceId(), xiGetModel()); } catch(e) { showToast('Traffic TTS error: ' + e.message); }
+
+  _ttBreakActive = false;
+  _ttLastBreakAt = Date.now();
+
+  // Step 4: restore and start next song
+  if (activeDeck && activeGain) newsRestoreDeckGain(activeDeck, activeGain);
+  var nextDeck = activeDeck === 'A' ? 'B' : 'A';
+  if (state.autoDJ && state.queue.length) {
+    var played = state.queue.shift(); state.queue.push(played);
+    var nxt = typeof noRepeatFindNext === 'function' ? noRepeatFindNext() : state.queue[0];
+    if (nxt) { loadTrackToDeck(nextDeck, nxt); renderQueue(); setTimeout(function(){ playDeckWhenReady(nextDeck); }, 300); }
+  } else {
+    var nd2 = nextDeck === 'A' ? state.deckA : state.deckB;
+    if (nd2.audio && !nd2.playing) { nd2.audio.currentTime = 0; setTimeout(function(){ playDeckWhenReady(nextDeck); }, 300); }
+  }
+  document.getElementById('tt-status').textContent = 'Updated ' + new Date().toLocaleTimeString();
+  showToast('🚦 Traffic break ended — next song starting');
+}
+
+// ── Auto-break ────────────────────────────────────────────────────────────────
+function ttToggleAutoBreak() {
+  _ttBreakAutoOn = !_ttBreakAutoOn;
+  var btn = document.getElementById('tt-break-auto-btn');
+  if (_ttBreakAutoOn) {
+    var interval = (document.getElementById('tt-break-interval').value || '0');
+    if (!interval || interval === '0') { _ttBreakAutoOn = false; showToast('Set AUTO BREAK interval first'); return; }
+    var ttKey    = (document.getElementById('tt-api-key').value     || '').trim() || localStorage.getItem(TT_KEY_STORAGE) || '';
+    var xiKey    = (document.getElementById('xi-api-key').value     || '').trim() || localStorage.getItem(XI_KEY_STORAGE) || '';
+    var googleKey = (document.getElementById('google-tts-key').value || '').trim() || localStorage.getItem(GOOGLE_TTS_KEY_STORAGE) || '';
+    if (!ttKey || (!xiKey && !googleKey)) { _ttBreakAutoOn = false; showToast('TT KEY + a TTS key required for auto traffic breaks'); return; }
+    if (btn) { btn.textContent = 'AUTO: ON'; btn.style.borderColor = 'var(--green)'; btn.style.color = 'var(--green)'; }
+    ttScheduleAutoBreak();
+    showToast('Auto traffic break ON' + (interval === 'tophour' ? ' — top of every hour' : ' — every ' + interval + ' min'));
+  } else {
+    if (_ttBreakAutoTimer) { clearTimeout(_ttBreakAutoTimer); _ttBreakAutoTimer = null; }
+    if (btn) { btn.textContent = 'AUTO: OFF'; btn.style.borderColor = 'var(--border2)'; btn.style.color = 'var(--text2)'; }
+    document.getElementById('tt-break-auto-status').textContent = '';
+  }
+}
+
+function ttUpdateAutoStatus(msg) {
+  var el = document.getElementById('tt-break-auto-status');
+  if (el) el.textContent = msg;
+}
+
+function ttScheduleAutoBreak() {
+  if (_ttBreakAutoTimer) { clearTimeout(_ttBreakAutoTimer); _ttBreakAutoTimer = null; }
+  if (!_ttBreakAutoOn) return;
+  var interval = (document.getElementById('tt-break-interval').value || '0');
+  if (!interval || interval === '0') return;
+  if (_isTopHour(interval)) {
+    var th = _nextTopHour(interval);
+    ttUpdateAutoStatus('Next traffic break at ' + th.label + ' (every ' + th.step + 'h)');
+    _ttBreakAutoTimer = setTimeout(function(){ if (_ttBreakAutoOn && !_ttBreakActive) ttFireAutoBreak(); }, th.ms);
+  } else {
+    var mins = parseInt(interval, 10);
+    if (!mins) return;
+    var elapsed   = _ttLastBreakAt ? Date.now() - _ttLastBreakAt : 0;
+    var remaining = Math.max(5000, mins * 60000 - elapsed);
+    var nextAt    = new Date(Date.now() + remaining);
+    ttUpdateAutoStatus('Next traffic break at ' + nextAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+    _ttBreakAutoTimer = setTimeout(function(){ if (_ttBreakAutoOn && !_ttBreakActive) ttFireAutoBreak(); }, remaining);
+  }
+}
+
+async function ttFireAutoBreak() {
+  if (!_ttBreakAutoOn) return;
+  if (_ttBreakActive) {
+    ttUpdateAutoStatus('Break already active — rescheduling...');
+    _ttBreakAutoTimer = setTimeout(function(){ if (_ttBreakAutoOn) ttFireAutoBreak(); }, 120000);
+    return;
+  }
+  ttUpdateAutoStatus('Fetching fresh traffic...');
+
+  // Fade out playing deck before fetch
+  initAudio();
+  if (actx && actx.state === 'suspended') actx.resume();
+  var activeDeck = null, activeGain = null;
+  if (state.deckA.playing && state.deckA.audio) { activeDeck = 'A'; activeGain = deckAGain; }
+  else if (state.deckB.playing && state.deckB.audio) { activeDeck = 'B'; activeGain = deckBGain; }
+
+  if (activeDeck && activeGain && actx) {
+    activeGain.gain.cancelScheduledValues(actx.currentTime);
+    activeGain.gain.setValueAtTime(activeGain.gain.value, actx.currentTime);
+    activeGain.gain.linearRampToValueAtTime(0, actx.currentTime + 3);
+    await new Promise(function(r){ setTimeout(r, 3200); });
+    var d = activeDeck === 'A' ? state.deckA : state.deckB;
+    if (d.audio) d.audio.pause();
+    d.playing = false;
+    var pb = document.getElementById('deck' + activeDeck + '-play');
+    if (pb) { pb.textContent = '▶'; pb.setAttribute('aria-pressed', 'false'); }
+  }
+
+  await ttFetch();
+
+  // Play jingle
+  var jingleVal = ((document.getElementById('tt-jingle-cart') || {}).value || '');
+  var jIdx = jingleVal !== '' ? parseInt(jingleVal, 10) : -1;
+  if (jIdx >= 0 && state.carts && state.carts[jIdx] && state.carts[jIdx].url) {
+    await new Promise(function(resolve) {
+      var ja = new Audio(state.carts[jIdx].url);
+      if (actx && fixedTrim) {
+        try { var js = actx.createMediaElementSource(ja); js.connect(fixedTrim);
+          ja.onended = function(){ try{ js.disconnect(); }catch(e){} resolve(); };
+          ja.onerror = function(){ try{ js.disconnect(); }catch(e){} resolve(); };
+        } catch(e2){ ja.onended = resolve; ja.onerror = resolve; }
+      } else { ja.onended = resolve; ja.onerror = resolve; }
+      ja.play().catch(resolve);
+    });
+  }
+
+  _ttBreakActive = true;
+  ttUpdateAutoStatus('Reading traffic on air...');
+  var script = ttBuildScript(_ttIncidents);
+  try { await ttsSpeak(script, xiGetVoiceId(), xiGetModel()); } catch(e) { showToast('Traffic TTS error: ' + e.message); }
+  _ttBreakActive = false;
+  _ttLastBreakAt = Date.now();
+
+  if (activeDeck && activeGain) newsRestoreDeckGain(activeDeck, activeGain);
+  var nextDeck = activeDeck === 'A' ? 'B' : 'A';
+  if (state.autoDJ && state.queue.length) {
+    var played = state.queue.shift(); state.queue.push(played);
+    var nxt = typeof noRepeatFindNext === 'function' ? noRepeatFindNext() : state.queue[0];
+    if (nxt) { loadTrackToDeck(nextDeck, nxt); renderQueue(); setTimeout(function(){ playDeckWhenReady(nextDeck); }, 300); }
+  } else {
+    var nd2 = nextDeck === 'A' ? state.deckA : state.deckB;
+    if (nd2.audio && !nd2.playing) { nd2.audio.currentTime = 0; setTimeout(function(){ playDeckWhenReady(nextDeck); }, 300); }
+  }
+  if (document.getElementById('tt-status')) document.getElementById('tt-status').textContent = 'Updated ' + new Date().toLocaleTimeString();
+  showToast('🚦 Traffic break ended — next song starting');
+  ttScheduleAutoBreak();
 }
 
 // ════════════════════════════════════════════════════════════════════════
