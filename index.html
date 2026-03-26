@@ -1,10 +1,7 @@
-<!-- GITHUB PAGES BUILD — push to main branch, enable Pages in repo Settings -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<!-- GitHub Pages: change the href below to match your repo name if using a project page (e.g. /eyethu-radio/) -->
-<base href="/">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
 <meta name="screen-orientation" content="any"/>
 <title>Eyethu Pro Radio Studio — Powered by Eyethu AI (Pty) Ltd</title>
@@ -852,7 +849,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
         </div>
 
         <!-- ── NEWS BREAK ───────────────────────────────────────────────── -->
-        <div style="font-family:var(--font-mono);font-size:10px;color:var(--red);margin:14px 0 4px;letter-spacing:1px;border-bottom:1px solid var(--border);padding-bottom:3px;">📰 NEWS BREAK <span style="color:var(--text2);font-size:9px;">— song fades out &middot; jingle &middot; ElevenLabs reads headlines &middot; next song starts</span></div>
+        <div style="font-family:var(--font-mono);font-size:10px;color:var(--red);margin:14px 0 4px;letter-spacing:1px;border-bottom:1px solid var(--border);padding-bottom:3px;">📰 NEWS BREAK <span style="color:var(--text2);font-size:9px;">— song fades out · jingle · TTS reads headlines on air · next song starts</span></div>
         <div class="form-row">
           <label>TRIGGER</label>
           <select id="sf-news-trigger" onchange="toggleNewsTrigger()">
@@ -902,7 +899,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 
 
         <!-- weather break -->
-        <div style="font-family:var(--font-mono);font-size:10px;color:var(--cyan);margin:14px 0 4px;letter-spacing:1px;border-bottom:1px solid var(--border);padding-bottom:3px;">🌤 WEATHER BREAK <span style="color:var(--text2);font-size:9px;">— song fades out · jingle · ElevenLabs reads conditions · next song starts</span></div>
+        <div style="font-family:var(--font-mono);font-size:10px;color:var(--cyan);margin:14px 0 4px;letter-spacing:1px;border-bottom:1px solid var(--border);padding-bottom:3px;">🌤 WEATHER BREAK <span style="color:var(--text2);font-size:9px;">— song fades out · jingle · TTS reads conditions on air · next song starts</span></div>
         <div class="form-row">
           <label>TRIGGER</label>
           <select id="sf-wx-trigger" onchange="toggleWxTrigger()">
@@ -953,6 +950,50 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
             <option value="9">Cart 10</option>
             <option value="10">Cart 11</option>
             <option value="11">Cart 12</option>
+          </select>
+        </div>
+
+
+        <!-- ── TRAFFIC BREAK ─────────────────────────────────────────────── -->
+        <div style="font-family:var(--font-mono);font-size:10px;color:var(--accent);margin:14px 0 4px;letter-spacing:1px;border-bottom:1px solid var(--border);padding-bottom:3px;">🚦 TRAFFIC BREAK <span style="color:var(--text2);font-size:9px;">— song fades out · jingle · TomTom traffic read on air · next song starts</span></div>
+        <div class="form-row">
+          <label>TRIGGER</label>
+          <select id="sf-tt-trigger" onchange="toggleTtTrigger()">
+            <option value="">— disabled —</option>
+            <option value="songs">After N songs</option>
+            <option value="minutes">Every X minutes</option>
+            <option value="time">At HH:MM</option>
+            <option value="tophour1">Top of every hour (:00)</option>
+            <option value="tophour3">Top of hour — every 3 hrs</option>
+            <option value="tophour6">Top of hour — every 6 hrs</option>
+            <option value="tophour9">Top of hour — every 9 hrs</option>
+            <option value="tophour12">Top of hour — every 12 hrs</option>
+          </select>
+        </div>
+        <div id="sf-tt-trigger-songs" style="display:none;" class="form-row">
+          <label>SONGS</label>
+          <input type="number" id="sf-tt-songs" min="1" max="100" value="4" style="width:60px;flex:none;"/>
+          <span style="font-family:var(--font-mono);font-size:10px;color:var(--text2);">songs between traffic breaks</span>
+        </div>
+        <div id="sf-tt-trigger-minutes" style="display:none;" class="form-row">
+          <label>MINUTES</label>
+          <input type="number" id="sf-tt-minutes" min="5" max="180" value="30" style="width:60px;flex:none;"/>
+          <span style="font-family:var(--font-mono);font-size:10px;color:var(--text2);">minutes between traffic breaks</span>
+        </div>
+        <div id="sf-tt-trigger-time" style="display:none;" class="form-row">
+          <label>TIME</label>
+          <input type="time" id="sf-tt-time"/>
+        </div>
+        <div class="form-row">
+          <label>JINGLE</label>
+          <select id="sf-tt-jingle">
+            <option value="">None — traffic starts immediately</option>
+            <option value="0">Cart 1</option><option value="1">Cart 2</option>
+            <option value="2">Cart 3</option><option value="3">Cart 4</option>
+            <option value="4">Cart 5</option><option value="5">Cart 6</option>
+            <option value="6">Cart 7</option><option value="7">Cart 8</option>
+            <option value="8">Cart 9</option><option value="9">Cart 10</option>
+            <option value="10">Cart 11</option><option value="11">Cart 12</option>
           </select>
         </div>
 
@@ -1037,9 +1078,9 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
           <div class="dsp-node"><div class="dsp-dot" style="background:var(--cyan);"></div><div class="dsp-name">EQ: +2 dB @ 90 Hz</div><div class="dsp-desc">Body and punch — kick drum and bass note centre frequency, compensates for bass rolloff on earbuds</div></div>
           <div class="dsp-node"><div class="dsp-dot" style="background:var(--cyan);"></div><div class="dsp-name">EQ: +2.5 dB @ 3 kHz</div><div class="dsp-desc">Presence and intelligibility — vocal consonants, guitar bite, snare crack. Reproduced by every device</div></div>
           <div class="dsp-node"><div class="dsp-dot" style="background:var(--cyan);"></div><div class="dsp-name">EQ: +2 dB @ 10 kHz</div><div class="dsp-desc">Air and brilliance — open top end on monitors and earbuds, compensates for HF rolloff on Bluetooth speakers</div></div>
-          <div class="dsp-node"><div class="dsp-dot" style="background:var(--accent);"></div><div class="dsp-name">SOFT CLIPPER — drive 0.11</div><div class="dsp-desc">Algebraic saturation · 2x oversample · rounds peaks, adds broadcast glue — barely audible at this drive</div></div>
+          <div class="dsp-node"><div class="dsp-dot" style="background:var(--accent);"></div><div class="dsp-name">SOFT CLIPPER — drive 0.08</div><div class="dsp-desc">Algebraic saturation · 2x oversample · rounds peaks gently — inaudible at normal levels</div></div>
           <div class="dsp-node"><div class="dsp-dot" style="background:var(--blue);"></div><div class="dsp-name">BASS MONO — crossover 120 Hz</div><div class="dsp-desc">Below 120 Hz: L+R summed to mono (×0.5). Above 120 Hz: full stereo preserved. Eliminates bass phase cancellation on mono devices, tightens low end on monitors</div></div>
-          <div class="dsp-node"><div class="dsp-dot" style="background:var(--red);"></div><div class="dsp-name">LIMITER −0.3 dB — occasional only</div><div class="dsp-desc">Fires only on inter-sample peaks above −0.3 dBFS · knee 0.5 dB · 1ms attack · 100ms release · ratio 20:1. Silent on normal programme material</div></div>
+          <div class="dsp-node"><div class="dsp-dot" style="background:var(--red);"></div><div class="dsp-name">LIMITER −5 dB — occasional only</div><div class="dsp-desc">Fires only on peaks above −5 dBFS · knee 2 dB · 0.5ms attack · 100ms release · ratio 20:1. Silent on normal programme material</div></div>
           <div class="dsp-node"><div class="dsp-dot" style="background:var(--green);"></div><div class="dsp-name">MASTER GAIN (user fader)</div><div class="dsp-desc">Output volume only — post-DSP. Moving master never affects tone, EQ or compression behaviour</div></div>
           <div class="dsp-node" style="margin-top:4px;background:rgba(32,208,208,.06);border-color:var(--cyan);"><div class="dsp-dot" style="background:var(--cyan);"></div><div class="dsp-name">→ MASTER OUTPUT</div><div class="dsp-desc">To soundcard / VB Cable / Stream</div></div>
         </div>
@@ -1306,8 +1347,8 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
               <div class="doc-row"><span class="doc-key">LIBRARY</span><span class="doc-val">Import and manage your music &mdash; persists across sessions automatically</span></div>
               <div class="doc-row"><span class="doc-key">SCHEDULE</span><span class="doc-val">Automated shows with playlists, ad breaks, overlays, news breaks and weather breaks</span></div>
               <div class="doc-row"><span class="doc-key">SETTINGS</span><span class="doc-val">DSP chain, fader defaults &amp; presets, repeat guard, audio device routing</span></div>
-              <div class="doc-row"><span class="doc-key">NEWS</span><span class="doc-val">Live headlines via APITube or Currents API &mdash; ElevenLabs reads them on air</span></div>
-              <div class="doc-row"><span class="doc-key">WEATHER</span><span class="doc-val">Up to 5 cities via OpenWeatherMap &mdash; ElevenLabs reads conditions on air</span></div>
+              <div class="doc-row"><span class="doc-key">NEWS</span><span class="doc-val">Live headlines via APITube or Currents API &mdash; TTS reads them on air (Speechmatics / ElevenLabs / Google)</span></div>
+              <div class="doc-row"><span class="doc-key">WEATHER</span><span class="doc-val">Up to 5 cities via OpenWeatherMap &mdash; TTS reads conditions on air (Speechmatics / ElevenLabs / Google)</span></div>
               <div class="doc-row"><span class="doc-key">STATIONS</span><span class="doc-val">Search and play 50,000+ internet radio stations on Deck A or B via Radio Browser</span></div>
               <div class="doc-row"><span class="doc-key">METADATA</span><span class="doc-val">Auto-enriches tracks with artist, album, genre and year via MusicBrainz</span></div>
             </div>
@@ -1409,8 +1450,8 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
             <div class="doc-table">
               <div class="doc-row"><span class="doc-key">&#128266; OVERLAY</span><span class="doc-val">Ducks music &minus;12 dB, plays sweeper over it &mdash; music continues underneath</span></div>
               <div class="doc-row"><span class="doc-key">&#9208; AD BREAK</span><span class="doc-val">Pauses music, plays ad, resumes from exactly where it stopped</span></div>
-              <div class="doc-row"><span class="doc-key">&#128240; NEWS BREAK</span><span class="doc-val">Song fades out &rarr; jingle &rarr; ElevenLabs reads headlines &rarr; next song starts fresh. Auto-fetches from APITube / Currents before reading.</span></div>
-              <div class="doc-row"><span class="doc-key">&#127780; WEATHER BREAK</span><span class="doc-val">Song fades out &rarr; jingle &rarr; ElevenLabs reads up to 5 cities &rarr; next song starts. Auto-fetches from OpenWeatherMap. Per-show city override supported.</span></div>
+              <div class="doc-row"><span class="doc-key">&#128240; NEWS BREAK</span><span class="doc-val">Song fades out &rarr; jingle &rarr; TTS reads headlines on air &rarr; next song starts fresh. Uses Speechmatics, ElevenLabs or Google TTS — whichever key is set.</span></div>
+              <div class="doc-row"><span class="doc-key">&#127780; WEATHER BREAK</span><span class="doc-val">Song fades out &rarr; jingle &rarr; TTS reads up to 5 cities on air &rarr; next song starts. Uses Speechmatics, ElevenLabs or Google TTS. Per-show city override supported.</span></div>
             </div>
             <div class="doc-sub">&#9658; Trigger Modes (for all break types)</div>
             <div class="doc-table">
@@ -1466,14 +1507,14 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
               <div class="doc-row"><span class="doc-key">TEST VOICE</span><span class="doc-val">Plays a short test phrase through the full DSP chain so you can audition before going on air</span></div>
             </div>
             <div class="doc-sub">&#9658; News Break Flow</div>
-            <p>Song fades out over 5 seconds &rarr; optional jingle cart plays &rarr; ElevenLabs reads all headlines in sequence &rarr; sign-off phrase &rarr; next song starts fresh from the queue.</p>
+            <p>Song fades out over 5 seconds &rarr; optional jingle plays &rarr; TTS reads all headlines (Speechmatics / ElevenLabs / Google) &rarr; sign-off &rarr; next song starts fresh.</p>
             <div class="doc-table">
               <div class="doc-row"><span class="doc-key">JINGLE</span><span class="doc-val">Select any cart slot &mdash; plays before headlines. Load a "Eyethu Radio News" stinger into a cart and select it here.</span></div>
               <div class="doc-row"><span class="doc-key">AUTO BREAK</span><span class="doc-val">Arms an automatic news break every 30/60/90/120 minutes. Fetches fresh headlines before each break. Timer starts from when AUTO is turned on.</span></div>
               <div class="doc-row"><span class="doc-key">TICKER</span><span class="doc-val">Scrolling headline bar visible on all tabs while broadcasting</span></div>
               <div class="doc-row"><span class="doc-key">Tap any headline</span><span class="doc-val">ElevenLabs reads that single article immediately</span></div>
             </div>
-            <div class="doc-tip">&#128161; <strong>Credit usage:</strong> 5 headlines per break &asymp; 1,100 ElevenLabs characters. Free tier (10,000 chars) gives &asymp; 9 full breaks/month. Weekend-only use stays well within the limit.</div>
+            <div class="doc-tip">&#128161; <strong>Credit usage:</strong> 5 headlines per break &asymp; 1,100 characters. Speechmatics: pay-per-use. ElevenLabs free tier (10,000 chars/month) &asymp; 9 breaks. Google: 4M chars/month free.</div>
           </div>
         </div>
 
@@ -1670,6 +1711,29 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
                 title="Used in on-air TTS announcements — news outros, weather outros and voice test"/>
               <button class="btn sm" onclick="stationNameSave()" style="border-color:var(--cyan);color:var(--cyan);">SAVE</button>
             </div>
+            <!-- ── SPEECHMATICS TTS ─────────────────────────────────── -->
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--cyan);margin:6px 0 4px;letter-spacing:1px;border-bottom:1px solid var(--border);padding-bottom:3px;">🎙 TTS ENGINE — SPEECHMATICS <span style="color:var(--text2);font-size:9px;">· reads News, Weather &amp; Traffic on air</span></div>
+            <div style="font-family:var(--font-mono);font-size:9px;color:var(--text2);margin-bottom:6px;">Priority: Speechmatics → ElevenLabs → Google TTS → Browser voice. Add a key to activate that engine.</div>
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+              <label style="font-family:var(--font-mono);font-size:10px;color:var(--cyan);min-width:60px;">SM KEY</label>
+              <input type="password" id="sm-api-key" placeholder="Speechmatics API key" autocomplete="off"
+                style="flex:1;min-width:140px;background:var(--bg4);border:1px solid var(--cyan);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;"
+                title="Speechmatics TTS — used first when key is present. preview.tts.speechmatics.com"/>
+              <button class="btn sm" onclick="smSaveKey()" style="border-color:var(--cyan);color:var(--cyan);">SAVE</button>
+              <a href="https://portal.speechmatics.com/signup" target="_blank" rel="noopener" class="btn sm" style="color:var(--cyan);border-color:var(--cyan);">GET KEY &#8599;</a>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:4px;">
+              <label style="font-family:var(--font-mono);font-size:10px;color:var(--cyan);min-width:60px;">SM VOICE</label>
+              <select id="sm-voice" style="flex:1;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:5px 8px;border-radius:3px;font-family:var(--font-mono);font-size:11px;">
+                <option value="sarah">Sarah — UK Female</option>
+                <option value="theo">Theo — UK Male</option>
+                <option value="megan">Megan — US Female</option>
+                <option value="jack">Jack — US Male</option>
+              </select>
+              <button class="btn sm" onclick="smTestVoice()" style="border-color:var(--cyan);color:var(--cyan);">TEST</button>
+            </div>
+            <!-- ── ELEVENLABS TTS ──────────────────────────────────── -->
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--accent);margin:10px 0 4px;letter-spacing:1px;border-bottom:1px solid var(--border);padding-bottom:3px;">🔊 ELEVENLABS <span style="color:var(--text2);font-size:9px;">· fallback if Speechmatics key not set</span></div>
             <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
               <label style="font-family:var(--font-mono);font-size:10px;color:var(--text2);min-width:60px;">XI KEY</label>
               <input type="password" id="xi-api-key" placeholder="ElevenLabs API key" autocomplete="off"
@@ -1849,7 +1913,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
             <div class="news-status-dot live"></div>
             <div style="flex:1;">
               <div style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--red);">NEWS BREAK &mdash; READ ON AIR</div>
-              <div style="font-family:var(--font-mono);font-size:9px;color:var(--text2);margin-top:2px;">Song fades out &middot; Jingle plays &middot; ElevenLabs reads headlines &middot; Next song starts fresh</div>
+              <div style="font-family:var(--font-mono);font-size:9px;color:var(--text2);margin-top:2px;">Song fades out · Jingle plays · TTS reads headlines on air · Next song starts fresh</div>
             </div>
             <span style="font-family:var(--font-mono);font-size:10px;color:var(--text2);">TAP TO START</span>
           </div>
@@ -1951,7 +2015,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
           </div>
           <div style="margin-top:8px;padding:8px 10px;background:rgba(32,208,208,.05);border:1px solid var(--border);border-radius:4px;font-family:var(--font-mono);font-size:9px;color:var(--text2);line-height:1.7;">
             Free: 1,000 calls/day &nbsp;&middot;&nbsp; No credit card &nbsp;&middot;&nbsp; Register at openweathermap.org &rarr; API Keys &nbsp;&middot;&nbsp;
-            ElevenLabs reads current conditions on air &nbsp;&middot;&nbsp; Add WEATHER trigger to shows in SCHEDULE tab
+            TTS reads current conditions on air (Speechmatics / ElevenLabs / Google) &nbsp;&middot;&nbsp; Add WEATHER trigger to shows in SCHEDULE tab
           </div>
         </div>
       </div>
@@ -2132,9 +2196,9 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 // ╔═══════════════════════════════════════════════════════════╗
 // ║  CONSTANTS & IDB — defined first, used everywhere below  ║
 // ╚═══════════════════════════════════════════════════════════╝
-const DUCK_LEVEL   = 0.25;    // −12 dB music reduction when mic/cart live
-const DUCK_ATTACK  = 0.015;   // 15ms — smooth enough to avoid click, fast enough to feel immediate
-const DUCK_RELEASE = 0.800;   // 800ms — natural music restore
+const DUCK_LEVEL   = 0.126;   // −18 dB music reduction — broadcast standard (was −12 dB)
+const DUCK_ATTACK  = 0.300;   // 300ms smooth fade — professional, not a hard cut
+const DUCK_RELEASE = 1.800;   // 1.8s natural music ride-back up after mic/cart closes
 const STORAGE_KEY  = 'eyethu_pro_state_v1';
 
 // ── Cart gain — initial value matches spec calibration (unity 70–72) ─────────
@@ -2142,7 +2206,16 @@ let cartGain = 0.71;
 
 // ── DSP node variables — declared here alongside other audio globals ───────
 let micPreHPF = null, micPreGate = null, micPreLimiter = null;
+let micDeEsser = null, micPresenceEQ = null, micReverb = null, micReverbGain = null, micDryGain = null;
 let dspHPF = null, dspSoftClipper = null, dspLookaheadLim = null;
+// Broadcast processing nodes
+let dspAGC = null;              // AGC — levels every song to same loudness
+let dspMBComp1 = null;          // Multiband: bass compressor  (20–200 Hz)
+let dspMBComp2 = null;          // Multiband: mid compressor   (200–4000 Hz)
+let dspMBComp3 = null;          // Multiband: high compressor  (4000–20000 Hz)
+let dspStereoWidener = null;    // Stereo width enhancer
+let dspPresenceBoost = null;    // +3 dB @ 5kHz — broadcast air
+let dspLoudnessMax = null;      // Final loudness maximiser — brick wall
 
 // ── Channel mute state — declared here so goOnAir/goOffAir can read them ──
 const _chMuteState  = {}; // { 'ch-A': true/false, ... }
@@ -2508,10 +2581,12 @@ function rampGain(gainNode, targetValue, timeConstant) {
 function buildMicPre(source) {
   if (!actx || !source) return source;
   // Tear down old mic pre nodes so they don't accumulate on reconnect
+  try { if (micPresenceEQ) micPresenceEQ.disconnect(); } catch(e) {}
+  try { if (micDeEsser)   micDeEsser.disconnect();    } catch(e) {}
   try { if (micPreLimiter) micPreLimiter.disconnect(); } catch(e) {}
   try { if (micPreGate)    micPreGate.disconnect();    } catch(e) {}
   try { if (micPreHPF)     micPreHPF.disconnect();     } catch(e) {}
-  micPreHPF = micPreGate = micPreLimiter = null;
+  micPresenceEQ = micDeEsser = micPreHPF = micPreGate = micPreLimiter = null;
 
   // 1. Highpass 80 Hz — removes handling noise and breath rumble
   micPreHPF = actx.createBiquadFilter();
@@ -2535,33 +2610,77 @@ function buildMicPre(source) {
   micPreLimiter.attack.value = 0.001;
   micPreLimiter.release.value = 0.050;
 
-  // Wire: source → HPF → Gate → Limiter
+  // 4. De-esser — notch filter at 7kHz reduces harsh sibilance ('s' and 'sh' sounds)
+  micDeEsser = actx.createBiquadFilter();
+  micDeEsser.type = 'peaking';
+  micDeEsser.frequency.value = 7000;
+  micDeEsser.Q.value = 3.0;
+  micDeEsser.gain.value = -4;  // -4 dB notch — removes harshness, keeps presence
+  micDeEsser.channelCount = 2;
+  micDeEsser.channelCountMode = 'explicit';
+
+  // 5. Presence EQ — +3 dB @ 2.5kHz makes voice sit forward and cut through music
+  micPresenceEQ = actx.createBiquadFilter();
+  micPresenceEQ.type = 'peaking';
+  micPresenceEQ.frequency.value = 2500;
+  micPresenceEQ.Q.value = 1.0;
+  micPresenceEQ.gain.value = 3;  // +3 dB presence boost — classic radio voice
+  micPresenceEQ.channelCount = 2;
+  micPresenceEQ.channelCountMode = 'explicit';
+
+  // Wire: source → HPF → Gate → Limiter → De-esser → Presence EQ
   source.connect(micPreHPF);
   micPreHPF.connect(micPreGate);
   micPreGate.connect(micPreLimiter);
-  // micPreLimiter → micGainNode (caller connects)
-  return micPreLimiter;
+  micPreLimiter.connect(micDeEsser);
+  micDeEsser.connect(micPresenceEQ);
+  // micPresenceEQ → micGainNode (caller connects)
+  return micPresenceEQ;
 }
 
-// ╔════════════════════════════════════════════════════════════════════════╗
-// ║  MASTER DSP CHAIN — FINAL SPEC                                        ║
-// ║                                                                        ║
-// ║  fixedTrim → HPF 35 Hz → EQ (3-band) → Soft Clipper → Limiter → masterGain ║
-// ║                                                                        ║
+// ╔════════════════════════════════════════════════════════════════════╗
+// ║  MASTER DSP CHAIN                                                      ║
+// ║  fixedTrim → HPF 35Hz → AGC → 3-band MB Comp → EQ → Presence →          ║
+// ║  Soft Clipper → Bass Mono Crossover → Loudness Max → masterGain        ║
 // ║  GOLDEN RULE: Sliders = LOUDNESS. DSP = SOUND CHARACTER.               ║
-// ║  No AGC — level consistency comes from calibrated channel gains.       ║
-// ╠════════════════════════════════════════════════════════════════════════╣
-// ║  Stage 1: HPF 35 Hz — removes sub-bass below usable range              ║
-// ║  Stage 2: EQ  +2 dB @ 90 Hz / +2.5 dB @ 3 kHz / +2 dB @ 10 kHz       ║
-// ║  Stage 3: Soft Clipper — drive 0.11, gentle saturation / peak catch    ║
-// ║  Stage 4: Bass Mono — below 120 Hz MONO, above 120 Hz STEREO           ║
-// ║  Stage 5: Lookahead Limiter — ceiling −0.3 dB, occasional peaks only   ║
-// ╚════════════════════════════════════════════════════════════════════════╝
+// ╠════════════════════════════════════════════════════════════════════╣
+// ║  Stage 1: HPF 35 Hz — removes sub-bass rumble                          ║
+// ║  Stage 2: AGC −18dB/4:1/200ms — transparent programme levelling        ║
+// ║  Stage 3: 3-band MB Comp — bass/mid/high independently                 ║
+// ║  Stage 4: EQ +1dB@90Hz / +1.5dB@3kHz / +1dB@10kHz / +1.5dB@5kHz      ║
+// ║  Stage 5: Soft Clipper drive 0.08 — inaudible harmonic rounding         ║
+// ║  Stage 6: Bass Mono <120Hz mono, >120Hz stereo                          ║
+// ║  Stage 7: Loudness Maximiser −5dB/20:1 — peaks only                     ║
+// ╚════════════════════════════════════════════════════════════════════╝
 function buildMasterDSP() {
   if (!actx) return;
   if (dspHPF) { console.log('[EyethuAudio] DSP chain already built — skipping rebuild'); return; }
 
-  // Helper: stereo-locked BiquadFilter
+  // ═══════════════════════════════════════════════════════════════════════════
+  // BROADCAST DSP CHAIN — Professional Radio Processing Stack
+  //
+  //  fixedTrim
+  //    → HPF 35 Hz          (remove sub-bass rumble)
+  //    → AGC                (automatic gain control — every song same loudness)
+  //    → Multiband Comp     (bass / mid / high independently compressed)
+  //    → Broadcast EQ       (+2 dB body / +2.5 dB presence / +2 dB air)
+  //    → Presence Boost     (+3 dB @ 5 kHz — broadcast sparkle)
+  //    → Soft Clipper       (harmonic warmth, gentle saturation)
+  //    → Stereo Widener     (M/S width enhancement)
+  //    → Bass Mono          (below 120 Hz mono — eliminates phase cancellation)
+  //    → Loudness Maximiser (final brick wall, target −0.1 dBFS)
+  //    → masterGain
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  function mkGainD(val) {
+    const g = actx.createGain();
+    g.gain.value = val;
+    g.channelCount = 2;
+    g.channelCountMode = 'explicit';
+    g.channelInterpretation = 'speakers';
+    return g;
+  }
+
   function mkFilter(type, freq, q, gain) {
     const f = actx.createBiquadFilter();
     f.type = type;
@@ -2574,7 +2693,6 @@ function buildMasterDSP() {
     return f;
   }
 
-  // Soft clip curve — algebraic saturation, hard-bounded to ±1
   function softClipCurve(drive) {
     const n = 512, c = new Float32Array(n);
     const k = 2 * drive / (1 - drive);
@@ -2585,129 +2703,187 @@ function buildMasterDSP() {
     return c;
   }
 
-  // ── Stage 1: Highpass 35 Hz ────────────────────────────────────────────
-  // Removes sub-bass below 35 Hz. Keeps full low-end character of music
-  // intact (kick, bass) while eliminating inaudible DC offset and rumble
-  // that wastes headroom and causes port resonance on monitors.
+  // ── Stage 1: HPF 35 Hz ─────────────────────────────────────────────────────
   dspHPF = mkFilter('highpass', 35, 0.707);
 
-  // ── Stage 2: Broadcast EQ — three bands, spec exact ─────────────────────
-  //
-  //  +2 dB @ 90 Hz   — warmth and body. 90 Hz is the punch centre of kick
-  //                    drums and bass notes. Adds weight on monitors, compensates
-  //                    for bass rolloff on earbuds and phone speakers.
-  //
-  //  +2.5 dB @ 3 kHz — presence and intelligibility. Most critical broadcast
-  //                    frequency. Vocal consonants, guitar bite, snare crack.
-  //                    Reproduced accurately by every device. Makes the mix
-  //                    cut through on any speaker without harshness.
-  //
-  //  +2 dB @ 10 kHz  — air and brilliance. Opens up the top end so the mix
-  //                    sounds alive and bright on earbuds and monitors alike.
-  //                    Compensates for HF rolloff on cheap Bluetooth speakers.
-  //
-  const eqBody      = mkFilter('lowshelf',  90,    undefined, 2.0);
-  const eqPresence  = mkFilter('peaking',   3000,  1.2,       2.5);
-  const eqAir       = mkFilter('highshelf', 10000, undefined, 2.0);
+  // ── Stage 2: AGC — Automatic Gain Control ──────────────────────────────────
+  // Keeps every song at the same perceived loudness regardless of how the
+  // original track was mastered. Slow attack (200ms) + slow release (3s)
+  // means it rides programme level without pumping on transients.
+  // Threshold −18 dB / ratio 4:1 / knee 12 dB for transparent levelling.
+  dspAGC = actx.createDynamicsCompressor();
+  dspAGC.threshold.value = -18;
+  dspAGC.knee.value      =  12;
+  dspAGC.ratio.value     =   4;
+  dspAGC.attack.value    =   0.200;  // 200ms — doesn't clamp transients
+  dspAGC.release.value   =   3.000;  // 3s — slow ride, no audible pumping
+  dspAGC.channelCount    =   2;
+  dspAGC.channelCountMode = 'explicit';
 
-  // ── Stage 3: Soft Clipper — drive 0.11 ────────────────────────────────
-  // Algebraic saturation. Rounds absolute peaks and adds the very subtle
-  // harmonic warmth that makes broadcast audio sound ‘glued’. Drive 0.11
-  // is at the bottom of the 0.10–0.12 spec range — barely audible saturation.
-  // Oversample 4x prevents aliasing from the waveshaper at 48 kHz.
+  // ── Stage 3: Multiband Compression ────────────────────────────────────────
+  // Splits audio into 3 bands and compresses each independently.
+  // This is the core of the "broadcast loudness" sound.
+  //
+  //  Band 1 (Bass  20–200 Hz): tightens kick and bass — punchy, controlled
+  //  Band 2 (Mid  200–4kHz):  controls vocals and guitars — forward, clear
+  //  Band 3 (High 4k–20kHz): manages cymbal harshness — bright but not harsh
+
+  // Band splitter filters
+  const mbLPF1  = mkFilter('lowpass',  200,  0.5);   // bass band out
+  const mbHPF1  = mkFilter('highpass', 200,  0.5);   // mid+high band
+  const mbLPF2  = mkFilter('lowpass',  4000, 0.5);   // mid band out
+  const mbHPF2  = mkFilter('highpass', 4000, 0.5);   // high band out
+
+  // Band 1 — Bass compressor: tight, punchy
+  dspMBComp1 = actx.createDynamicsCompressor();
+  dspMBComp1.threshold.value = -24;
+  dspMBComp1.knee.value      =   6;
+  dspMBComp1.ratio.value     =   4;
+  dspMBComp1.attack.value    =   0.010;  // 10ms — catches bass transients
+  dspMBComp1.release.value   =   0.150;  // 150ms
+  dspMBComp1.channelCount    =   2;
+  dspMBComp1.channelCountMode = 'explicit';
+
+  // Band 2 — Mid compressor: vocal presence, forward mix
+  dspMBComp2 = actx.createDynamicsCompressor();
+  dspMBComp2.threshold.value = -20;
+  dspMBComp2.knee.value      =   8;
+  dspMBComp2.ratio.value     =   3;
+  dspMBComp2.attack.value    =   0.005;  // 5ms
+  dspMBComp2.release.value   =   0.200;  // 200ms
+  dspMBComp2.channelCount    =   2;
+  dspMBComp2.channelCountMode = 'explicit';
+
+  // Band 3 — High compressor: tame harshness, keep air
+  dspMBComp3 = actx.createDynamicsCompressor();
+  dspMBComp3.threshold.value = -22;
+  dspMBComp3.knee.value      =  10;
+  dspMBComp3.ratio.value     =   2.5;
+  dspMBComp3.attack.value    =   0.003;  // 3ms
+  dspMBComp3.release.value   =   0.120;  // 120ms
+  dspMBComp3.channelCount    =   2;
+  dspMBComp3.channelCountMode = 'explicit';
+
+  // Band gain trims — fine-tune each band level after compression
+  const mbGain1 = mkGainD(1.1);   // bass: slight boost after compression
+  const mbGain2 = mkGainD(1.0);   // mids: unity
+  const mbGain3 = mkGainD(0.95);  // highs: slight reduction to prevent harshness
+
+  // Recombine bands into one node
+  const mbMerge = mkGainD(1.0);
+
+  // ── Stage 4: Broadcast EQ ──────────────────────────────────────────────────
+  const eqBody     = mkFilter('lowshelf',  90,    undefined, 1.0);   // +1 dB warmth (was +2)
+  const eqPresence = mkFilter('peaking',   3000,  1.2,       1.5);   // +1.5 dB presence (was +2.5)
+  const eqAir      = mkFilter('highshelf', 10000, undefined, 1.0);   // +1 dB air (was +2)
+
+  // ── Stage 5: Presence Boost — broadcast sparkle ────────────────────────────
+  // +3 dB @ 5 kHz — this is the frequency that makes radio sound "expensive".
+  // Adds definition to voices and instruments, makes everything cut through.
+  dspPresenceBoost = mkFilter('peaking', 5000, 1.5, 1.5); // +1.5 dB sparkle (was +3 — too hot)
+
+  // ── Stage 6: Soft Clipper — harmonic warmth ───────────────────────────────
   dspSoftClipper = actx.createWaveShaper();
-  dspSoftClipper.curve = softClipCurve(0.11);
-  dspSoftClipper.oversample = '2x'; // 2x sufficient at 48kHz, halves DSP load vs 4x
+  dspSoftClipper.curve = softClipCurve(0.08);  // gentle saturation (was 0.15 — too hard)
+  dspSoftClipper.oversample = '2x';
   dspSoftClipper.channelCount = 2;
   dspSoftClipper.channelCountMode = 'explicit';
 
-  // ── Stage 4: Lookahead Limiter — ceiling −0.3 dB, occasional only ────────
-  // Fires ONLY on inter-sample peaks that exceed −0.3 dBFS after EQ + clipper.
-  // Normal programme material at correct gain staging never touches this.
-  // Threshold raised from −1 → −0.3 dB: the soft clipper (drive 0.11) already
-  // rounds peaks below −1 dBFS on typical material. The limiter is the last
-  // resort safety net — it should engage rarely, not constantly.
-  // Soft knee 0.5 dB: blends in transparently when it does fire, no click.
-  // Attack 1ms: true inter-sample peak catching (not programme compression).
-  // Release 100ms: releases naturally without audible snap.
-  // Ratio 20:1 = brick wall above threshold when engaged.
-  dspLookaheadLim = actx.createDynamicsCompressor();
-  dspLookaheadLim.threshold.value = -0.3;
-  dspLookaheadLim.knee.value      =  0.5;
-  dspLookaheadLim.ratio.value     = 20;
-  dspLookaheadLim.attack.value    =  0.001;
-  dspLookaheadLim.release.value   =  0.100;
-  dspLookaheadLim.channelCount    =  2;
-  dspLookaheadLim.channelCountMode = 'explicit';
+  // ── Stage 7: Stereo Widener — REMOVED ────────────────────────────────────
+  // Was 7 nodes at unity bypass (sides ×0, mids ×1). dspSoftClipper now
+  // connects directly to Stage 8. Zero CPU cost, identical sound.
 
-  // ── Stage 5: Bass Mono — below 120 Hz MONO, above 120 Hz STEREO ──────────
-  //
-  // Standard broadcast practice. Low frequencies carry no useful stereo
-  // information — bass and kick are always panned centre. Mono bass:
-  //   • Eliminates phase cancellation on mono devices (phones, BT speakers)
-  //   • Tightens and focuses low end on monitors
-  //
-  // Root Cause 2 fix: previous implementation split L/R into separate
-  // BiquadFilter nodes (lpfL, lpfR), causing inter-channel sample misalignment
-  // in the merger — heard as periodic crackle on stereo bass content.
-  //
-  // Correct approach: sum L+R FIRST (with ×0.5 to prevent +6 dB),
-  // apply ONE LPF to the summed mono signal, then feed that mono bass
-  // into both L and R of the merger. The HPF stereo path is unchanged.
-  // Single-node LPF guarantees identical phase on both output channels.
-
-  // Step 1: sum stereo to mono at the input of the crossover
-  //   Stereo signal → channelCount=1 downmix (browser handles L+R sum)
+  // ── Stage 8: Bass Mono crossover ──────────────────────────────────────────
   const bassDownmix = actx.createGain();
-  bassDownmix.gain.value = 0.5;          // ×0.5 = compensate for L+R sum
-  bassDownmix.channelCount = 1;           // force mono summing
+  bassDownmix.gain.value = 1.0;   // was 0.5 — WA stereo→mono already ×0.5, so 0.5×0.5=0.25 (-12dB). 1.0 gives correct unity.
+  bassDownmix.channelCount = 1;
   bassDownmix.channelCountMode = 'explicit';
-
-  // Step 2: single LPF on the mono sum — no per-channel misalignment possible
   const lpfMono = actx.createBiquadFilter();
   lpfMono.type = 'lowpass';
   lpfMono.frequency.value = 120;
   lpfMono.Q.value = 0.707;
   lpfMono.channelCount = 1;
   lpfMono.channelCountMode = 'explicit';
-
-  // Step 3: HPF for stereo content above 120 Hz — unchanged stereo path
   const hpfStereo = actx.createBiquadFilter();
   hpfStereo.type = 'highpass';
   hpfStereo.frequency.value = 120;
   hpfStereo.Q.value = 0.707;
   hpfStereo.channelCount = 2;
   hpfStereo.channelCountMode = 'explicit';
-
-  // Step 4: split stereo HPF output into L and R for merger
   const splitter2 = actx.createChannelSplitter(2);
+  const merger    = actx.createChannelMerger(2);
 
-  // Step 5: merge — mono bass into both L+R, stereo highs into L+R separately
-  const merger = actx.createChannelMerger(2);
+  // ── Stage 9: Loudness Maximiser — final brick wall ────────────────────────
+  // More aggressive than the old limiter — pushes the output as loud as
+  // possible before clipping. This is what makes radio louder than everything.
+  // Threshold −3 dB / ratio 20:1 / attack 0.5ms / release 80ms
+  dspLoudnessMax = actx.createDynamicsCompressor();
+  dspLoudnessMax.threshold.value = -5.0;  // raised from -3 — limiter fires only on peaks now
+  dspLoudnessMax.knee.value      =  2.0;  // softer knee (was 1.0)
+  dspLoudnessMax.ratio.value     = 20;
+  dspLoudnessMax.attack.value    =  0.0005;
+  dspLoudnessMax.release.value   =  0.100;  // 100ms release (was 80ms — less pumping)
+  dspLoudnessMax.channelCount    =  2;
+  dspLoudnessMax.channelCountMode = 'explicit';
 
-  // Bass mono path: softClipper → bassDownmix (mono) → lpfMono → merger L and R
-  dspSoftClipper.connect(bassDownmix);
-  bassDownmix.connect(lpfMono);
-  lpfMono.connect(merger, 0, 0);   // mono bass → merger L
-  lpfMono.connect(merger, 0, 1);   // mono bass → merger R
+  // Keep old limiter alias for compatibility
+  dspLookaheadLim = dspLoudnessMax;
 
-  // Stereo highs path: softClipper → hpfStereo (stereo) → splitter → merger L+R
-  dspSoftClipper.connect(hpfStereo);
-  hpfStereo.connect(splitter2);
-  splitter2.connect(merger, 0, 0); // stereo L highs → merger L
-  splitter2.connect(merger, 1, 1); // stereo R highs → merger R
 
-  // merger → limiter → masterGain
-  merger.connect(dspLookaheadLim);
+  // ═══════════════════════════════════════════════════════════════════════════
+  // SIGNAL ROUTING
+  // ═══════════════════════════════════════════════════════════════════════════
 
-  // ── Wire: fixedTrim → DSP chain → masterGain ────────────────────────────
+  // Stage 1+2: HPF → AGC
   fixedTrim.connect(dspHPF);
-  dspHPF.connect(eqBody);
+  dspHPF.connect(dspAGC);
+
+  // Stage 3: AGC → Multiband split
+  dspAGC.connect(mbLPF1);   // bass path
+  dspAGC.connect(mbHPF1);   // mid+high path
+  mbHPF1.connect(mbLPF2);   // mid path
+  mbHPF1.connect(mbHPF2);   // high path
+
+  // Compress each band
+  mbLPF1.connect(dspMBComp1);
+  mbLPF2.connect(dspMBComp2);
+  mbHPF2.connect(dspMBComp3);
+
+  // Apply per-band gain trim
+  dspMBComp1.connect(mbGain1);
+  dspMBComp2.connect(mbGain2);
+  dspMBComp3.connect(mbGain3);
+
+  // Recombine all bands into mbMerge
+  mbGain1.connect(mbMerge);
+  mbGain2.connect(mbMerge);
+  mbGain3.connect(mbMerge);
+
+  // Stage 4+5: EQ + presence
+  mbMerge.connect(eqBody);
   eqBody.connect(eqPresence);
   eqPresence.connect(eqAir);
-  eqAir.connect(dspSoftClipper);
-  // dspSoftClipper → bassDownmix + hpfStereo → merger → dspLookaheadLim
-  dspLookaheadLim.connect(masterGain);
+  eqAir.connect(dspPresenceBoost);
+
+  // Stage 6: Soft clipper
+  dspPresenceBoost.connect(dspSoftClipper);
+
+  // Stage 7: Stereo widener removed — direct connection
+  // Stage 8: Bass mono crossover
+  dspSoftClipper.connect(bassDownmix);   // full stereo → mono downmix for bass
+  bassDownmix.connect(lpfMono);
+  lpfMono.connect(merger, 0, 0);         // mono bass → L
+  lpfMono.connect(merger, 0, 1);         // mono bass → R
+  dspSoftClipper.connect(hpfStereo);    // full stereo → HPF for highs
+  hpfStereo.connect(splitter2);
+  splitter2.connect(merger, 0, 0);       // stereo high L → merger L
+  splitter2.connect(merger, 1, 1);       // stereo high R → merger R
+
+  // Stage 9: loudness maximiser → masterGain (outputBoost removed — was unity)
+  merger.connect(dspLoudnessMax);
+  dspLoudnessMax.connect(masterGain);
+
+  console.log('[EyethuAudio] Broadcast DSP chain active: AGC → 3-band MB Comp → EQ → Presence → SoftClip → Stereo Widen → Bass Mono → Loudness Max');
 }
 
 function buildVChanSegs(id, n) {
@@ -4091,7 +4267,8 @@ function autoDJNext(finishedDeck) {
   let overlayPending  = false;
   let newsBreakAfterLoad = false;
   let wxBreakAfterLoad   = false;
-  let adShow = null, ovShow = null, newsBreakShow = null, wxBreakShow = null;
+  let ttBreakAfterLoad   = false;
+  let adShow = null, ovShow = null, newsBreakShow = null, wxBreakShow = null, ttBreakShow = null;
 
   state.shows.forEach(show => {
     if (!show._triggered) return;
@@ -4105,6 +4282,7 @@ function autoDJNext(finishedDeck) {
     }
     // News song counter
     show._newsSongCount = (show._newsSongCount || 0) + 1;
+    show._ttSongCount   = (show._ttSongCount   || 0) + 1;
     // Weather song counter
     show._wxSongCount = (show._wxSongCount || 0) + 1;
     if (show.wxTrigger === 'songs' && show._wxSongCount >= (show.wxSongs || 4)) {
@@ -4119,6 +4297,13 @@ function autoDJNext(finishedDeck) {
       if (!show._adPlaying && !show._ovPlaying && !_newsTTSBreak && !_wxBreakActive) {
         newsBreakAfterLoad = true;
         newsBreakShow      = show;
+      }
+    }
+    if (show.ttTrigger === 'songs' && show._ttSongCount >= (show.ttSongs || 4)) {
+      show._ttSongCount = 0;
+      if (!show._adPlaying && !show._ovPlaying && !_newsTTSBreak && !_wxBreakActive && !_ttBreakActive) {
+        ttBreakAfterLoad = true;
+        ttBreakShow      = show;
       }
     }
     if (show.ovTrigger === 'songs' && show._ovSongCount >= (show.ovSongs || 2)) {
@@ -4150,6 +4335,10 @@ function autoDJNext(finishedDeck) {
     // NEWS BREAK (songs trigger): load track first, then fire break
     show_statusMsg(newsBreakShow, '\uD83D\uDCF0 News break\u2026');
     newsFireFromShow(newsBreakShow);
+  } else if (ttBreakAfterLoad && ttBreakShow) {
+    ttBreakAfterLoad = false;
+    show_statusMsg(ttBreakShow, '\uD83D\uDEA6 Traffic break\u2026');
+    ttFireFromShow(ttBreakShow);
   } else {
     // NORMAL: play next deck once audio is buffered
     playDeckWhenReady(nextDeck);
@@ -4740,6 +4929,16 @@ function toggleWxTrigger() {
   if (tm) tm.style.display = t === 'time'    ? 'flex' : 'none';
   // tophour: no extra input row needed
 }
+function toggleTtTrigger() {
+  var t  = (document.getElementById('sf-tt-trigger') || {}).value || '';
+  var s  = document.getElementById('sf-tt-trigger-songs');
+  var m  = document.getElementById('sf-tt-trigger-minutes');
+  var tm = document.getElementById('sf-tt-trigger-time');
+  if (s)  s.style.display  = t === 'songs'   ? '' : 'none';
+  if (m)  m.style.display  = t === 'minutes' ? '' : 'none';
+  if (tm) tm.style.display = t === 'time'    ? '' : 'none';
+}
+
 
 function toggleNewsTrigger() {
   var t = (document.getElementById('sf-news-trigger') || {}).value || '';
@@ -4883,6 +5082,13 @@ function newShow() {
   document.getElementById('sf-wx-time').value      = '';
   document.getElementById('sf-wx-jingle').value    = '';
   document.getElementById('sf-wx-cities').value    = '';
+
+  document.getElementById('sf-tt-trigger').value  = '';
+  document.getElementById('sf-tt-songs').value    = '4';
+  document.getElementById('sf-tt-minutes').value  = '30';
+  document.getElementById('sf-tt-time').value     = '';
+  document.getElementById('sf-tt-jingle').value   = '';
+  toggleTtTrigger();
   toggleWxTrigger();
   document.getElementById('show-form-title').textContent = 'NEW SHOW';
   document.getElementById('show-form').style.display = 'block';
@@ -4992,6 +5198,11 @@ function saveShow() {
     wxTime:      document.getElementById('sf-wx-time').value,
     wxJingle:    document.getElementById('sf-wx-jingle').value,
     wxCities:    document.getElementById('sf-wx-cities').value.trim(),
+    ttTrigger:   document.getElementById('sf-tt-trigger').value,
+    ttSongs:     parseInt(document.getElementById('sf-tt-songs').value, 10) || 4,
+    ttMinutes:   parseInt(document.getElementById('sf-tt-minutes').value, 10) || 30,
+    ttTime:      document.getElementById('sf-tt-time').value,
+    ttJingle:    document.getElementById('sf-tt-jingle').value,
     _wxSongCount: 0,
     _wxLastTick:  0,
     playlist: state.editingShowIndex >= 0 ? state.shows[state.editingShowIndex].playlist || [] : [],
@@ -5069,9 +5280,16 @@ function editShow(i) {
   document.getElementById('sf-news-minutes').value  = s.newsMinutes  || 60;
   document.getElementById('sf-news-time').value     = s.newsTime     || '';
   document.getElementById('sf-news-jingle').value   = s.newsJingle   || '';
+  // Traffic break
+  document.getElementById('sf-tt-trigger').value   = s.ttTrigger  || '';
+  document.getElementById('sf-tt-songs').value     = s.ttSongs    || 4;
+  document.getElementById('sf-tt-minutes').value   = s.ttMinutes  || 30;
+  document.getElementById('sf-tt-time').value      = s.ttTime     || '';
+  document.getElementById('sf-tt-jingle').value    = s.ttJingle   || '';
   toggleAdSource();
   toggleAdTrigger();
   toggleNewsTrigger();
+  toggleTtTrigger();
   document.getElementById('show-form-title').textContent = 'EDIT: ' + s.name;
   document.getElementById('show-form').style.display = 'block';
   document.getElementById('playlist-card').style.display = 'block';
@@ -5135,6 +5353,11 @@ function renderShowList() {
       : s.newsTrigger === 'time' ? `📰 news@${s.newsTime}`
       : _isTopHour(s.newsTrigger) ? `📰 news@:00`
       : '';
+    const ttLabel = s.ttTrigger === 'songs' ? `🚦 traffic/${s.ttSongs} songs`
+      : s.ttTrigger === 'minutes' ? `🚦 traffic/${s.ttMinutes}min`
+      : s.ttTrigger === 'time' ? `🚦 traffic@${s.ttTime}`
+      : _isTopHour(s.ttTrigger) ? `🚦 traffic@:00`
+      : '';
     const DAY_NAMES = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
     const repeatLabel = !s.repeat || s.repeat === 'daily' ? '📅 Every day'
       : s.repeat === 'weekly' && s.repeatDays && s.repeatDays.length
@@ -5148,7 +5371,7 @@ function renderShowList() {
     <div class="show-item${state.selectedShowIndex===i?' active-show':''}" onclick="editShow(${i})">
       <div style="flex:1;min-width:0;">
         <div class="show-item-name">${esc(s.name)}</div>
-        <div class="show-item-time">${s.start||'--:--'} – ${s.end||'--:--'} · ${repeatLabel} · Deck ${s.deck||'A'} · ${(s.playlist||[]).length} tracks · ${trigLabel}${newsLabel ? ' · ' + newsLabel : ''}</div>
+        <div class="show-item-time">${s.start||'--:--'} – ${s.end||'--:--'} · ${repeatLabel} · Deck ${s.deck||'A'} · ${(s.playlist||[]).length} tracks · ${trigLabel}${newsLabel ? ' · ' + newsLabel : ''}${ttLabel ? ' · ' + ttLabel : ''}</div>
       </div>
       <button class="btn xs danger" onclick="event.stopPropagation();deleteShow(${i})">✕</button>
     </div>`;
@@ -5357,6 +5580,8 @@ function checkScheduledShows(now) {
       show._newsLastTick  = 0;
       show._wxSongCount   = 0;
       show._wxLastTick    = 0;
+      show._ttSongCount   = 0;
+      show._ttLastTick    = 0;
       show._startedAt   = now;
       show._firedHHMM   = {};
       show._adPlaying   = false;
@@ -5556,6 +5781,41 @@ function checkScheduledShows(now) {
           show._statusMsg = '\uD83D\uDCF0 News break\u2026';
           updateSchedStatus();
           newsFireFromShow(show);
+        }
+      }
+    }
+
+    // ── TRAFFIC BREAK TRIGGERS ─────────────────────────────────────────────
+    // AT-TIME: TRAFFIC BREAK
+    if (show.ttTrigger === 'time' && hhmmMatches(show.ttTime) && !show._firedHHMM['tt_' + show.ttTime]) {
+      show._firedHHMM['tt_' + show.ttTime] = true;
+      if (!show._adPlaying && !show._ovPlaying && !_newsTTSBreak && !_wxBreakActive && !_ttBreakActive) {
+        show._statusMsg = '\uD83D\uDEA6 Traffic\u2026';
+        updateSchedStatus();
+        ttFireFromShow(show);
+      }
+    }
+    // TOP OF HOUR: TRAFFIC BREAK
+    if (_isTopHour(show.ttTrigger)) {
+      var ttHourKey = 'tt_tophour_' + now.getHours();
+      if (now.getMinutes() === 0 && !show._firedHHMM[ttHourKey]) {
+        show._firedHHMM[ttHourKey] = true;
+        if (!show._adPlaying && !show._ovPlaying && !_newsTTSBreak && !_wxBreakActive && !_ttBreakActive) {
+          show._statusMsg = '\uD83D\uDEA6 Traffic\u2026';
+          updateSchedStatus();
+          ttFireFromShow(show);
+        }
+      }
+    }
+    // MINUTES: TRAFFIC BREAK
+    if (show.ttTrigger === 'minutes' && (show.ttMinutes || 0) > 0) {
+      const ttTick = Math.floor(elapsedMin / show.ttMinutes);
+      if (ttTick > 0 && ttTick > (show._ttLastTick || 0)) {
+        show._ttLastTick = ttTick;
+        if (!show._adPlaying && !show._ovPlaying && !_newsTTSBreak && !_wxBreakActive && !_ttBreakActive) {
+          show._statusMsg = '\uD83D\uDEA6 Traffic\u2026';
+          updateSchedStatus();
+          ttFireFromShow(show);
         }
       }
     }
@@ -6838,10 +7098,8 @@ requestAnimationFrame(() => {
 
 
 // ============================================================
-// NEWS MODULE -- APITube (apitube.io)
-// Free plan: 200 requests/day. 1 request per fetch.
-// Auto break every 60 min = ~24 requests/day, well within limit.
-// Auth: X-API-Key header. Endpoint: api.apitube.io/v1/news/everything
+// NEWS MODULE -- APITube (apitube.io) + Currents API
+// APITube free: 200 req/day. Currents free: 600 req/day.
 // ============================================================
 const NEWS_KEY_STORAGE   = 'eyethu_news_key';
 const NEWS_CACHE_STORAGE = 'eyethu_news_cache';
@@ -6852,7 +7110,11 @@ var _newsTTSUtter   = null;
 var _newsTickerOn   = false;
 
 (function newsInit() {
-  var saved = localStorage.getItem(NEWS_KEY_STORAGE);
+  // Fix: restore the key for whichever provider was last used, not always APITube
+  var savedProv = localStorage.getItem(NEWS_PROVIDER_KEY) || 'apitube';
+  var saved = savedProv === 'currents'
+    ? localStorage.getItem(NEWS_KEY_STORAGE + '_currents') || ''
+    : localStorage.getItem(NEWS_KEY_STORAGE) || '';
   var keyEl = document.getElementById('news-api-key');
   if (saved && keyEl) keyEl.value = saved;
   try {
@@ -6875,15 +7137,15 @@ var NEWS_PROVIDER_KEY = 'eyethu_news_provider';
 // Category option sets per provider
 var NEWS_CATEGORIES = {
   apitube: [
-    { v: '',                               l: 'All categories' },
-    { v: 'news/Business',                  l: 'Business' },
-    { v: 'news/Arts_and_Entertainment',    l: 'Entertainment' },
-    { v: 'news/Health',                    l: 'Health' },
-    { v: 'news/Politics',                  l: 'Politics' },
-    { v: 'news/Science',                   l: 'Science' },
-    { v: 'news/Sports',                    l: 'Sports' },
-    { v: 'news/Technology_and_Computing',  l: 'Technology' },
-    { v: 'news/World',                     l: 'World' }
+    { v: '',              l: 'All categories' },
+    { v: 'business',      l: 'Business' },
+    { v: 'entertainment', l: 'Entertainment' },
+    { v: 'health',        l: 'Health' },
+    { v: 'politics',      l: 'Politics' },
+    { v: 'science',       l: 'Science' },
+    { v: 'sports',        l: 'Sports' },
+    { v: 'technology',    l: 'Technology' },
+    { v: 'world',         l: 'World' }
   ],
   currents: [
     { v: '',               l: 'All categories' },
@@ -6973,58 +7235,91 @@ function newsSetStatus(dotState, msg) {
 }
 
 async function newsFetch() {
-  var keyEl = document.getElementById('news-api-key');
-  var key = (keyEl ? keyEl.value.trim() : '') || localStorage.getItem(NEWS_KEY_STORAGE) || '';
-  if (!key) { showToast('Enter your APITube API key first'); newsSetStatus('','No API key'); return; }
+  // ── Bug fixes (4 issues corrected) ───────────────────────────────────────
+  // 1. Provider read FIRST so key lookup and toast use the right name
+  // 2. country/category/count declared once (duplicate var caused shadowing)
+  // 3. Key resolved from correct provider-specific localStorage slot
+  // 4. APITube auth sent as ?api_key= query param — avoids CORS preflight
+  //    (X-API-Key custom header blocks browser fetches from non-whitelisted origins)
 
-  var country  = document.getElementById('news-country').value;
-  var category = document.getElementById('news-category').value;
-  var count    = parseInt(document.getElementById('news-count').value, 10) || 5;
-  newsSetStatus('fetching', 'Fetching headlines...');
+  var prov     = (document.getElementById('news-provider') || {}).value || 'apitube';
+  var provName = prov === 'currents' ? 'Currents API' : 'APITube';
+  var keyEl    = document.getElementById('news-api-key');
+  var key      = (keyEl ? keyEl.value.trim() : '')
+                 || (prov === 'currents'
+                     ? localStorage.getItem(NEWS_KEY_STORAGE + '_currents') || ''
+                     : localStorage.getItem(NEWS_KEY_STORAGE) || '');
+  if (!key) { showToast('Enter your ' + provName + ' API key first'); newsSetStatus('', 'No API key'); return; }
 
-  var prov    = (document.getElementById('news-provider') || {}).value || 'apitube';
-  var country = document.getElementById('news-country').value;
-  var category= document.getElementById('news-category').value;
-  var count   = parseInt(document.getElementById('news-count').value, 10) || 5;
-  // Key: use provider-specific storage
-  if (!key) {
-    key = prov === 'currents'
-      ? localStorage.getItem(NEWS_KEY_STORAGE + '_currents') || ''
-      : localStorage.getItem(NEWS_KEY_STORAGE) || '';
-  }
-  if (!key) { showToast('Enter your ' + (prov === 'currents' ? 'Currents' : 'APITube') + ' API key first'); newsSetStatus('','No API key'); return; }
+  var country  = (document.getElementById('news-country')  || {}).value || '';
+  var category = (document.getElementById('news-category') || {}).value || '';
+  var count    = parseInt((document.getElementById('news-count') || {}).value, 10) || 5;
 
-  newsSetStatus('fetching', 'Fetching headlines from ' + (prov === 'currents' ? 'Currents API' : 'APITube') + '...');
+  newsSetStatus('fetching', 'Fetching headlines from ' + provName + '...');
 
-  var apiUrl;
+  var apiUrl, fetchOpts;
   if (prov === 'currents') {
-    // Currents API — https://currentsapi.services/en/docs/
-    // Auth: apiKey= query parameter. CORS: supported for browser calls.
+    // Currents API — auth via ?apiKey= query param, CORS supported
     apiUrl = 'https://api.currentsapi.services/v1/latest-news'
       + '?apiKey='    + encodeURIComponent(key)
       + '&language=en'
       + '&page_size=' + count;
     if (country)  apiUrl += '&country='  + encodeURIComponent(country);
     if (category) apiUrl += '&category=' + encodeURIComponent(category);
+    fetchOpts = {};
   } else {
-    // APITube — correct parameter names from official docs
+    // APITube — use api_key query param to avoid CORS preflight (custom headers block browser fetches)
     apiUrl = 'https://api.apitube.io/v1/news/everything'
-      + '?api_key='      + encodeURIComponent(key)
+      + '?api_key='   + encodeURIComponent(key)
       + '&language.code=en'
-      + '&per_page='     + count
+      + '&per_page='  + count
       + '&sort.by=published_at&sort.order=desc';
     if (country)  apiUrl += '&source.country.code=' + encodeURIComponent(country);
     if (category) apiUrl += '&category.name='       + encodeURIComponent(category);
+    fetchOpts = {};
   }
 
   try {
-    var res = await fetch(apiUrl);
+    var res = await fetch(apiUrl, fetchOpts);
 
     if (!res.ok) {
       var errData = {};
       try { errData = await res.json(); } catch(e2) {}
-      var errMsg = errData.message || errData.error || ('HTTP ' + res.status);
-      newsSetStatus('', 'Error: ' + errMsg); showToast('News error: ' + errMsg); return;
+      var errMsg = errData.message || errData.error || errData.description || ('HTTP ' + res.status);
+
+      // ── Dual-provider fallback: if selected provider fails, try the other ──
+      var fallbackProv = prov === 'currents' ? 'apitube' : 'currents';
+      var fallbackKey  = fallbackProv === 'currents'
+        ? localStorage.getItem(NEWS_KEY_STORAGE + '_currents') || ''
+        : localStorage.getItem(NEWS_KEY_STORAGE) || '';
+
+      if (fallbackKey) {
+        showToast(provName + ' error — trying ' + (fallbackProv === 'currents' ? 'Currents API' : 'APITube') + '...');
+        newsSetStatus('fetching', 'Fallback: trying ' + (fallbackProv === 'currents' ? 'Currents API' : 'APITube') + '...');
+        // Re-run with the other provider temporarily
+        var origProv = prov;
+        prov = fallbackProv;
+        provName = fallbackProv === 'currents' ? 'Currents API' : 'APITube';
+        key = fallbackKey;
+        var fbUrl, fbOpts;
+        if (fallbackProv === 'currents') {
+          fbUrl = 'https://api.currentsapi.services/v1/latest-news?apiKey=' + encodeURIComponent(key) + '&language=en&page_size=' + count;
+          if (country)  fbUrl += '&country='  + encodeURIComponent(country);
+          if (category) fbUrl += '&category=' + encodeURIComponent(category);
+          fbOpts = {};
+        } else {
+          fbUrl = 'https://api.apitube.io/v1/news/everything?api_key=' + encodeURIComponent(key) + '&language.code=en&per_page=' + count + '&sort.by=published_at&sort.order=desc';
+          if (country)  fbUrl += '&source.country.code=' + encodeURIComponent(country);
+          if (category) fbUrl += '&category.name='       + encodeURIComponent(category);
+          fbOpts = {};
+        }
+        res = await fetch(fbUrl, fbOpts);
+        if (!res.ok) {
+          newsSetStatus('', 'Error: both providers failed'); showToast('News fetch failed: ' + errMsg); return;
+        }
+      } else {
+        newsSetStatus('', 'Error: ' + errMsg); showToast('News error: ' + errMsg); return;
+      }
     }
 
     var data = await res.json();
@@ -7043,11 +7338,20 @@ async function newsFetch() {
       .filter(function(a) { return a.title && a.title.length > 5; })
       .slice(0, count)
       .map(function(a) {
+        // Currents API fields: title, description, author, published, category (array)
+        // APITube fields:      title, description, source.name, published_at
+        var sourceId = '';
+        if (prov === 'currents') {
+          sourceId = a.author || '';
+        } else {
+          sourceId = (a.source && (a.source.name || a.source.id)) || a.source_id || a.author || '';
+        }
+        var pubDate = a.published_at || a.published || a.pubDate || '';
         return {
           title:       a.title       || '',
           description: a.description || a.summary || '',
-          source_id:   (a.source && (a.source.name || a.source.id)) || a.source_id || a.author || '',
-          pubDate:     a.published_at || a.published || a.pubDate || ''
+          source_id:   sourceId,
+          pubDate:     pubDate
         };
       });
 
@@ -7194,6 +7498,7 @@ var _newsAutoTimer     = null;
 var _newsAutoOn        = false;
 var _newsLastBreakAt   = 0;    // timestamp of last break end
 var _newsXIAbort       = null; // AbortController for in-flight ElevenLabs fetch
+var _smPrefetch        = null; // { text, voice, promise } — pre-fetched SM blob during fade/jingle
 var _wxWillFollowNews  = false; // true when weather is queued to fire immediately after news — suppresses song start in newsEndBreak
 var _ttWillFollowWx    = false; // true when traffic is queued to fire immediately after weather — suppresses song start in wxEndBreak
 
@@ -7326,6 +7631,226 @@ function newsUpdateAutoStatus(msg) {
 }
 
 // ── ElevenLabs key/voice helpers ────────────────────────────────────────
+// ── Speechmatics TTS ─────────────────────────────────────────────────────
+var SM_KEY_STORAGE   = 'eyethu_sm_key';
+var SM_VOICE_STORAGE = 'eyethu_sm_voice';
+
+(function smInit() {
+  var k = localStorage.getItem(SM_KEY_STORAGE);
+  var v = localStorage.getItem(SM_VOICE_STORAGE);
+  var kEl = document.getElementById('sm-api-key');
+  var vEl = document.getElementById('sm-voice');
+  if (k && kEl) kEl.value = k;
+  if (v && vEl) vEl.value = v;
+})();
+
+function smSaveKey() {
+  var k = (document.getElementById('sm-api-key').value || '').trim();
+  if (!k) { showToast('Enter your Speechmatics API key'); return; }
+  localStorage.setItem(SM_KEY_STORAGE, k);
+  var v = (document.getElementById('sm-voice') || {}).value || 'sarah';
+  localStorage.setItem(SM_VOICE_STORAGE, v);
+  showToast('Speechmatics key saved — will be used as primary TTS engine');
+}
+
+function smGetKey() {
+  return (document.getElementById('sm-api-key') || {}).value
+         ? (document.getElementById('sm-api-key').value || '').trim()
+         : localStorage.getItem(SM_KEY_STORAGE) || '';
+}
+
+function smGetVoice() {
+  var el = document.getElementById('sm-voice');
+  return (el && el.value) || localStorage.getItem(SM_VOICE_STORAGE) || 'sarah';
+}
+
+async function smTestVoice() {
+  var k = smGetKey();
+  if (!k) { showToast('Enter your Speechmatics API key first'); return; }
+  initAudio();
+  if (actx && actx.state === 'suspended') actx.resume();
+  showToast('Testing Speechmatics voice...');
+  try {
+    await speechmaticsSpeak('Good ' + _timeOfDay() + '... this is ' + getStationName() + '. Speechmatics TTS is working.');
+    showToast('Speechmatics voice test complete');
+  } catch(e) { showToast('Speechmatics error: ' + e.message); }
+}
+
+// ── smFetchSegment — fire one SM fetch, return a blobUrl promise ─────────────
+function smFetchSegment(text, key, voice) {
+  var abortCtrl = new AbortController();
+  var tid = setTimeout(function() { try { abortCtrl.abort(); } catch(e) {} }, 15000);
+  return fetch('https://preview.tts.speechmatics.com/generate/' + encodeURIComponent(voice), {
+    method: 'POST',
+    signal: abortCtrl.signal,
+    headers: { 'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text: text })
+  })
+  .finally(function() { clearTimeout(tid); })
+  .then(function(res) {
+    if (!res.ok) return res.text().then(function(body) {
+      var p; try { p = JSON.parse(body); } catch(e) {}
+      throw new Error((p && (p.detail || p.message || p.error)) || ('Speechmatics error ' + res.status));
+    });
+    return res.blob().then(function(blob) { return URL.createObjectURL(blob); });
+  });
+}
+
+// ── smPrefetchScript — kept for single-text callers (weather/traffic) ─────────
+// For news use smPrefetchSegments() instead — fires all segments in parallel.
+function smPrefetchScript(text) {
+  var key = smGetKey();
+  if (!key || !text) return;
+  var voice = smGetVoice();
+  _smPrefetch = { text: text, voice: voice, promise: smFetchSegment(text, key, voice) };
+  console.log('[SM] Single prefetch started for', text.length, 'chars');
+}
+
+// ── smPrefetchSegments — fire ALL segments in parallel RIGHT NOW ───────────────
+// Each segment is ~100-150 chars (~5-8s audio). Speechmatics generates them
+// concurrently so the first segment is ready in ~2s, not 60s for the whole script.
+function smPrefetchSegments(segments) {
+  var key = smGetKey();
+  if (!key || !segments || !segments.length) return;
+  var voice = smGetVoice();
+  _smPrefetch = {
+    segments: segments.map(function(text) {
+      return { text: text, promise: smFetchSegment(text, key, voice) };
+    }),
+    voice: voice
+  };
+  console.log('[SM] Parallel prefetch started for', segments.length, 'segments');
+}
+
+// ── smPlayPrefetchedSegments — play each segment in order as blobs resolve ────
+// If _smPrefetch has segments matching, plays them sequentially.
+// Falls back to single ttsSpeak per segment if no prefetch available.
+async function smPlayPrefetchedSegments(segments) {
+  var key = smGetKey();
+  if (!key) return false;
+  var voice = smGetVoice();
+
+  // Check if we have matching prefetched segments
+  var cache = _smPrefetch;
+  var hasPrefetch = cache && cache.segments &&
+    cache.voice === voice &&
+    cache.segments.length === segments.length &&
+    cache.segments.every(function(s, i) { return s.text === segments[i]; });
+
+  if (!hasPrefetch) {
+    // No matching prefetch — fire parallel fetches now
+    smPrefetchSegments(segments);
+    cache = _smPrefetch;
+  }
+
+  _smPrefetch = null; // consume
+
+  for (var i = 0; i < cache.segments.length; i++) {
+    var seg = cache.segments[i];
+    try {
+      var blobUrl = await seg.promise;
+      _ttsCacheStore('sm|' + voice + '|' + seg.text, blobUrl);
+      await new Promise(function(resolve) {
+        var audio = new Audio(blobUrl);
+        if (actx && fixedTrim) {
+          try {
+            var src = actx.createMediaElementSource(audio);
+            src.connect(fixedTrim);
+            audio.onended = function() { try { src.disconnect(); } catch(e){} URL.revokeObjectURL(blobUrl); resolve(); };
+            audio.onerror = function() { try { src.disconnect(); } catch(e){} URL.revokeObjectURL(blobUrl); resolve(); };
+          } catch(e) {
+            audio.onended = function() { URL.revokeObjectURL(blobUrl); resolve(); };
+            audio.onerror = function() { URL.revokeObjectURL(blobUrl); resolve(); };
+          }
+        } else {
+          audio.onended = function() { URL.revokeObjectURL(blobUrl); resolve(); };
+          audio.onerror = function() { URL.revokeObjectURL(blobUrl); resolve(); };
+        }
+        audio.play().catch(function() { URL.revokeObjectURL(blobUrl); resolve(); });
+      });
+    } catch(e) {
+      console.warn('[SM] Segment', i, 'failed:', e.message);
+      // Fall back to ttsSpeak for this segment only
+      try { await ttsSpeak(seg.text, xiGetVoiceId(), xiGetModel()); } catch(e2) {}
+    }
+  }
+  return true;
+}
+
+// ── speechmaticsSpeak — Speechmatics TTS API ─────────────────────────────
+// Endpoint: https://preview.tts.speechmatics.com/generate/<voice_id>
+// Auth: Authorization: Bearer YOUR_KEY
+// Returns: audio/wav binary → blob → play through DSP chain
+// Docs: https://docs.speechmatics.com/text-to-speech/quickstart
+function speechmaticsSpeak(text) {
+  var key   = smGetKey();
+  if (!key) return Promise.reject(new Error('No Speechmatics API key'));
+  var voice = smGetVoice(); // e.g. 'sarah', 'theo', 'megan', 'jack'
+
+  // ── Use pre-fetched blob if smPrefetchScript() fired it during fade/jingle ──
+  // This eliminates the cold-start wait — the blob is already downloaded.
+  var blobPromise = null;
+  if (_smPrefetch && _smPrefetch.text === text && _smPrefetch.voice === voice) {
+    console.log('[SM] Using pre-fetched blob — zero wait');
+    blobPromise = _smPrefetch.promise;
+    _smPrefetch = null; // consume
+  } else {
+    // Normal path — start fetch now (no prefetch available)
+    var abortCtrl = new AbortController();
+    _newsXIAbort = abortCtrl;
+    var _smTimeoutId = setTimeout(function() {
+      try { abortCtrl.abort(); } catch(e) {}
+    }, 15000);
+    blobPromise = fetch('https://preview.tts.speechmatics.com/generate/' + encodeURIComponent(voice), {
+      method: 'POST',
+      signal: abortCtrl.signal,
+      headers: { 'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: text })
+    })
+    .finally(function() { clearTimeout(_smTimeoutId); })
+    .then(function(res) {
+      if (!res.ok) {
+        return res.text().then(function(body) {
+          var msg;
+          try { var p = JSON.parse(body); msg = p.detail || p.message || p.error || ('Speechmatics error ' + res.status); }
+          catch(e) { msg = body.slice(0, 200) || ('Speechmatics error ' + res.status); }
+          if (res.status === 401) msg = 'Invalid Speechmatics API key — check your key';
+          if (res.status === 402) msg = 'Speechmatics quota exceeded — check your plan';
+          if (res.status === 429) msg = 'Speechmatics rate limit hit — try again shortly';
+          if (res.status === 0 || msg.includes('abort') || msg.includes('network')) msg = 'Speechmatics timeout — falling back to next engine';
+          throw new Error(msg);
+        });
+      }
+      return res.blob().then(function(blob) { return URL.createObjectURL(blob); });
+    });
+  }
+
+  return blobPromise.then(function(blobUrl) {
+    _ttsCacheStore('sm|' + voice + '|' + text, blobUrl);
+    return new Promise(function(resolve, reject) {
+      var audio = new Audio(blobUrl);
+      if (actx && fixedTrim) {
+        try {
+          var src = actx.createMediaElementSource(audio);
+          src.connect(fixedTrim);
+          audio.onended = function() { try { src.disconnect(); } catch(e){} URL.revokeObjectURL(blobUrl); resolve(); };
+          audio.onerror = function() { try { src.disconnect(); } catch(e){} URL.revokeObjectURL(blobUrl); resolve(); };
+        } catch(e) {
+          audio.onended = function() { URL.revokeObjectURL(blobUrl); resolve(); };
+          audio.onerror = function() { URL.revokeObjectURL(blobUrl); resolve(); };
+        }
+      } else {
+        audio.onended = function() { URL.revokeObjectURL(blobUrl); resolve(); };
+        audio.onerror = function() { URL.revokeObjectURL(blobUrl); resolve(); };
+      }
+      audio.play().catch(function(e) { URL.revokeObjectURL(blobUrl); resolve(); });
+    });
+  });
+}
+
+
+
+// ─────────────────────────────────────────────────────────────────────────
 var XI_KEY_STORAGE        = 'eyethu_xi_key';
 var GOOGLE_TTS_KEY_STORAGE = 'eyethu_google_tts_key';
 var XI_VOICE_STORAGE = 'eyethu_xi_voice';
@@ -7452,50 +7977,70 @@ function presenterGetIntro(stationName, presenterName, lang) {
 
 function presenterFormatNews(newsItems, lang) {
   if (!newsItems || !newsItems.length) return '';
-  var LEADS = [
-    'Our top story this hour...',
-    'Also in the news...',
-    'In other news...',
-    'And there is more...',
-    'And finally...'
+  var LEADS_ZU = ['Izindaba zethu zangaleli...','Futhi ezindabeni...','Okunye okusha...','Kukhona okuningi...','Lokho okugcineni...'];
+  if (lang === 'zu') {
+    return newsItems.map(function(item, idx) {
+      return LEADS_ZU[Math.min(idx, LEADS_ZU.length-1)] + ' ' + item.headline + '.';
+    }).join(' ');
+  }
+
+  // _consume: pick one item from pool, remove it so it cannot be reused in this break
+  function _consume(pool) {
+    if (!pool.length) return '';
+    var i = Math.floor(Math.random() * pool.length);
+    return pool.splice(i, 1)[0];
+  }
+
+  // Pools — items are spliced out as used, preventing any repeat within one break
+  var STORY_LEADS_POOL = [
+    'Starting with our top story,',
+    'The story leading our coverage this hour,',
+    'Our lead story tonight,',
+    'Also in the news,',
+    'Turning to our next story,',
+    'In other developments,',
+    'And in other news,',
+    'Moving on now,',
+    'There is also this,',
+    'Worth keeping an eye on,',
+    'And across the country,',
+    'One more story before we go,',
+    'And finally this hour,'
   ];
-  var LEADS_ZU = [
-    'Indaba yethu enkulu...',
-    'Futhi ezindabeni...',
-    'Kwamanye amakheli...',
-    'Kukhona okunye...',
-    'Lokho okugcineni...'
+
+  // Sentence structures — varies HOW the headline is presented, not just the lead-in
+  var STRUCTURES = [
+    function(lead, h, d) {
+      // Classic broadcast: Lead. Headline. Detail.
+      return lead + ' ' + h + (d ? ' ' + d : '') + '.';
+    },
+    function(lead, h, d) {
+      // Detail first, then headline as context
+      return lead + (d ? ' ' + d + '. This comes as ' + h.toLowerCase() : ' ' + h) + '.';
+    },
+    function(lead, h, d) {
+      // Headline framed as developing story
+      return lead + ' reports that ' + h.toLowerCase() + (d ? '. ' + d : '') + '.';
+    },
+    function(lead, h, d) {
+      // Direct statement style
+      return lead + ' ' + h + (d ? '. Details are emerging that ' + d.toLowerCase().replace(/\.$/, '') : '') + '.';
+    }
   ];
-  var leads = lang === 'zu' ? LEADS_ZU : LEADS;
+
   var lines = newsItems.map(function(item, idx) {
-    var lead = leads[Math.min(idx, leads.length - 1)];
-    var title = item.headline;
-    var extra = item.detail ? ' ' + item.detail + '.' : '';
-    return lead + ' ' + title + '.' + extra;
+    var lead  = STORY_LEADS_POOL.length ? _consume(STORY_LEADS_POOL) : 'And,';
+    var h     = (item.headline || '').trim().replace(/\.$/, '');
+    var d     = (item.detail   || '').trim().replace(/\.$/, '');
+    // First headline always uses classic structure for authority
+    var struct = idx === 0 ? STRUCTURES[0] : STRUCTURES[Math.floor(Math.random() * STRUCTURES.length)];
+    return struct(lead, h, d);
   });
   return lines.join(' ');
 }
 
 function presenterFormatWeather(weatherItems, lang) {
   if (!weatherItems || !weatherItems.length) return '';
-
-  function _wxCondPhrase(d, t, u) {
-    d = (d || 'clear').toLowerCase();
-    if (d.includes('thunderstorm')) return 'a thunderstorm rolling in, at ' + t + ' ' + u;
-    if (d.includes('drizzle'))      return 'light drizzle, sitting at ' + t + ' ' + u;
-    if (d.includes('heavy rain'))   return 'heavy rain, at ' + t + ' ' + u;
-    if (d.includes('rain'))         return "some rain coming down, around " + t + ' ' + u;
-    if (d.includes('snow'))         return 'snowing, at ' + t + ' ' + u;
-    if (d.includes('mist') || d.includes('fog') || d.includes('haze'))
-                                    return 'misty and overcast, at ' + t + ' ' + u;
-    if (d.includes('overcast'))     return 'overcast, at ' + t + ' ' + u;
-    if (d.includes('broken') || d.includes('scattered')) return 'partly cloudy, at ' + t + ' ' + u;
-    if (d.includes('few clouds'))   return 'mostly clear, a nice ' + t + ' ' + u;
-    if (d.includes('clear') || d.includes('sunny')) return 'clear skies and a beautiful ' + t + ' ' + u;
-    return d + ', at ' + t + ' ' + u;
-  }
-
-  var CONNECTORS = ['', 'Moving over to ', 'Heading to ', 'And in ', 'And over in '];
 
   if (lang === 'zu') {
     var zuLines = weatherItems.map(function(w) {
@@ -7504,15 +8049,88 @@ function presenterFormatWeather(weatherItems, lang) {
     return 'Isimo sezulu... ' + zuLines.join(' ');
   }
 
+  // _consume: pick and remove so no phrase repeats across cities in one break
+  function _consume(pool) {
+    if (!pool.length) return null;
+    var i = Math.floor(Math.random() * pool.length);
+    return pool.splice(i, 1)[0];
+  }
+
+  // Condition phrase pools — spliced as used, so city 2 never repeats city 1's phrasing
+  var COND_POOLS = {
+    thunderstorm: ['Thunderstorms are rolling through','A severe thunderstorm is in the area','Very unsettled conditions with heavy thunder'],
+    drizzle:      ['A light drizzle is falling','Just some light misty rain','A bit of drizzle to be aware of'],
+    heavyrain:    ['Heavy rain is falling','Quite a downpour underway','Significant rainfall at the moment'],
+    rain:         ['Some rain to contend with','A wet picture today','Rain is falling steadily'],
+    snow:         ['Snow is settling on the ground','Wintry conditions with snowfall','Ice and snow affecting the area'],
+    mist:         ['Patchy mist and low visibility','Foggy conditions early on','A hazy start with mist around'],
+    overcast:     ['Grey and overcast today','Thick cloud cover with no sunshine','Dull skies with no breaks in the cloud'],
+    cloudy:       ['Partly cloudy with some breaks of sun','A fair amount of cloud around','Mostly cloudy but staying dry'],
+    mostlyclear:  ['Largely sunny with a little high cloud','Mostly bright with just a few clouds','Near-perfect conditions today'],
+    clear:        ['Glorious sunshine and clear skies','A beautiful sunny day','Bright and clear with plenty of sunshine']
+  };
+
+  // Temperature phrasing — varied so each city reads differently
+  var TEMP_PHRASES = [
+    function(t, u) { return 'temperatures sitting at ' + t + ' ' + u; },
+    function(t, u) { return 'the mercury at ' + t + ' ' + u; },
+    function(t, u) { return 'a temperature of ' + t + ' ' + u; },
+    function(t, u) { return t + ' ' + u + ' on the thermometer'; },
+    function(t, u) { return 'feeling around ' + t + ' ' + u; }
+  ];
+  var tempPool = TEMP_PHRASES.slice(); // copy so we can splice
+
+  // Humidity phrasing — pick once, splice so never repeats
+  var HUMIDITY_PHRASES = [
+    function(h) { return 'Humidity is sitting at ' + h + ' percent, so it will feel quite sticky.'; },
+    function(h) { return 'With ' + h + ' percent humidity, it is going to feel warmer than the temperature suggests.'; },
+    function(h) { return 'Moisture levels are elevated at ' + h + ' percent.'; }
+  ];
+  // Wind phrasing — similarly pooled
+  var WIND_PHRASES = [
+    function(w) { return 'Gusty winds of ' + w + ' kilometres per hour, so brace yourself.'; },
+    function(w) { return 'Winds are picking up at ' + w + ' kilometres an hour.'; },
+    function(w) { return 'Strong ' + w + ' kilometre per hour winds are expected.'; }
+  ];
+  var humPool  = HUMIDITY_PHRASES.slice();
+  var windPool = WIND_PHRASES.slice();
+
+  // City connectors — consumed so no repetition
+  var CONNECTOR_POOL = [
+    'Crossing over to ', 'Further along, in ', 'And in ', 'Moving over to ', 'And over in ', 'Also in '
+  ];
+
+  function _getCondPool(d) {
+    d = (d || 'clear').toLowerCase();
+    if (d.includes('thunderstorm'))                            return COND_POOLS.thunderstorm;
+    if (d.includes('drizzle'))                                 return COND_POOLS.drizzle;
+    if (d.includes('heavy rain'))                              return COND_POOLS.heavyrain;
+    if (d.includes('rain'))                                    return COND_POOLS.rain;
+    if (d.includes('snow'))                                    return COND_POOLS.snow;
+    if (d.includes('mist') || d.includes('fog') || d.includes('haze')) return COND_POOLS.mist;
+    if (d.includes('overcast'))                                return COND_POOLS.overcast;
+    if (d.includes('broken') || d.includes('scattered'))       return COND_POOLS.cloudy;
+    if (d.includes('few clouds'))                              return COND_POOLS.mostlyclear;
+    return COND_POOLS.clear;
+  }
+
   var lines = weatherItems.map(function(w, idx) {
-    var conn = CONNECTORS[Math.min(idx, CONNECTORS.length - 1)];
-    var phrase = _wxCondPhrase(w.condition, w.temp, w.unit);
+    var condPool  = _getCondPool(w.condition);
+    var condText  = _consume(condPool) || condPool[0]; // fallback if pool exhausted
+    var tempFn    = _consume(tempPool) || TEMP_PHRASES[0];
+    var tempText  = tempFn(w.temp, w.unit);
+    var connector = idx === 0 ? '' : (_consume(CONNECTOR_POOL) || 'And in ');
+
     var extra = '';
-    if (w.humidity && w.humidity > 70) extra = ' Humidity at ' + w.humidity + ' percent.';
-    else if (w.wind && w.wind > 30)    extra = ' Winds at ' + w.wind + ' kilometres per hour.';
-    return conn + w.city + '... ' + phrase + '.' + extra;
+    if (w.humidity && w.humidity > 72 && humPool.length) {
+      extra = ' ' + _consume(humPool)(w.humidity);
+    } else if (w.wind && w.wind > 28 && windPool.length) {
+      extra = ' ' + _consume(windPool)(w.wind);
+    }
+
+    return connector + w.city + ', ' + condText.toLowerCase() + ', with ' + tempText + '.' + extra;
   });
-  return 'Now, your weather... ' + lines.join(' ');
+  return lines.join(' ');
 }
 
 function presenterFormatTraffic(trafficItems, lang) {
@@ -7522,20 +8140,69 @@ function presenterFormatTraffic(trafficItems, lang) {
   if (trafficItems[0] && trafficItems[0].manual) {
     var t = trafficItems[0];
     if (lang === 'zu') return 'Ezindleleni... kune ' + t.status + ' ku ' + t.road + ', ukubambezeleka kungaba imizuzu engu ' + t.delay + '.';
-    return 'And on the roads... ' + t.status + ' on the ' + t.road + (t.delay ? ', with delays of around ' + t.delay + ' minutes' : '') + '.';
+    var delayText = t.delay ? ', with delays of around ' + t.delay + ' minutes, so allow some extra time' : '';
+    return 'On the ' + t.road + ', we have ' + t.status.toLowerCase() + delayText + '.';
   }
 
-  // Live TomTom data — reuse ttBuildScript which already generates natural sentences
-  // but strip the intro/outro since the presenter wraps those
   var incidents = trafficItems.filter(function(x){ return x.incident; });
   var flowOnly  = trafficItems.filter(function(x){ return x.flow && !x.incident; });
 
   if (!incidents.length && !flowOnly.length) return '';
 
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
   var parts = [];
 
   if (!incidents.length) {
-    parts.push('Good news on the roads... all monitored routes are flowing freely.');
+    var CLEAR_MSGS = [
+      'Good news for commuters this hour, all monitored roads are flowing freely.',
+      'The roads are looking good right now, no major incidents to report.',
+      'All clear on the roads, traffic is moving well across the network.'
+    ];
+    parts.push(pick(CLEAR_MSGS));
+  }
+
+  // Closing phrase pools per incident type — consumed so no phrase repeats in one report
+  var CLOSURE_CLOSES = [
+    'Best to find an alternative route if you can.',
+    'Motorists are advised to divert and allow extra time.',
+    'Please use a different route and plan ahead.'
+  ];
+  var ACCIDENT_CLOSES_DELAY = [
+    function(d) { return 'Expect delays of around ' + d + ' minutes in the area.'; },
+    function(d) { return 'You could be looking at an extra ' + d + ' minutes on your journey.'; },
+    function(d) { return 'Emergency services are on scene, adding about ' + d + ' minutes to travel times.'; }
+  ];
+  var ACCIDENT_CLOSES_NODELAY = [
+    'Emergency services are dealing with the incident.',
+    'Slow down and give way to emergency vehicles in the area.',
+    'Caution is advised as crews work to clear the scene.'
+  ];
+  var JAM_CLOSES_DELAY = [
+    function(d) { return 'You could face delays of about ' + d + ' minutes, so leave a little earlier.'; },
+    function(d) { return 'Add roughly ' + d + ' minutes to your travel time through that stretch.'; },
+    function(d) { return 'Expect to sit in traffic for around ' + d + ' minutes there.'; }
+  ];
+  var JAM_CLOSES_NODELAY = [
+    'Allow extra time through that stretch.',
+    'Traffic is backed up, so be patient and leave more time.',
+    'Queues are forming, so factor in some extra travel time.'
+  ];
+  var WORKS_CLOSES = [
+    'A lane is reduced, so slow down and allow extra time through the zone.',
+    'Be patient through the roadworks section — speed restrictions are in place.',
+    'Expect some queuing through the works area.'
+  ];
+  var GENERAL_CLOSES = [
+    'Use caution in the area.',
+    'Slow down as you pass through.',
+    'Drivers are asked to take care near the scene.'
+  ];
+
+  function _consumeClose(pool) {
+    if (!pool.length) return '';
+    var i = Math.floor(Math.random() * pool.length);
+    return pool.splice(i, 1)[0];
   }
 
   incidents.forEach(function(item, idx) {
@@ -7546,26 +8213,55 @@ function presenterFormatTraffic(trafficItems, lang) {
     var to = p.to || '';
     var roads = (p.roadNumbers && p.roadNumbers.length) ? 'the ' + p.roadNumbers.join(' and ') : 'near ' + item.road;
     var desc = (p.events && p.events[0] && p.events[0].description) ? p.events[0].description : '';
-    var prefix = idx === 0 ? 'On the roads... ' : 'Also, ';
+    var isFirst = idx === 0;
+
+    // Lead-in pools consumed per incident so consecutive incidents don't open identically
+    var FIRST_LEADS = ['Watch out on ','We are monitoring an incident on ','Commuters should note problems on ','Heads up — trouble on '];
+    var NEXT_LEADS  = ['Also on our radar, ','And further along, ','Another situation to watch — ','We are also tracking problems on '];
 
     var line;
     if (cat === 8) {
-      line = prefix + 'a road closure ' + roads + (from ? ', from ' + from + (to ? ' to ' + to : '') : '') + '. Use an alternative route.';
+      line = (isFirst ? pick(FIRST_LEADS) : pick(NEXT_LEADS)) + roads;
+      if (from) line += ', between ' + from + (to ? ' and ' + to : '');
+      line += ' — the road is closed. ' + _consumeClose(CLOSURE_CLOSES);
     } else if (cat === 1) {
-      line = prefix + 'an accident ' + roads + (from ? ' between ' + from + (to ? ' and ' + to : '') : '') + (delay ? ', causing about ' + delay + ' minutes delay' : '') + '.';
+      line = (isFirst ? 'There has been an accident on ' : 'An accident is also reported on ') + roads;
+      if (from) line += ' between ' + from + (to ? ' and ' + to : '');
+      line += '. ';
+      if (delay > 0 && ACCIDENT_CLOSES_DELAY.length) {
+        line += _consumeClose(ACCIDENT_CLOSES_DELAY)(delay);
+      } else {
+        line += _consumeClose(ACCIDENT_CLOSES_NODELAY);
+      }
     } else if (cat === 6) {
-      line = prefix + 'heavy congestion ' + roads + (from ? ' from ' + from + (to ? ' towards ' + to : '') : '') + (delay ? ', expect ' + delay + ' minutes' : '') + '.';
+      line = (isFirst ? 'Heavy congestion on ' : 'Queues are also building on ') + roads;
+      if (from) line += ' between ' + from + (to ? ' and ' + to : '');
+      line += '. ';
+      if (delay > 0 && JAM_CLOSES_DELAY.length) {
+        line += _consumeClose(JAM_CLOSES_DELAY)(delay);
+      } else {
+        line += _consumeClose(JAM_CLOSES_NODELAY);
+      }
     } else if (cat === 9) {
-      line = prefix + 'road works ' + roads + (from ? ' near ' + from : '') + '. Allow extra time.';
+      line = 'Road works on ' + roads;
+      if (from) line += ' near ' + from;
+      line += '. ' + _consumeClose(WORKS_CLOSES);
     } else {
-      line = prefix + (desc || 'an incident') + ' reported ' + roads + (delay ? ', adding about ' + delay + ' minutes' : '') + '.';
+      line = (isFirst ? 'An incident on ' : 'Also, an incident reported on ') + roads;
+      if (desc) line += ' — ' + desc.toLowerCase();
+      line += '. ' + _consumeClose(GENERAL_CLOSES);
     }
     parts.push(line);
   });
 
   if (flowOnly.length && incidents.length) {
     var clearList = flowOnly.map(function(x){ return x.road; }).join(' and ');
-    parts.push('The good news... ' + clearList + ' ' + (flowOnly.length > 1 ? 'are' : 'is') + ' clear.');
+    var GOOD_NEWS = [
+      'On the brighter side, ' + clearList + ' ' + (flowOnly.length > 1 ? 'are' : 'is') + ' running smoothly.',
+      'The ' + clearList + (flowOnly.length > 1 ? ' are' : ' is') + ' all clear, no issues to report there.',
+      'Good news though, ' + clearList + ' ' + (flowOnly.length > 1 ? 'are' : 'is') + ' flowing freely.'
+    ];
+    parts.push(pick(GOOD_NEWS));
   }
 
   if (lang === 'zu') return 'Ezindleleni... ' + parts.join(' ');
@@ -7590,7 +8286,6 @@ function presenterApplyPersonality(text, personality) {
 function presenterEnhanceSpeech(text) {
   // Fix: replace ... with comma — natural short pause, no dead air
   return text.replace(/\.\.\.+\s*/g, ', ').replace(/\s{2,}/g, ' ').trim();
-}/g, ' ').replace(/\.\.\. /g, '... ').trim();
 }
 
 // Lightweight settings reader used by ALL break scripts (news, weather, traffic).
@@ -7842,7 +8537,9 @@ function _ttsCacheStore(cacheKey, blobUrl) {
 
 // Drop-in for ttsSpeak — replays cached blob at zero API cost when available.
 async function ttsSpeakCached(text, voiceId, modelId) {
-  var cacheKey = (voiceId || '') + '|' + text;
+  // Cache key includes SM voice if Speechmatics is active, otherwise uses XI voiceId
+  var smKey = smGetKey();
+  var cacheKey = smKey ? ('sm|' + smGetVoice() + '|' + text) : ((voiceId || '') + '|' + text);
   if (_ttsCache[cacheKey]) {
     return new Promise(function(resolve) {
       var audio = new Audio(_ttsCache[cacheKey]);
@@ -7861,8 +8558,26 @@ async function ttsSpeakCached(text, voiceId, modelId) {
   return ttsSpeak(text, voiceId, modelId);
 }
 
+// ── Unified TTS priority chain ───────────────────────────────────────────
+// Priority: Speechmatics → ElevenLabs → Google Cloud TTS → Web Speech API
+// Each engine only fires if its key is present.
+// On failure the next engine in the chain is tried automatically.
+// All engines route audio through the DSP chain (broadcast processing).
 async function ttsSpeak(text, voiceId, modelId) {
-  // 1. Try ElevenLabs
+
+  // ── 1. Speechmatics (primary — best quality, lowest latency) ─────────
+  var smKey = smGetKey();
+  if (smKey) {
+    try {
+      await speechmaticsSpeak(text);
+      return;
+    } catch(e) {
+      console.warn('[TTS] Speechmatics failed:', e.message);
+      showToast('⚠ Speechmatics: ' + e.message + ' — trying ElevenLabs');
+    }
+  }
+
+  // ── 2. ElevenLabs ────────────────────────────────────────────────────
   var xiKey = (document.getElementById('xi-api-key').value || '').trim() || localStorage.getItem(XI_KEY_STORAGE) || '';
   if (xiKey) {
     try {
@@ -7870,27 +8585,24 @@ async function ttsSpeak(text, voiceId, modelId) {
       return;
     } catch(e) {
       console.warn('[TTS] ElevenLabs failed:', e.message);
-      // Show the actual error (key issue, quota, server error, etc.)
       var gKey2 = (document.getElementById('google-tts-key').value || '').trim() || localStorage.getItem(GOOGLE_TTS_KEY_STORAGE) || '';
-      if (gKey2) {
-        showToast('⚠ ElevenLabs: ' + e.message + ' — switching to Google TTS');
-      } else {
-        showToast('⚠ ElevenLabs: ' + e.message + ' — using browser voice');
-      }
+      showToast('⚠ ElevenLabs: ' + e.message + ' — ' + (gKey2 ? 'trying Google TTS' : 'using browser voice'));
     }
   }
-  // 2. Try Google Cloud TTS
+
+  // ── 3. Google Cloud TTS ───────────────────────────────────────────────
   var gKey = (document.getElementById('google-tts-key').value || '').trim() || localStorage.getItem(GOOGLE_TTS_KEY_STORAGE) || '';
   if (gKey) {
     try {
       await googleSpeak(text);
       return;
     } catch(e) {
-      console.warn('[TTS] Google TTS failed:', e.message, '— falling back to Web Speech');
+      console.warn('[TTS] Google TTS failed:', e.message);
       showToast('⚠ Google TTS: ' + e.message + ' — using browser voice');
     }
   }
-  // 3. Web Speech API fallback (no key needed)
+
+  // ── 4. Web Speech API (no key needed — always available) ──────────────
   await webSpeechSpeak(text);
 }
 
@@ -7901,7 +8613,8 @@ function newsCheckHideSetup() {
     ? localStorage.getItem(NEWS_KEY_STORAGE + '_currents')
     : localStorage.getItem(NEWS_KEY_STORAGE);
   var xk = localStorage.getItem(XI_KEY_STORAGE);
-  if (!nk || !xk) return;
+  var smk = localStorage.getItem(SM_KEY_STORAGE);
+  if (!nk || (!xk && !smk)) return; // accept either SM or XI key
   var body = document.getElementById('news-setup-body');
   var arr  = document.getElementById('news-setup-body-arr');
   var card = document.getElementById('news-setup-card');
@@ -8077,7 +8790,8 @@ async function newsStartBreak() {
   if (_newsTTSBreak) { showToast('News break already in progress'); return; }  // guard — never stop a running break
   var _ttsXiKey     = (document.getElementById('xi-api-key').value    || '').trim() || localStorage.getItem(XI_KEY_STORAGE) || '';
   var _ttsGoogleKey  = (document.getElementById('google-tts-key').value || '').trim() || localStorage.getItem(GOOGLE_TTS_KEY_STORAGE) || '';
-  if (!_ttsXiKey && !_ttsGoogleKey) { showToast('Enter an ElevenLabs or Google TTS key first'); return; }
+  var _ttsSmKey = smGetKey();
+  if (!_ttsSmKey && !_ttsXiKey && !_ttsGoogleKey) { showToast('Enter a Speechmatics, ElevenLabs or Google TTS key first'); return; }
 
   initAudio();
   if (actx && actx.state === 'suspended') actx.resume();
@@ -8088,6 +8802,52 @@ async function newsStartBreak() {
   var stateEl = document.getElementById('news-tts-state');
   if (bar) bar.style.display = '';
   if (btn) btn.style.display = 'none';
+
+  // ── PRE-BUILD SCRIPT + PREFETCH — fires SM fetch NOW during fade/jingle ──
+  // Speechmatics cold-start is 5–10s. By firing the fetch here we hide that
+  // latency inside the 5s music fade + jingle. Audio is ready when needed.
+  var _prePs = presenterGetSettings();
+  var _preArticles = _newsArticles.slice(0, 5);
+  var _preLEAD_INS = ['Our top story this hour...','Also in the news...','In other news...','And there is more...','And finally...'];
+  function _preClean(t) { return t.trim().replace(/\.{2,}$/,'').replace(/\.$/, '').replace(/\s{2,}/g,' '); }
+  function _preFirst(desc) {
+    if (!desc) return '';
+    var s = desc.split(/\.\s+/)[0].trim();
+    if (!s || s.length < 12) return '';
+    if (s.length > 140) s = s.substring(0, 140).replace(/\s\S+$/, '');
+    return s + '.';
+  }
+  var _stn = _prePs.station;
+  var _nm  = _prePs.withName;
+  var _tod = _timeOfDay();
+  var _newsIntros = [
+    'Good ' + _tod + _nm + '. You are listening to ' + _stn + ', and it is time for your news.',
+    'It is ' + _tod + ' on ' + _stn + _nm + '. Here is what is making news right now.',
+    'Coming up on ' + _stn + _nm + ', the stories shaping your ' + _tod + '.',
+    'This is ' + _stn + '. Joining us' + _nm + ' for your news update.'
+  ];
+  var _newsOutros = [
+    'That is the news on ' + _stn + '. We will have more updates throughout the day.',
+    'I am back with more news updates throughout the ' + _tod + ', right here on ' + _stn + '.',
+    'Stay with us on ' + _stn + ' for all the latest developments as they come in.',
+    'That is your news briefing. More music is coming right up on ' + _stn + '.'
+  ];
+  var _preIntro = _prePs.lang === 'zu'
+    ? 'Sawubona' + _nm + '... lapha e' + _stn + '. Nansi imibiko yamanje.'
+    : _newsIntros[Math.floor(Math.random() * _newsIntros.length)];
+  var _preOutro = _prePs.lang === 'zu'
+    ? 'Yilokho ngezindaba... qhubeka ulalele ' + _stn + '.'
+    : _newsOutros[Math.floor(Math.random() * _newsOutros.length)];
+  var _preSegs = [presenterApplyPersonality(presenterEnhanceSpeech(_preIntro), _prePs.personality)];
+  _preArticles.forEach(function(a, idx) {
+    var lead = (_prePs.lang === 'zu' ? ['Indaba enkulu...','Futhi ezindabeni...','Okunye okusha...','Kukhona okuningi...','Ekugcineni...'][idx] : _preLEAD_INS[idx]) || 'Also...';
+    var title = _preClean(a.title);
+    var extra = _preFirst(a.description);
+    _preSegs.push(extra ? lead + ' ' + title + '... ' + extra : lead + ' ' + title + '.');
+  });
+  _preSegs.push(presenterApplyPersonality(_preOutro, _prePs.personality));
+  var _preFullScript = _preSegs.join(', '); // kept for non-SM engines
+  smPrefetchSegments(_preSegs); // fire ALL segments in parallel NOW — each ~5s blob, not 1min blob
 
   // ── Step 1: Detect which deck is playing and fade it out ─────────────
   var activeDeck = null;
@@ -8150,76 +8910,22 @@ async function newsStartBreak() {
 
   newsSetStatus('reading', 'On air — news break');
 
-  // ── Step 3: Natural radio script — each headline gets a lead-in phrase,
-  //    pauses (commas and ellipsis) and a brief detail. Each segment is its
-  //    own TTS request so the engine generates clean per-sentence prosody.
-  //    ttsSpeak() tries ElevenLabs → Google Cloud TTS → Web Speech API.
-
-  // Natural lead-ins that rotate across the 5 headline slots
-  var LEAD_INS = [
-    'Our top story this hour...',
-    'Also in the news...',
-    'In other news...',
-    'And there is more...',
-    'And finally...'
-  ];
-
-  // Helper: strip trailing dots, collapse whitespace, ensure single sentence end
-  function _cleanTitle(t) {
-    return t.trim().replace(/\.{2,}$/,'').replace(/\.$/, '').replace(/\s{2,}/g,' ');
-  }
-
-  // Helper: get first meaningful sentence from description, or empty string
-  function _firstSentence(desc) {
-    if (!desc) return '';
-    var s = desc.split(/\.\s+/)[0].trim();
-    if (!s || s.length < 12) return '';
-    // Truncate if very long
-    if (s.length > 140) s = s.substring(0, 140).replace(/\s\S+$/, '');
-    return s + '.';
-  }
-
-  var ps = presenterGetSettings();
-  var articles = _newsArticles.slice(0, 5); // cap at 5
-  var segments = [];
-
-  // Presenter-aware intro
-  var newsIntro, newsOutro;
-  if (ps.lang === 'zu') {
-    newsIntro = 'Sawubona' + ps.withName + '... lapha e' + ps.station + '. Nansi imibiko yamanje.';
-    newsOutro = 'Yilokho ngezindaba... qhubeka ulalele ' + ps.station + '.';
-  } else {
-    newsIntro = 'Good ' + _timeOfDay() + ps.withName + '... you are listening to ' + ps.station + '. Here is your news update.';
-    newsOutro = 'That is your news update... stay tuned to ' + ps.station + ', and we will be right back with more music.';
-  }
-  segments.push({ text: presenterApplyPersonality(presenterEnhanceSpeech(newsIntro), ps.personality), articleIdx: -2 });
-
-  articles.forEach(function(a, idx) {
-    var lead, title, extra, text;
-    title = _cleanTitle(a.title);
-    extra = _firstSentence(a.description);
-    if (ps.lang === 'zu') {
-      var zuLeads = ['Indaba enkulu...', 'Futhi ezindabeni...', 'Okunye okusha...', 'Kukhona okuningi...', 'Ekugcineni...'];
-      lead = zuLeads[idx] || 'Futhi...';
-    } else {
-      lead = LEAD_INS[idx] || 'Also...';
-    }
-    text = extra ? lead + ' ' + title + '... ' + extra : lead + ' ' + title + '.';
-    segments.push({ text: text, articleIdx: idx });
-  });
-
-  segments.push({ text: presenterApplyPersonality(newsOutro, ps.personality), articleIdx: -1 });
-
+  // ── Step 3: Play segments — SM plays each pre-fetched segment in sequence ──
+  // For SM: parallel blobs (~2s per segment) vs single blob (~60s for full script).
+  // For ElevenLabs/Google: falls back to single full-script call as before.
   var voiceId = xiGetVoiceId();
   var modelId = xiGetModel();
-
-  // Fix Option 1: single TTS call — was 7 requests, now 1. Saves ~85% API chars.
-  var fullScript = segments.map(function(s){ return s.text; }).join(', ');
   var cur = document.getElementById('news-tts-current');
-  if (cur) cur.textContent = fullScript;
+  if (cur) cur.textContent = _preSegs.join(' ');
   if (stateEl) stateEl.textContent = 'READING ON AIR';
   try {
-    if (_newsTTSBreak) await ttsSpeakCached(fullScript, voiceId, modelId);
+    if (_newsTTSBreak) {
+      var smUsed = smGetKey() ? await smPlayPrefetchedSegments(_preSegs) : false;
+      if (!smUsed) {
+        // ElevenLabs / Google / browser — single call, they handle long text fine
+        await ttsSpeakCached(_preFullScript, voiceId, modelId);
+      }
+    }
   } catch(e) {
     console.warn('[TTS] Error:', e.message);
     showToast('TTS error: ' + e.message);
@@ -8862,6 +9568,92 @@ async function wxFireFromShow(show) {
   updateSchedStatus();
 }
 
+// ── Traffic break fired from show scheduler ──────────────────────────────
+async function ttFireFromShow(show) {
+  // Override jingle via state — same pattern as news/weather
+  _ttJingleOverride = (show.ttJingle !== undefined && show.ttJingle !== '') ? parseInt(show.ttJingle, 10) : null;
+
+  initAudio();
+  if (actx && actx.state === 'suspended') actx.resume();
+
+  // Step 1: Fade out playing deck
+  var activeDeck = null, activeGain = null;
+  if (state.deckA.playing && state.deckA.audio) { activeDeck = 'A'; activeGain = deckAGain; }
+  else if (state.deckB.playing && state.deckB.audio) { activeDeck = 'B'; activeGain = deckBGain; }
+  if (activeDeck && activeGain && actx) {
+    activeGain.gain.cancelScheduledValues(actx.currentTime);
+    activeGain.gain.setValueAtTime(activeGain.gain.value, actx.currentTime);
+    activeGain.gain.linearRampToValueAtTime(0, actx.currentTime + 3);
+    await new Promise(function(r){ setTimeout(r, 3200); });
+    var dA = activeDeck === 'A' ? state.deckA : state.deckB;
+    if (dA.audio) dA.audio.pause();
+    dA.playing = false;
+    var pb = document.getElementById('deck' + activeDeck + '-play');
+    if (pb) { pb.textContent = '\u25b6'; pb.setAttribute('aria-pressed', 'false'); }
+  }
+
+  // Step 2: Fetch fresh traffic data
+  show._statusMsg = '\uD83D\uDEA6 Fetching traffic\u2026';
+  updateSchedStatus();
+  await ttFetch();
+
+  if (!_ttIncidents.length) {
+    // No incidents — still read 'all clear' message
+    showToast('\uD83D\uDEA6 No incidents — reading all-clear');
+  }
+
+  // Step 3: Play jingle
+  var jingleVal = (_ttJingleOverride !== null) ? _ttJingleOverride
+    : ((document.getElementById('tt-jingle-cart') || {}).value || '');
+  var jIdx = jingleVal !== '' ? parseInt(jingleVal, 10) : -1;
+  if (jIdx >= 0 && state.carts && state.carts[jIdx] && state.carts[jIdx].url) {
+    await new Promise(function(resolve) {
+      var ja = new Audio(state.carts[jIdx].url);
+      if (actx && fixedTrim) {
+        try {
+          var js = actx.createMediaElementSource(ja); js.connect(fixedTrim);
+          ja.onended = function(){ try{ js.disconnect(); }catch(e){} resolve(); };
+          ja.onerror = function(){ try{ js.disconnect(); }catch(e){} resolve(); };
+        } catch(e2){ ja.onended = resolve; ja.onerror = resolve; }
+      } else { ja.onended = resolve; ja.onerror = resolve; }
+      ja.play().catch(resolve);
+    });
+  }
+
+  // Step 4: Build and read traffic script
+  show._statusMsg = '\uD83D\uDEA6 Traffic on air\u2026';
+  updateSchedStatus();
+  _ttBreakActive = true;
+  var _ttPs = presenterGetSettings();
+  var _ttFormatted = presenterFormatTraffic(_ttIncidents, _ttPs.lang);
+  var script = _ttIncidents.length
+    ? presenterApplyPersonality(presenterEnhanceSpeech(_ttFormatted), _ttPs.personality)
+    : (_ttPs.lang === 'zu' ? 'Izindlela zikhona kahle ku' + _ttPs.station + '.'
+        : 'Good ' + _timeOfDay() + '... all roads are clear. No reported incidents. Drive safely and stay tuned to ' + _ttPs.station + '.');
+  if (document.getElementById('tt-status')) document.getElementById('tt-status').textContent = 'Reading on air...';
+  try { await ttsSpeakCached(script, xiGetVoiceId(), xiGetModel()); } catch(e) { showToast('Traffic TTS error: ' + e.message); }
+  _ttBreakActive = false;
+  _ttLastBreakAt = Date.now();
+
+  // Step 5: Restore gain and start next song
+  if (activeDeck && activeGain) newsRestoreDeckGain(activeDeck, activeGain);
+  var nextDeck = activeDeck ? (activeDeck === 'A' ? 'B' : 'A') : 'A';
+  if (state.autoDJ && state.queue.length) {
+    var played = state.queue.shift(); state.queue.push(played);
+    var nxt = typeof noRepeatFindNext === 'function' ? noRepeatFindNext() : state.queue[0];
+    if (nxt) { loadTrackToDeck(nextDeck, nxt); renderQueue(); setTimeout(function(){ playDeckWhenReady(nextDeck); }, 300); }
+  } else {
+    var nd2 = nextDeck === 'A' ? state.deckA : state.deckB;
+    if (nd2.audio && !nd2.playing) { nd2.audio.currentTime = 0; setTimeout(function(){ playDeckWhenReady(nextDeck); }, 300); }
+  }
+  if (document.getElementById('tt-status')) document.getElementById('tt-status').textContent = 'Updated ' + new Date().toLocaleTimeString();
+  showToast('\uD83D\uDEA6 Traffic break ended \u2014 next song starting');
+  _ttJingleOverride = null;
+  show._statusMsg = '\u25ba Playing';
+  updateSchedStatus();
+}
+
+
 var WX_ICONS = {
   'Clear': '\u2600\uFE0F', 'Clouds': '\u26C5',
   'Rain': '\U0001F327', 'Drizzle': '\U0001F326', 'Thunderstorm': '\u26A1',
@@ -8959,10 +9751,41 @@ async function wxStartBreak() {
   if (_wxBreakActive) return;
   var xiKey2    = (document.getElementById('xi-api-key').value    || '').trim() || localStorage.getItem(XI_KEY_STORAGE) || '';
   var googleKey2 = (document.getElementById('google-tts-key').value || '').trim() || localStorage.getItem(GOOGLE_TTS_KEY_STORAGE) || '';
-  if (!xiKey2 && !googleKey2) { showToast('Enter an ElevenLabs or Google TTS key in the NEWS tab first'); return; }
+  var smKey2 = smGetKey();
+  if (!smKey2 && !xiKey2 && !googleKey2) { showToast('Enter a Speechmatics, ElevenLabs or Google TTS key in the NEWS tab first'); return; }
   initAudio();
   if (actx && actx.state === 'suspended') actx.resume();
   _wxBreakActive = true;
+
+  // ── PRE-BUILD WEATHER SCRIPT + SEGMENT PREFETCH ──────────────────────────
+  var _wxPrePs    = presenterGetSettings();
+  var _wxPreUnits = ((document.getElementById('wx-units') || {}).value) || 'metric';
+  var _wxPreItems = (_wxCitiesData && _wxCitiesData.length) ? _wxCitiesData : (_wxData ? [_wxData] : []);
+  var _wxPreFormatted = presenterFormatWeather(_wxPreItems.map(function(d){
+    return { city: d.name||'your area', temp: Math.round(d.main.temp),
+             condition: (d.weather&&d.weather[0])?d.weather[0].description:'clear',
+             humidity: d.main?d.main.humidity:null, wind: d.wind?Math.round(d.wind.speed):null,
+             unit: _wxPreUnits==='imperial'?'Fahrenheit':'degrees' };
+  }), _wxPrePs.lang);
+  var _wxIntros = [
+    'Time to check the weather with ' + _wxPrePs.station + '.',
+    'Here is your weather update on ' + _wxPrePs.station + '.',
+    'Let us step outside for a moment and check on conditions.'
+  ];
+  var _wxOutros = [
+    'That is your weather. We will keep an eye on conditions throughout the day.',
+    'Make sure you are dressed for it. More music coming up right here on ' + _wxPrePs.station + '.',
+    "That is the weather picture for now. Stay comfortable out there, and we'll be right back."
+  ];
+  function _wxPick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  var _wxPreIntro = _wxPrePs.lang === 'zu' ? ('Isimo sezulu ku' + _wxPrePs.station + '...') : _wxPick(_wxIntros);
+  var _wxPreOutro = _wxPrePs.lang === 'zu' ? ('Qhubeka ulalele ' + _wxPrePs.station + '.') : _wxPick(_wxOutros);
+  // Split into segments: intro | body | outro — all fire in parallel for instant SM playback
+  var _wxBodyScript = presenterApplyPersonality(presenterEnhanceSpeech(_wxPreFormatted), _wxPrePs.personality);
+  var _wxSegs = [_wxPreIntro, _wxBodyScript, _wxPreOutro];
+  var _wxPreScript = _wxSegs.join(' '); // for non-SM engines
+  smPrefetchSegments(_wxSegs); // fire ALL segments in parallel NOW
+
   // Step 1: fade out playing deck
   var activeDeck = null, activeGain = null;
   if (state.deckA.playing && state.deckA.audio) { activeDeck='A'; activeGain=deckAGain; }
@@ -8992,22 +9815,12 @@ async function wxStartBreak() {
       ja.play().catch(resolve);
     });
   }
-  // Step 3: Presenter generates weather script
-  var units  = ((document.getElementById('wx-units') || {}).value) || 'metric';
-  var _wxPs  = presenterGetSettings();
-  var _wxItems = (_wxCitiesData && _wxCitiesData.length) ? _wxCitiesData : (_wxData ? [_wxData] : []);
-  var _wxFormatted = presenterFormatWeather(_wxItems.map(function(d){
-    return { city: d.name||'your area', temp: Math.round(d.main.temp),
-             condition: (d.weather&&d.weather[0])?d.weather[0].description:'clear',
-             humidity: d.main?d.main.humidity:null, wind: d.wind?Math.round(d.wind.speed):null,
-             unit: units==='imperial'?'Fahrenheit':'degrees' };
-  }), _wxPs.lang);
-  var script = _wxPs.lang==='zu'
-    ? 'Isimo sezulu ku' + _wxPs.station + '... ' + _wxFormatted + ' Qhubeka ulalele ' + _wxPs.station + '.'
-    : 'Good ' + _timeOfDay() + '... ' + _wxFormatted + ' Stay tuned to ' + _wxPs.station + '.';
-  script = presenterApplyPersonality(presenterEnhanceSpeech(script), _wxPs.personality);
+  // Step 3: Play segments — SM plays each pre-fetched segment instantly in sequence
   document.getElementById('wx-status').textContent = 'Reading on air...';
-  try { await ttsSpeakCached(script, xiGetVoiceId(), xiGetModel()); } catch(e) { showToast('Weather TTS error: ' + e.message); }
+  try {
+    var _wxSmUsed = smGetKey() ? await smPlayPrefetchedSegments(_wxSegs) : false;
+    if (!_wxSmUsed) { await ttsSpeakCached(_wxPreScript, xiGetVoiceId(), xiGetModel()); }
+  } catch(e) { showToast('Weather TTS error: ' + e.message); }
   // Step 4: restore and start next song
   _wxBreakActive = false;
   if (activeDeck && activeGain) newsRestoreDeckGain(activeDeck, activeGain);
@@ -9492,11 +10305,41 @@ async function ttStartBreak() {
 
   var xiKey    = (document.getElementById('xi-api-key').value    || '').trim() || localStorage.getItem(XI_KEY_STORAGE) || '';
   var googleKey = (document.getElementById('google-tts-key').value || '').trim() || localStorage.getItem(GOOGLE_TTS_KEY_STORAGE) || '';
-  if (!xiKey && !googleKey) { showToast('Enter an ElevenLabs or Google TTS key in the NEWS tab first'); return; }
+  var smKeyTt = smGetKey();
+  if (!smKeyTt && !xiKey && !googleKey) { showToast('Enter a Speechmatics, ElevenLabs or Google TTS key in the NEWS tab first'); return; }
 
   initAudio();
   if (actx && actx.state === 'suspended') actx.resume();
   _ttBreakActive = true;
+
+  // ── PRE-BUILD TRAFFIC SCRIPT + SEGMENT PREFETCH ────────────────────────────────
+  var _ttPrePs = presenterGetSettings();
+  var _ttPreFormatted = presenterFormatTraffic(_ttIncidents, _ttPrePs.lang);
+  var _ttIntros = [
+    "Let's get you across the traffic picture right now.",
+    'Here is your traffic report on ' + _ttPrePs.station + '.',
+    'Time to check on the roads before you head out.',
+    'Here is the latest from our traffic desk.'
+  ];
+  var _ttOutros = [
+    'Allow extra time where needed, and drive safely out there.',
+    'Take care on the roads and stay safe.',
+    "That's your traffic update. We'll keep monitoring and bring you any changes.",
+    'Plan ahead and be patient out there. More music coming right up on ' + _ttPrePs.station + '.'
+  ];
+  function _ttPick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  var _ttPreIntro = _ttPrePs.lang === 'zu' ? ('Izindlela ku' + _ttPrePs.station + '...') : _ttPick(_ttIntros);
+  var _ttPreOutro = _ttPrePs.lang === 'zu' ? 'Shayela kahle.' : _ttPick(_ttOutros);
+  var _ttBodyScript = _ttIncidents.length
+    ? presenterApplyPersonality(presenterEnhanceSpeech(_ttPreFormatted), _ttPrePs.personality)
+    : (_ttPrePs.lang === 'zu' ? 'Izindlela zikhona kahle.' : _ttPick([
+        'Great news for commuters, all roads are clear with no incidents to report at this time.',
+        'The roads are looking really good right now, no delays or incidents across the network.',
+        'All clear on every monitored route. No problems to report.'
+      ]));
+  var _ttSegs = [_ttPreIntro, _ttBodyScript, _ttPreOutro];
+  var _ttPreScript = _ttSegs.join(' '); // for non-SM engines
+  smPrefetchSegments(_ttSegs); // fire ALL segments in parallel NOW
 
   // Step 1: fade out playing deck
   var activeDeck = null, activeGain = null;
@@ -9535,14 +10378,12 @@ async function ttStartBreak() {
     });
   }
 
-  // Step 3: read script
-  var _ttPs2 = presenterGetSettings();
-  var _ttFormatted2 = presenterFormatTraffic(_ttIncidents, _ttPs2.lang);
-  var script = _ttIncidents.length
-    ? presenterApplyPersonality(presenterEnhanceSpeech(_ttFormatted2), _ttPs2.personality)
-    : (_ttPs2.lang==='zu' ? 'Izindlela zikhona kahle ku' + _ttPs2.station + '.' : 'Good ' + _timeOfDay() + '... all roads are clear with no reported incidents. Drive safely and stay tuned to ' + _ttPs2.station + '.');
+  // Step 3: Speak pre-built script (SM blob already in-flight since before fade)
   document.getElementById('tt-status').textContent = 'Reading on air...';
-  try { await ttsSpeakCached(script, xiGetVoiceId(), xiGetModel()); } catch(e) { showToast('Traffic TTS error: ' + e.message); }
+  try {
+    var _ttSmUsed = smGetKey() ? await smPlayPrefetchedSegments(_ttSegs) : false;
+    if (!_ttSmUsed) { await ttsSpeakCached(_ttPreScript, xiGetVoiceId(), xiGetModel()); }
+  } catch(e) { showToast('Traffic TTS error: ' + e.message); }
 
   _ttBreakActive = false;
   _ttLastBreakAt = Date.now();
